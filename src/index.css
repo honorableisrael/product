@@ -1,10 +1,8 @@
-@font-face {font-family: "Sailec-Thin"; src: url("//db.onlinewebfonts.com/t/b411263ff1ec9f3bdea1f4145d93ab18.eot"); src: url("//db.onlinewebfonts.com/t/b411263ff1ec9f3bdea1f4145d93ab18.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/b411263ff1ec9f3bdea1f4145d93ab18.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/b411263ff1ec9f3bdea1f4145d93ab18.woff") format("woff"), url("//db.onlinewebfonts.com/t/b411263ff1ec9f3bdea1f4145d93ab18.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/b411263ff1ec9f3bdea1f4145d93ab18.svg#Sailec-Thin") format("svg"); }
-@font-face {font-family: "Sailec-Light"; src: url("//db.onlinewebfonts.com/t/2fe381b3d8cf4ee5f331668970d8a65a.eot"); src: url("//db.onlinewebfonts.com/t/2fe381b3d8cf4ee5f331668970d8a65a.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/2fe381b3d8cf4ee5f331668970d8a65a.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/2fe381b3d8cf4ee5f331668970d8a65a.woff") format("woff"), url("//db.onlinewebfonts.com/t/2fe381b3d8cf4ee5f331668970d8a65a.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/2fe381b3d8cf4ee5f331668970d8a65a.svg#Sailec-Light") format("svg"); }
-@font-face {font-family: "Sailec-Medium"; src: url("//db.onlinewebfonts.com/t/ac9525e5f200f57332b3080d0db9d8f6.eot"); src: url("//db.onlinewebfonts.com/t/ac9525e5f200f57332b3080d0db9d8f6.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/ac9525e5f200f57332b3080d0db9d8f6.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/ac9525e5f200f57332b3080d0db9d8f6.woff") format("woff"), url("//db.onlinewebfonts.com/t/ac9525e5f200f57332b3080d0db9d8f6.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/ac9525e5f200f57332b3080d0db9d8f6.svg#Sailec-Medium") format("svg"); }
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;700;800;900&display=swap');
 
 body {
   margin: 0;
-  font-family: 'Ubuntu';
+  font-family: 'Nunito';
   color: #150538;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
