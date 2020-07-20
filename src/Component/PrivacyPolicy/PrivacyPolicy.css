@@ -1,0 +1,60 @@
+.graybg {
+  background: #f5f5f5 0% 0% no-repeat padding-box;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  padding-left: 0px;
+}
+
+.policyh {
+  text-align: left;
+  font: Bold Nunito Sans;
+  letter-spacing: 0px;
+  color: #2a2e43;
+  font-size: 2.3em;
+  opacity: 1;
+}
+
+.leftwrapper {
+  font-size: 14px;
+  font-weight: 600;
+}
+.firsttext {
+  color: #43a047;
+  padding-bottom: 1rem;
+}
+.firsttext1 {
+  padding-bottom: 1rem;
+}
+.wrapper123 {
+  margin-bottom: 8rem;
+  margin-left: 1px;
+  padding-left: 1px;
+  margin-top: 4rem;
+}
+.sectext {
+  text-align: left;
+  font: Bold 22px/43px Nunito Sans;
+  letter-spacing: 0px;
+  color: #2a2e43;
+  opacity: 1;
+}
+.seccontent {
+  text-align: left;
+  font:  16px/30px Nunito Sans;
+  letter-spacing: 0px;
+  color: #2a2e43;
+  word-spacing: 2px;
+  opacity: 1;
+  padding-bottom: 1rem;
+}
+
+.lists1 {
+  list-style: circle;
+  list-style-type: green;
+  padding-left: 20px;
+}
+@media(max-width:600px){
+  .seccontent{
+    font-size: 14px;
+  }
+}

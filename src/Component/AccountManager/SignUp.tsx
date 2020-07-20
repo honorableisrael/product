@@ -77,7 +77,9 @@ const SignUp: React.FunctionComponent = (props: any) => {
         <Row className="signrow">
           <Col md={12} className="diax">
             {" "}
-            <img src={whitepramopro} className="whitepram" />
+            <Link to="/">
+              <img src={whitepramopro} className="whitepram" />
+            </Link>
           </Col>
           <Col md={5} sm={10} className="signinwrap">
             <div className="wlcmback">Welcome to Pramopro,</div>
@@ -178,13 +180,17 @@ const SignUp: React.FunctionComponent = (props: any) => {
                   <div className="checkwrap1">
                     <div>
                       By clicking the "Create Account" button, you are creating
-                      a Pramopro account, and you agree to Pramopro's 
-                      <span className="forgotpass"> Privacy Policy </span>
+                      a Pramopro account, and you agree to Pramopro's
+                      <span className="forgotpass">
+                        <Link to="privacypolicy"> Privacy Policy</Link>{" "}
+                      </span>
                     </div>
                   </div>
                   <div className="newpram1">
                     <span className="newpram">Already have an account ?</span>{" "}
-                    <span className="signup">Login</span>
+                    <span className="signup">
+                      <Link to="/signin">Login</Link>
+                    </span>
                   </div>
                   {/* <p className="text-forgot-password">
                     <Link

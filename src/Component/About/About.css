@@ -1,0 +1,269 @@
+.flowerpattern2 {
+  position: relative;
+  top: -2rem;
+  width: 80px;
+  right: 2px;
+  z-index: -1;
+}
+.firstheader {
+  text-align: left;
+  font: Bold 64px/84px Nunito Sans;
+  letter-spacing: 0px;
+  color: #2a2e43;
+  opacity: 1;
+  padding-bottom: 1rem;
+}
+.headertext1 {
+  text-align: center;
+  font: SemiBold 24px/34px Nunito Sans;
+  letter-spacing: 0px;
+  color: #2a2e43;
+  font-weight: 600;
+  opacity: 1;
+  font-size: 19px;
+}
+.flowerpattern1 {
+  position: absolute;
+  right: -8rem;
+}
+.flowerpattern3 {
+  position: relative;
+  top: -8rem;
+  right: 2px;
+  z-index: -1;
+}
+.secrow1 {
+  padding-bottom: 10rem;
+}
+.rowabout1 {
+  background: #e5ffe6 0% 0% no-repeat padding-box;
+  margin-top: 6.5rem;
+  padding: 2rem 0.1rem;
+}
+.about1 {
+  text-align: center;
+  font: SemiBold 24px/34px Nunito Sans;
+  letter-spacing: 0px;
+  color: #2a2e43;
+  opacity: 1;
+}
+.dliver {
+  text-align: left;
+  font: Bold 24px/80px Nunito Sans;
+  letter-spacing: 0px;
+  color: #2a2e43;
+  opacity: 1;
+}
+.numbwrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.number1 {
+  text-align: left;
+  font: Bold 56px/80px Nunito Sans;
+  letter-spacing: 0px;
+  color: #2a2e43;
+  opacity: 1;
+}
+.prodtype {
+  font-weight: 600;
+  font-size: 1.2em;
+  letter-spacing: 0px;
+  color: #2a2e43;
+  opacity: 1;
+}
+.downloadreport {
+  color: #43a047;
+}
+.numbwrapper1 {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+.paste {
+  text-align: center;
+  margin-right: 0.4rem;
+  width: 12px;
+}
+.downloadwrapper {
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 700;
+  color: #43a047;
+  text-align: center;
+}
+.cw1 {
+  padding-top: 10rem;
+  margin-bottom: 10rem;
+}
+.building {
+  text-align: left;
+  font: Bold 32px/34px Nunito Sans;
+  letter-spacing: 0px;
+  color: #2a2e43;
+  opacity: 1;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+.ab1 {
+  text-align: left;
+  font: SemiBold 24px/34px Nunito Sans;
+  letter-spacing: 0px;
+  color: #2a2e43;
+  opacity: 1;
+  font-size: 1.2em;
+  font-weight: 600;
+}
+.building12 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.ab21 {
+  padding-bottom: 1.4rem;
+  text-align: left;
+  font: SemiBold 24px/34px Nunito Sans;
+  letter-spacing: 0px;
+  color: #2a2e43;
+  opacity: 1;
+}
+.ab22 {
+  padding-bottom: 1.4rem;
+  text-align: left;
+  font: SemiBold 24px/34px Nunito Sans;
+  letter-spacing: 0px;
+  color: #2a2e43;
+  opacity: 1;
+}
+.greenground2ab {
+  background: #43a047;
+  padding: 0.3rem;
+  position: relative;
+  width: 170px;
+  max-width: 406px;
+  min-width: auto;
+  top: -1.26rem;
+  z-index: -1;
+}
+.outeamsection {
+  padding-top: 1rem;
+  padding-bottom: 10rem;
+}
+.teammember {
+  width: 220px;
+  text-align: center;
+  padding: 1rem;
+  padding-left: 0px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.teamwrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.teamtitle {
+  font-weight: 600;
+  font: Bold 18px/34px Nunito Sans;
+  letter-spacing: 0px;
+  color: #2a2e43;
+  opacity: 1;
+}
+.teamrole {
+  font: SemiBold 18px/34px Nunito Sans;
+  letter-spacing: 0px;
+  color: #455065b2;
+  opacity: 1;
+}
+
+.firstwrapp {
+  display: flex;
+}
+.activeheader {
+  cursor: pointer;
+  padding-bottom: 0rem;
+  text-align: left;
+  font: Bold 24px/84px Nunito Sans;
+  letter-spacing: 0px;
+  color: #2a2e43;
+  opacity: 1;
+}
+.inactiveheader {
+  cursor: pointer;
+  text-align: left;
+  font: Bold 24px/84px Nunito Sans;
+  letter-spacing: 0px;
+  color: #455065b2;
+  padding-bottom: 0rem;
+  opacity: 1;
+}
+.firstcontent {
+  width: 60%;
+}
+.mesheader {
+  padding-bottom: 0rem;
+  text-align: left;
+  font: Bold 28px/84px Nunito Sans;
+  letter-spacing: 0px;
+  color: #43a047;
+  opacity: 1;
+}
+.mesbody {
+  font: Regular 32px/42px Nunito Sans;
+  letter-spacing: 0px;
+  color: #2a2e43;
+  opacity: 1;
+  font-size: 1.2em;
+}
+.firstab11 {
+  width: 30%;
+  margin-bottom: 10rem;
+}
+@media (max-width: 600px) {
+  .numbwrapper {
+    justify-content: center;
+  }
+  .shiff {
+    margin-right: 0.1rem;
+  }
+  .flowerpattern1 {
+    display: contents;
+  }
+  .greenground2ab {
+    display: none;
+  }
+  .firstab11 {
+    width: 37% !important;
+  }
+  .aboutlayout {
+    width: 99%;
+  }
+  .firstheader {
+    font-size: 1.8em;
+    text-align: center;
+    line-height: 1.4 !important;
+  }
+  .activeheader,
+  .inactiveheader {
+    font-size: 18px !important;
+  }
+  .mesheader {
+    font-size: 18px !important;
+  }
+  .secrow1 {
+    padding-bottom: 0px;
+  }
+  .building {
+    font-size: 1.8em;
+  }
+  .teamwrapper {
+    justify-content: center;
+  }
+  .number1 {
+    font-size: 2em;
+    text-align: center;
+  }
+}

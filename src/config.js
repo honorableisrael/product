@@ -1,1 +1,1 @@
-export const API = "https://clarityappapi.herokuapp.com" 
+export const API ='https://production.pramopro.com'

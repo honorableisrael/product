@@ -12,7 +12,6 @@ import Button from "react-bootstrap/Button";
 import GoogleLogo from "../../assets/Google.svg";
 import whitepramopro from "../../assets/whitepramopro.svg";
 
-
 const SignIn: React.FunctionComponent = (props: any) => {
   const [state, setFormState] = useState({
     errorMessage: "",
@@ -22,27 +21,6 @@ const SignIn: React.FunctionComponent = (props: any) => {
     isloading: false,
   });
   const { errorMessage, password, email, passwordhide, isloading } = state;
-  //  const responseGoogle = (response) => {
-  //     console.log(response);
-  //         console.log(response.profileObj);
-  //         const data = {
-  //             name : response.profileObj.name,
-  //             email : response.profileObj.email,
-  //             user_id : response.googleId,
-  //             imageUrl:response.profileObj.imageUrl,
-  //             provider : "Google"
-  //         }
-  //         // console.log(data)
-  //         Axios.post(`${API}/api/v1/login/social`,data)
-  //         .then(res=>{
-  //           console.log(res)
-  //         })
-  //         .catch(err=>{
-  //             this.setState({
-  //                 errorMessage:"failed to login"
-  //             })
-  //         })
-  //     }
   const onchange = (e) => {
     setFormState({
       ...state,
@@ -66,7 +44,11 @@ const SignIn: React.FunctionComponent = (props: any) => {
     <>
       <Container fluid={true} className="signincontainer">
         <Row className="signrow">
-          <Col md={12} className="diax"> <img src={whitepramopro} className="whitepram"/></Col>
+          <Col md={12} className="diax">
+            <Link to="/">
+              <img src={whitepramopro} className="whitepram" />
+            </Link>
+          </Col>
           <Col md={5} sm={10} className="signinwrap">
             <div className="wlcmback">Welcome back,</div>
             <div className="wlcmback1">Log into your account</div>
@@ -126,19 +108,28 @@ const SignIn: React.FunctionComponent = (props: any) => {
                   </Button>
                   <div className="or">OR</div>
                   <div className="googleAuth">
-                    <img src={GoogleLogo} alt="googleLogo" className="googleLogo" />
+                    <img
+                      src={GoogleLogo}
+                      alt="googleLogo"
+                      className="googleLogo"
+                    />
                     CONTINUE WITH GOOGLE{" "}
                   </div>
-                  <div className="checkwrap"><div><input type="checkbox" className="checuser" /> Keep me logged in</div><div className="forgotpass">Forgot Password</div></div>
-                  <div className="newpram1"><span className="newpram">New to pramopro?</span> <span className="signup">Sign Up</span></div>
-                  {/* <p className="text-forgot-password">
-                    <Link
-                      className="text-forgot-password"
-                      to="password-recovery"
-                    >
-                      Forgot Password?
-                    </Link>
-                  </p> */}
+                  <div className="checkwrap">
+                    <div>
+                      <input type="checkbox" className="checuser" /> Keep me
+                      logged in
+                    </div>
+                    <div className="forgotpass">
+                      <Link to="/forgotpassword">Forgot Password</Link>
+                    </div>
+                  </div>
+                  <div className="newpram1">
+                    <span className="newpram">New to pramopro?</span>{" "}
+                    <span className="signup">
+                      <Link to="/signup">Sign Up</Link>
+                    </span>
+                  </div>
                 </Form.Group>
               </Form>
             </div>

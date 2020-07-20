@@ -30,6 +30,6 @@
     "noImplicitAny": false
   },
   "include": [
-    "src"
+    "src", "src/Component/Dashboard/.tsx"
   ]
 }
