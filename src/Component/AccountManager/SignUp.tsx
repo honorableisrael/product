@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import GoogleLogo from "../../assets/Google.svg";
 import whitepramopro from "../../assets/whitepramopro.svg";
+import GoogleLogin from "react-google-login";
 
 const SignUp: React.FunctionComponent = (props: any) => {
   const [state, setFormState] = useState({
@@ -20,6 +21,7 @@ const SignUp: React.FunctionComponent = (props: any) => {
     email: "",
     password: "",
     passwordhide: true,
+    successMessage: "",
     isloading: false,
   });
   const {
@@ -28,47 +30,113 @@ const SignUp: React.FunctionComponent = (props: any) => {
     firstname,
     lastname,
     email,
+    successMessage,
     passwordhide,
     isloading,
-  } = state;
-  //  const responseGoogle = (response) => {
-  //     console.log(response);
-  //         console.log(response.profileObj);
-  //         const data = {
-  //             name : response.profileObj.name,
-  //             email : response.profileObj.email,
-  //             user_id : response.googleId,
-  //             imageUrl:response.profileObj.imageUrl,
-  //             provider : "Google"
-  //         }
-  //         // console.log(data)
-  //         Axios.post(`${API}/api/v1/login/social`,data)
-  //         .then(res=>{
-  //           console.log(res)
-  //         })
-  //         .catch(err=>{
-  //             this.setState({
-  //                 errorMessage:"failed to login"
-  //             })
-  //         })
-  //     }
+  }: any = state;
+  const responseGoogle = (response) => {
+    console.log(response);
+    console.log(response.profileObj);
+    const data = {
+      name: response.profileObj.name,
+      email: response.profileObj.email,
+      user_id: response.googleId,
+      provider: "Google",
+    };
+    // console.log(data)
+    Axios.post(`${API}/api/v1/login/social`, data)
+      .then((res) => {
+        // console.log(res)
+        if (res.data.responseStatus === 400) {
+          return setFormState({
+            ...state,
+            errorMessage: "Failed request please try again later",
+          });
+        }
+        localStorage.setItem("userDetails", JSON.stringify(res.data));
+        props.history.push("/dashboard");
+      })
+      .catch((err) => {
+        setFormState({
+          ...state,
+          errorMessage: "failed to login",
+        });
+        // console.log(err)
+      });
+  };
   const onchange = (e) => {
     setFormState({
       ...state,
       [e.target.id]: e.target.value,
+      errorMessage:""
     });
   };
   const SubmitForm = (e) => {
+    e.preventDefault();
+    setFormState({
+      ...state,
+      isloading: true,
+    });
+    const { lastname, firstname, email, password,successMessage, isloading }: any = state;
     const data = {
-      email,
+      firstname,
+      lastname,
+      username: email,
       password,
     };
-    Axios.post(`${API}/login`, data)
+    Axios.post(`${API}/api/v1/register`, data)
       .then((res) => {
-        console.log(res);
+        console.log(res)
+        localStorage.setItem("userDetails", JSON.stringify(res.data));
+        if (res.data.responseStatus === 200) {
+          localStorage.setItem("userEmail", JSON.stringify(res.data.user.username));
+          setFormState({
+            ...state,
+            isloading: false,
+            successMessage: "You have successfully registered",
+          });
+
+          props.history.push("/verify-account");
+        }
+        if (res.data.responseStatus === 401) {
+          setFormState({
+            ...state,
+            isloading: false,
+            errorMessage: res.statusText,
+          });
+        }
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response)
+        const duplicateErr = "Duplicate entry";
+        if (
+          err && err.response && err.response.data
+            ? err.response.data.message
+            : err === duplicateErr
+        ) {
+          const searchResult = err.response.data
+            ? err.response.data.message.indexOf(duplicateErr)
+            : "";
+          return searchResult > -1
+            ? setFormState({
+                ...state,
+                errorMessage: "Email Address is Already Registered ",
+                isloading: false,
+              })
+            : "";
+        } else if (err.message ? err.message : err) {
+          setFormState({
+            ...state,
+            errorMessage: "Network Error",
+            isloading: false,
+          });
+        } else {
+          setFormState({
+            ...state,
+            errorMessage: "Sign Up Failed",
+            isloading: false,
+          });
+        }
       });
   };
   return (
@@ -87,8 +155,9 @@ const SignUp: React.FunctionComponent = (props: any) => {
             <div>
               <Form onSubmit={SubmitForm}>
                 <p className="loginerror">{errorMessage}</p>
+                <p className="bgs">{successMessage}</p>
                 <Form.Group>
-                  <h6 className="user12">FirstName</h6>
+                  <h6 className="user12">First Name</h6>
                   <Form.Control
                     type="text"
                     value={firstname}
@@ -103,7 +172,7 @@ const SignUp: React.FunctionComponent = (props: any) => {
                   ></i>
                 </Form.Group>
                 <Form.Group>
-                  <h6 className="user12">LastName</h6>
+                  <h6 className="user12">Last Name</h6>
                   <Form.Control
                     type="text"
                     value={lastname}
@@ -169,14 +238,23 @@ const SignUp: React.FunctionComponent = (props: any) => {
                     {!isloading ? "CREATE ACCOUNT" : "CREATING ACCOUNT"}
                   </Button>
                   <div className="or">OR</div>
-                  <div className="googleAuth">
-                    <img
-                      src={GoogleLogo}
-                      alt="googleLogo"
-                      className="googleLogo"
-                    />
-                    CONTINUE WITH GOOGLE{" "}
-                  </div>
+                  <GoogleLogin
+                    clientId="483910264468-arsekcf8p98ftamg4qjqvcev9n985d5n.apps.googleusercontent.com"
+                    render={(renderProps) => (
+                      <div className="googleAuth" onClick={renderProps.onClick}>
+                        <img
+                          src={GoogleLogo}
+                          alt="googleLogo"
+                          className="googleLogo"
+                        />
+                        CONTINUE WITH GOOGLE{" "}
+                      </div>
+                    )}
+                    buttonText="Login"
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    cookiePolicy={"single_host_origin"}
+                  />
                   <div className="checkwrap1">
                     <div>
                       By clicking the "Create Account" button, you are creating
@@ -192,14 +270,6 @@ const SignUp: React.FunctionComponent = (props: any) => {
                       <Link to="/signin">Login</Link>
                     </span>
                   </div>
-                  {/* <p className="text-forgot-password">
-                    <Link
-                      className="text-forgot-password"
-                      to="password-recovery"
-                    >
-                      Forgot Password?
-                    </Link>
-                  </p> */}
                 </Form.Group>
               </Form>
             </div>

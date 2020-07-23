@@ -17,6 +17,7 @@
   display: flex;
   margin-right: 8%;
   align-items: center;
+  cursor: pointer;
 }
 .n2,
 .n3 {
@@ -222,6 +223,9 @@
     padding-left: 3%;
     padding-bottom: 1%;
   }
+  .hamburgerwrap {
+    display: block;
+  }
 }
 
 .leftarrowcontainer,
@@ -241,10 +245,111 @@
 .arrowflex {
   display: flex;
 }
-.slide1wrap:hover{
+.slide1wrap:hover {
   transform: scale(1.08);
-} 
-.rightarrw1 >a{
+}
+.rightarrw1 > a {
   color: inherit;
   text-decoration: none;
+}
+/* mobile nav view starts here  */
+
+.nav-section-mobile {
+  display: block;
+}
+.nav-item-mobile {
+  padding-left: 10px;
+  padding-bottom: 1.7rem;
+  font-size: 18px;
+  font-weight: 500;
+  color: white;
+}
+.menu-mobile-link {
+  color: #fff;
+  font-size: 16px;
+  text-decoration: none;
+}
+.menu-mobile-link:hover {
+  text-decoration: none;
+  color: inherit;
+  background: inherit;
+}
+nav div ul li {
+  background: #131313 !important;
+}
+.dashboardmobile {
+  padding: 5px 8px;
+}
+.nav-btn1-2 {
+  border: 2px solid rgb(67, 160, 71);
+  border-radius: 2rem;
+  padding: 7px 1.45rem;
+  margin-top: 1rem;
+  background: inherit;
+}
+.dashm2 {
+  display: inline-block;
+}
+.dashm2 > a {
+  color: #fff !important;
+}
+.ldflex {
+  display: flex;
+  flex-direction: column;
+}
+.dasjj {
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 801px) {
+  .hamburgerwrap {
+    display: none;
+  }
+}
+
+.lakk {
+  display: none;
+}
+.hamburger {
+  border-radius: 50%;
+  background: #b9ecbc;
+  padding: 0.7rem;
+  margin-right: 3rem;
+}
+.line2 {
+  width: 28px;
+  background: #43a047;
+  height: 3px;
+  margin-top: 5px;
+}
+.line1 {
+  width: 28px;
+  background: #43a047;
+  height: 3px;
+  margin-top: 0px;
+}
+.line3 {
+  width: 28px;
+  background: #43a047;
+  height: 3px;
+  margin-top: 5px;
+}
+/* mobile nav ends starts here  */
+@media (max-width: 501px) {
+  .hamburger {
+    margin-right: 1rem;
+  }
+  .refwq1 {
+    padding-left: 0rem;
+  }
+  .seet {
+    padding: 0.1rem !important;
+    width: 174px !important;
+  }
+  .change11{
+    font-size: .7em;
+  }
+  .menu-mobile-link{
+    width: 153px !important;
+  }
 }

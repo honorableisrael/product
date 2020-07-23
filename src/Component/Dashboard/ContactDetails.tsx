@@ -4,30 +4,23 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "./Dashboard.css";
 import Form from "react-bootstrap/Form";
+import allCountries from "./listOfCountriesInTheWorld";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+
+
 
 const ContactDetails = () => {
   const [state, setFormState] = React.useState({
     errorMessage: "",
-    firstname: "",
-    lastname: "",
-    dob: "",
-    gender: "",
-    phone: "",
-    nationality: "",
-    email: "",
+    address: "",
     isloading: false,
+    state_city: "",
+    Bank_Country:"",
+    gender: "",
+    city: "",
   });
-  const {
-    errorMessage,
-    firstname,
-    lastname,
-    dob,
-    gender,
-    phone,
-    nationality,
-    email,
-    isloading,
-  } = state;
+  const { errorMessage, state_city, gender, city, address, isloading,Bank_Country } = state;
   const onchange = (e: any) => {
     setFormState({
       ...state,
@@ -40,6 +33,12 @@ const ContactDetails = () => {
       gender: e.target.value,
     });
   };
+  const notify = (message: string, container = "A") => {
+    toast(message, { containerId: container });
+    setTimeout(()=>{
+      window.location.reload()
+    },2000)
+  };
   return (
     <>
       <Row className="refwq1">
@@ -51,9 +50,9 @@ const ContactDetails = () => {
                   <h6 className="userprofile">Address</h6>
                   <Form.Control
                     type="text"
-                    value={email}
+                    value={address}
                     className="userfield"
-                    id="email"
+                    id="address"
                     onChange={onchange}
                     placeholder=""
                   />
@@ -67,15 +66,19 @@ const ContactDetails = () => {
             <Row>
               <Col md={6}>
                 <Form.Group>
-                  <h6 className="userprofile">Gender</h6>
+                  <h6 className="userprofile">Country</h6>
                   <Form.Control
                     as="select"
                     className="fmc"
                     onChange={handleChange}
                   >
-                    <option></option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                    <option>
+                      {Bank_Country ? Bank_Country : "Not Chosen..."}
+                    </option>
+                    {allCountries.map((x) => (
+                      <option value={x.name} key={x.name} id="country">
+                        {x.name}
+                      </option>
                     ))}
                   </Form.Control>
                   <i
@@ -86,17 +89,15 @@ const ContactDetails = () => {
               </Col>
               <Col md={6}>
                 <Form.Group>
-                  <h6 className="userprofile">Gender</h6>
+                  <h6 className="userprofile">State</h6>
                   <Form.Control
-                    as="select"
-                    className="fmc"
-                    onChange={handleChange}
-                  >
-                    <option></option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    ))}
-                  </Form.Control>
+                    type="text"
+                    value={state_city}
+                    className="userfield"
+                    id="state_city"
+                    onChange={onchange}
+                    placeholder=""
+                  />
                   <i
                     className="fa fa-envelope field-right-icon"
                     aria-hidden="true"
@@ -110,9 +111,9 @@ const ContactDetails = () => {
                   <h6 className="userprofile">City</h6>
                   <Form.Control
                     type="text"
-                    value={email}
+                    value={city}
                     className="userfield"
-                    id="email"
+                    id="city"
                     onChange={onchange}
                     placeholder=""
                   />
@@ -131,6 +132,20 @@ const ContactDetails = () => {
           </Row>
         </Col>
       </Row>
+      <ToastContainer
+        enableMultiContainer
+        containerId={"B"}
+        toastClassName="bg-danger text-white"
+        hideProgressBar={true}
+        position={toast.POSITION.TOP_CENTER}
+      />
+      <ToastContainer
+        enableMultiContainer
+        containerId={"A"}
+        toastClassName="bg-success text-white"
+        hideProgressBar={true}
+        position={toast.POSITION.TOP_CENTER}
+      />
     </>
   );
 };

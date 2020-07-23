@@ -11,22 +11,117 @@ import standingman from "../../assets/standingman.svg";
 import prodcash from "../../assets/prodcash.png";
 import Modal from "react-bootstrap/Modal";
 import Col from "react-bootstrap/Col";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import "../Products/Product.css";
+import Axios from "axios";
+import { API } from "../../config";
 
-const RightSideBar = (props: any) => {
+const RightSideBar = withRouter((props: any) => {
   const [state, setFormState] = useState({
     show: false,
     subject: "",
     message: "",
     errorMessage: "",
+    user: {},
     success: "",
     isloading: false,
   });
-  const { show, subject, success, errorMessage, message, isloading } = state;
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("userDetails");
+    const userdata = loggedIn ? JSON.parse(loggedIn) : "";
+    const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    Axios.get(`${API}/api/v1/user`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        console.log(res);
+        if (res?.data?.responseStatus === 401) {
+          props.history.push("/signin");
+        }
+        if (res.data.user.verified === false) {
+          return props.history.push("/verify-account");
+        }
+        if (res?.data?.user?.verified === true) {
+          setFormState({
+            ...state,
+            user: res.data.user,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  const sendMessageToCrm = () => {
+    const loggedIn = localStorage.getItem("userDetails");
+    const userdata = loggedIn ? JSON.parse(loggedIn) : "";
+    const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    setFormState({
+      ...state,
+      isloading: true,
+    });
+    const data = {
+      subject,
+      message,
+    };
+    Axios.post(`${API}/api/v1/contact/crm`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.data.responseStatus === 200) {
+          setFormState({
+            ...state,
+            isloading: false,
+            success: "Message Sent",
+          });
+          setInterval(
+            () =>
+              setFormState({
+                ...state,
+                show: false,
+              }),
+            2000
+          );
+        }
+        if (res.data.responseStatus == 400) {
+          setFormState({
+            ...state,
+            isloading: false,
+            errorMessage: "Message Sending Failed",
+          });
+          setInterval(
+            () =>
+              setFormState({
+                ...state,
+                show: false,
+              }),
+            2000
+          );
+        }
+      })
+      .catch((err) => {
+        // console.log(err)
+        setFormState({
+          ...state,
+          isloading: false,
+          errorMessage: "Message Sending Failed",
+        });
+      });
+  };
+
+  const {
+    show,
+    subject,
+    success,
+    errorMessage,
+    message,
+    user,
+    isloading,
+  }: any = state;
   const handleClose = () => {
     setFormState({
       ...state,
@@ -39,49 +134,69 @@ const RightSideBar = (props: any) => {
       [e.target.id]: e.target.value,
     });
   };
-  const submitForm = () => {
-    //something happens
+  const FormatAmount = (amount) => {
+    return "₦" + amount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
+  console.log(props);
   return (
     <>
-      <Col md={4} style={{ background: props.bg }}>
+      <Col md={4} style={{ background: props.bg }} className="revcol2">
         <div className="fkex">
           <div className="dassd">
             <div>
               <span className="free">Welcome,</span>{" "}
-              <span className="urname">Adeshina Adedapo</span>
+              <span className="urname">
+                {user?.firstname} {user?.lastname}{" "}
+              </span>
             </div>
-            <div className="email11">meetdapo@gmail.com</div>
+            <div className="email11">{user?.username}</div>
           </div>
           <div>
-            <img src={avatar} className="avatarq" alt="avatar" />
+            <img
+              src={
+                user && user.profileImage ? user.profileImage : avatar
+              }
+              className="avatarq"
+              alt="avatar"
+            />
           </div>
         </div>
         <div className="email11 text-center">
           {" "}
           <img src={daterange1} className="dategreen" alt="daterange" /> Trading
-          Since Sep 27, 2019
+          Since {user?.dateRegistered}
         </div>
         <div className="minicard">
           <div className="money12">
             <img src={money1} className="money1" alt="money1" />
             <div className="wxp">
               <span className="expectedret"> My Expected Return</span>
-              <div className="expectedret2">No activities</div>
+              <div className="expectedret2">
+                {props.expectedReturn
+                  ? FormatAmount(props.expectedReturn)
+                  : "No activities"}
+              </div>
             </div>
           </div>
           <div className="money12">
             <img src={dateorange} className="money1" alt="money1" />
             <div className="wxp">
               <span className="expectedret"> End-of-cycle day</span>
-              <div className="expectedret2">No activities</div>
+              <div className="expectedret2">
+                {" "}
+                {props.endOfCycle?.trim() ? props.endOfCycle : "No activities"}
+              </div>
             </div>
           </div>
           <div className="money12">
             <img src={moneyorange} className="money1" alt="money1" />
             <div className="wxp">
               <span className="expectedret">Collected Return</span>
-              <div className="expectedret2">No activities</div>
+              <div className="expectedret2">
+                {props.collectedReturn
+                  ? FormatAmount(props.collectedReturn)
+                  : "No activities"}
+              </div>
             </div>
           </div>
           <div className="moneydd">
@@ -97,10 +212,12 @@ const RightSideBar = (props: any) => {
             </div>
             <div
               className="contactofficer"
-              onClick={()=>setFormState({
-                ...state,
-                show: true,
-              })}
+              onClick={() =>
+                setFormState({
+                  ...state,
+                  show: true,
+                })
+              }
             >
               CONTACT OFFICER
             </div>
@@ -111,7 +228,7 @@ const RightSideBar = (props: any) => {
             <Modal.Title>Account Officer</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form noValidate onSubmit={submitForm}>
+            <Form noValidate onSubmit={sendMessageToCrm}>
               <p className="text-success messagetocrm"> {success}</p>
               <p className="text-danger messagetocrm"> {errorMessage}</p>
               <Form.Group>
@@ -142,7 +259,9 @@ const RightSideBar = (props: any) => {
                     Back
                   </a>
                 </div>
-                <div className="continue wwe2">Continue</div>
+                <div className="continue wwe2" onClick={sendMessageToCrm}>
+                  Continue
+                </div>
               </div>
             </Col>
             <i
@@ -154,5 +273,5 @@ const RightSideBar = (props: any) => {
       </Col>
     </>
   );
-};
+});
 export default RightSideBar;

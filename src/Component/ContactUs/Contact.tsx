@@ -12,6 +12,10 @@ import Button from "react-bootstrap/Button";
 import Axios from "axios";
 import { API } from "../../config";
 import { useEffect } from "react";
+import Alert from "react-bootstrap/Alert";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+
 
 interface IAppProps {}
 
@@ -22,6 +26,7 @@ const Contact: React.FunctionComponent<IAppProps> = (props: any) => {
     message: "",
     howcanwehelpyou: "",
     email: "",
+    successMessage: "",
     phone: "",
     password: "",
     isloading: false,
@@ -33,29 +38,83 @@ const Contact: React.FunctionComponent<IAppProps> = (props: any) => {
     isloading,
     fullname,
     message,
+    successMessage,
     howcanwehelpyou,
   } = state;
+
   const onchange = (e) => {
     setFormState({
       ...state,
       [e.target.id]: e.target.value,
+      errorMessage:""
     });
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
   }, []);
-  const SubmitForm = (e) => {
+  const validateForm = (e) => {
+    e.preventDefault();
+    if (
+      phone ==="" ||
+      email ==="" ||
+      fullname ==="" ||
+      message ==="" ||
+      howcanwehelpyou ===""
+    ) {
+     return setFormState({
+        ...state,
+        errorMessage:"All fields are required"
+      })
+    }
+    else{
+      sendMessage()
+    }
+  };
+  const sendMessage = () => {
+    setFormState({
+      ...state,
+      isloading: true,
+    });
     const data = {
-      email,
+      name: fullname,
+      phone,
+      email: email,
+      subject: howcanwehelpyou,
+      message,
     };
-    Axios.post(`${API}/`, data)
+    console.log(data)
+    Axios.post(`${API}/api/v1/contact`, data)
       .then((res) => {
         console.log(res);
+        setFormState({
+          ...state,
+          successMessage: "",
+          isloading: false,
+          errorMessage:
+            res.data && res.data.errors
+              ? "Validation error all fields are required"
+              : "",
+        });
+        if (res.data.responseStatus === 200) {
+          setFormState({
+            ...state,
+            isloading: false,
+            successMessage: "Message Sent",
+          });
+          notify("Message Sent","A");
+        }
       })
       .catch((err) => {
         console.log(err);
+        setFormState({
+          ...state,
+          errorMessage: "Network Error Failed to connect",
+          isloading: false,
+        });
+        notify("Failed to send","B");
       });
   };
+  const notify = (message: string,container="A") => toast(message, { containerId: container });
   return (
     <>
       <NavBar />
@@ -71,8 +130,11 @@ const Contact: React.FunctionComponent<IAppProps> = (props: any) => {
             <Row className="nopaddin1 oi12">
               <Col md={6} className="formwrapper">
                 <div className="contactenquire">Contact/Enquiry Form</div>
-                <Form onSubmit={SubmitForm}>
-                  <p className="loginerror">{errorMessage}</p>
+                <Form onSubmit={validateForm}>
+                  {errorMessage && (
+                    <Alert variant={"danger"}>{errorMessage}</Alert>
+                  )}
+                  <p className="loginerror">{}</p>
                   <Form.Group>
                     <h6 className="user12">Full Name</h6>
                     <Form.Control
@@ -147,7 +209,7 @@ const Contact: React.FunctionComponent<IAppProps> = (props: any) => {
                   <Form.Group>
                     <Button
                       className="sub-btn"
-                      onClick={SubmitForm}
+                      onClick={validateForm}
                       type="submit"
                       size="lg"
                       variant="secondary"
@@ -194,6 +256,20 @@ const Contact: React.FunctionComponent<IAppProps> = (props: any) => {
                   </a>
                 </div>
               </Col>
+              <ToastContainer
+                enableMultiContainer
+                containerId={"B"}
+                toastClassName="bg-danger text-white"
+                hideProgressBar={true}
+                position={toast.POSITION.TOP_CENTER}
+              />
+              <ToastContainer
+                enableMultiContainer
+                containerId={"A"}
+                toastClassName="bg-success text-white"
+                hideProgressBar={true}
+                position={toast.POSITION.TOP_CENTER}
+              />
             </Row>
           </Col>
         </Row>

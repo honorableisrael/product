@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import GoogleLogo from "../../assets/Google.svg";
 import whitepramopro from "../../assets/whitepramopro.svg";
+import GoogleLogin from "react-google-login";
 
 const SignIn: React.FunctionComponent = (props: any) => {
   const [state, setFormState] = useState({
@@ -25,19 +26,116 @@ const SignIn: React.FunctionComponent = (props: any) => {
     setFormState({
       ...state,
       [e.target.id]: e.target.value,
+      errorMessage: "",
     });
   };
-  const SubmitForm = (e) => {
+  const validateForm = (e) => {
+    e.preventDefault();
+    if (email.trim() === "" || password.trim() === "") {
+      return setFormState({
+        ...state,
+        errorMessage: "All fields are required",
+      });
+    }
+    if (email !== "" || password !== "") {
+      SubmitForm();
+    }
+  };
+  const SubmitForm = () => {
     const data = {
-      email,
+      username: email,
       password,
     };
-    Axios.post(`${API}/login`, data)
+    setFormState({
+      ...state,
+      isloading: true,
+    });
+    Axios.post(`${API}/api/v1/login`, data)
       .then((res) => {
-        console.log(res);
+        if (res.data.responseStatus == 200) {
+          localStorage.setItem("userDetails", JSON.stringify(res.data));
+          checkIfUserIsVerified();
+          setFormState({
+            ...state,
+            isloading: false,
+          });
+        }
+        if (res.data.responseStatus == 400) {
+          setFormState({
+            ...state,
+            isloading: false,
+            errorMessage: res.data.responseMessage,
+          });
+        }
+        if (res.data.responseStatus == 401) {
+          setFormState({
+            ...state,
+            isloading: false,
+            errorMessage: "Unauthorized",
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
+        return setFormState({
+          ...state,
+          errorMessage:
+            err.response && err.response.data && err.response.data.message
+              ? err.response.data.message ||
+                err?.response?.data?.responseMessage
+              : "connection error",
+          isloading: false,
+        });
+      });
+  };
+  const checkIfUserIsVerified = () => {
+    const loggedIn = localStorage.getItem("userDetails");
+    const userdata = loggedIn ? JSON.parse(loggedIn) : "";
+    const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    Axios.get(`${API}/api/v1/user`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.data.user.verified === false) {
+          return props.history.push("/verify-account");
+        }
+        if (res.data.user.verified === true) {
+          props.history.push("/dashboard");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const responseGoogle = (response) => {
+    console.log(response);
+    console.log(response.profileObj);
+    const data = {
+      name: response.profileObj.name,
+      email: response.profileObj.email,
+      user_id: response.googleId,
+      provider: "Google",
+    };
+    // console.log(data)
+    Axios.post(`${API}/api/v1/login/social`, data)
+      .then((res) => {
+        // console.log(res)
+        if (res.data.responseStatus === 400) {
+          return setFormState({
+            ...state,
+            errorMessage: "Failed request please try again later",
+          });
+        }
+        localStorage.setItem("userDetails", JSON.stringify(res.data));
+        props.history.push("/dashboard");
+      })
+      .catch((err) => {
+        setFormState({
+          ...state,
+          errorMessage: "failed to login",
+        });
+        // console.log(err)
       });
   };
   return (
@@ -53,7 +151,7 @@ const SignIn: React.FunctionComponent = (props: any) => {
             <div className="wlcmback">Welcome back,</div>
             <div className="wlcmback1">Log into your account</div>
             <div>
-              <Form onSubmit={SubmitForm}>
+              <Form onSubmit={validateForm}>
                 <p className="loginerror">{errorMessage}</p>
                 <Form.Group>
                   <h6 className="user12">Enter Email</h6>
@@ -107,14 +205,23 @@ const SignIn: React.FunctionComponent = (props: any) => {
                     {!isloading ? "LOGIN TO YOUR ACCOUNT" : "LOGGING IN"}
                   </Button>
                   <div className="or">OR</div>
-                  <div className="googleAuth">
-                    <img
-                      src={GoogleLogo}
-                      alt="googleLogo"
-                      className="googleLogo"
-                    />
-                    CONTINUE WITH GOOGLE{" "}
-                  </div>
+                  <GoogleLogin
+                    clientId="483910264468-arsekcf8p98ftamg4qjqvcev9n985d5n.apps.googleusercontent.com"
+                    render={(renderProps) => (
+                      <div className="googleAuth" onClick={renderProps.onClick}>
+                        <img
+                          src={GoogleLogo}
+                          alt="googleLogo"
+                          className="googleLogo"
+                        />
+                        CONTINUE WITH GOOGLE{" "}
+                      </div>
+                    )}
+                    buttonText="Login"
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    cookiePolicy={"single_host_origin"}
+                  />
                   <div className="checkwrap">
                     <div>
                       <input type="checkbox" className="checuser" /> Keep me

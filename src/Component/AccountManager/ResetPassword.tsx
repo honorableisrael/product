@@ -4,7 +4,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "./SignIn.css";
 import Form from "react-bootstrap/Form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Axios from "axios";
 import { API } from "../../config";
 import { Link } from "react-router-dom";
@@ -13,31 +13,87 @@ import GoogleLogo from "../../assets/Google.svg";
 import whitepramopro from "../../assets/whitepramopro.svg";
 
 const EnterNewPassword: React.FunctionComponent = (props: any) => {
-  const [state, setFormState] = useState({
+  const [state, setFormState]: any = useState({
     errorMessage: "",
     email: "",
     password: "",
     passwordhide: true,
+    successMessage: "",
     isloading: false,
+    token: "",
   });
-  const { errorMessage, password, email, passwordhide, isloading } = state;
+  const {
+    errorMessage,
+    password,
+    email,
+    passwordhide,
+    token,
+    successMessage,
+    isloading,
+  }: any = state;
   const onchange = (e) => {
     setFormState({
       ...state,
       [e.target.id]: e.target.value,
     });
   };
-  const SubmitForm = (e) => {
+  React.useEffect(() => {
+    const query = new URLSearchParams(props.location.search);
+    const Token = query.get("token");
+    setFormState({
+      ...state,
+      token: Token,
+    });
+  }, []);
+  const submitForm = (e) => {
+    setFormState({ isloading: true });
+    e.preventDefault();
     const data = {
+      token,
       email,
+      password_confirmation: password,
       password,
     };
-    Axios.post(`${API}/login`, data)
+    Axios.post(`${API}/api/v1/password/reset`, data)
       .then((res) => {
         console.log(res);
+        if (res.data.responseStatus === 200) {
+          setFormState({
+            ...state,
+            isloading: false,
+            successMessage: res.data.responseMessage,
+          });
+          setTimeout(() => {
+            props.history.push("/signin");
+          }, 2000);
+        }
+        if (res?.data?.responseStatus === 400) {
+          return setFormState({
+            ...state,
+            isloading: false,
+            error: true,
+            show: true,
+            errorMessage:
+              res?.data?.message ||
+              res?.data?.message ||
+              res?.data?.responseMessage,
+          });
+        }
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
+        setFormState({
+          ...state,
+          isloading: false,
+          errorMessage:
+            err && err.response && err.response.data.message
+              ? err.response.data.message
+              : "Reset Failed",
+          errorMessagePassword:
+            err && err.response && err.response.data.errors.password
+              ? err.response.data.errors.password
+              : "",
+        });
       });
   };
   return (
@@ -47,7 +103,7 @@ const EnterNewPassword: React.FunctionComponent = (props: any) => {
           <Col md={12} className="diax">
             {" "}
             <Link to="/">
-            <img src={whitepramopro} className="whitepram" />
+              <img src={whitepramopro} className="whitepram" />
             </Link>
           </Col>
           <Col md={5} sm={10} className="signinwrap">
@@ -56,8 +112,24 @@ const EnterNewPassword: React.FunctionComponent = (props: any) => {
               Please enter your new password to continue
             </div>
             <div>
-              <Form onSubmit={SubmitForm}>
+              <Form onSubmit={submitForm}>
                 <p className="loginerror">{errorMessage}</p>
+                <p className="loginsuccess">{successMessage}</p>
+                <Form.Group>
+                  <h6 className="user12">Enter Email</h6>
+                  <Form.Control
+                    type="email"
+                    value={email}
+                    className="userfield"
+                    id="email"
+                    onChange={onchange}
+                    placeholder=""
+                  />
+                  <i
+                    className="fa fa-envelope field-right-icon"
+                    aria-hidden="true"
+                  ></i>
+                </Form.Group>
                 <Form.Group>
                   <h6 className="user12">New Password</h6>
                   <Form.Control
@@ -85,7 +157,7 @@ const EnterNewPassword: React.FunctionComponent = (props: any) => {
                 <Form.Group>
                   <Button
                     className="sub-btn"
-                    onClick={SubmitForm}
+                    onClick={submitForm}
                     type="submit"
                     size="lg"
                     variant="secondary"
@@ -95,8 +167,9 @@ const EnterNewPassword: React.FunctionComponent = (props: any) => {
                     {!isloading ? "CHANGE PASSWORD" : "Loading"}
                   </Button>
                   <div className="checkwrap2">
-                    <div>Remember
-                      your password? <span className="forgotpass">Login</span>
+                    <div>
+                      Remember your password?{" "}
+                      <span className="forgotpass"><Link to="/signin">Login</Link></span>
                     </div>
                   </div>
                 </Form.Group>

@@ -6,12 +6,15 @@
   z-index: -1;
 }
 .firstheader {
-  text-align: left;
-  font: Bold 64px/84px Nunito Sans;
+  text-align: center;
+  font: Bold 54px/84px Nunito Sans;
   letter-spacing: 0px;
   color: #2a2e43;
   opacity: 1;
   padding-bottom: 1rem;
+}
+.spinnnercenter{
+  text-align: center;
 }
 .headertext1 {
   text-align: center;
@@ -49,7 +52,7 @@
 }
 .dliver {
   text-align: left;
-  font: Bold 24px/80px Nunito Sans;
+  font: Bold 30px/80px Nunito Sans;
   letter-spacing: 0px;
   color: #2a2e43;
   opacity: 1;
@@ -98,15 +101,6 @@
 .cw1 {
   padding-top: 10rem;
   margin-bottom: 10rem;
-}
-.building {
-  text-align: left;
-  font: Bold 32px/34px Nunito Sans;
-  letter-spacing: 0px;
-  color: #2a2e43;
-  opacity: 1;
-  margin-top: 1rem;
-  margin-bottom: 1.5rem;
 }
 .ab1 {
   text-align: left;
@@ -206,13 +200,13 @@
 .mesheader {
   padding-bottom: 0rem;
   text-align: left;
-  font: Bold 28px/84px Nunito Sans;
+  font: Bold 24px/84px Nunito Sans;
   letter-spacing: 0px;
   color: #43a047;
   opacity: 1;
 }
 .mesbody {
-  font: Regular 32px/42px Nunito Sans;
+  font: 22px/42px Nunito Sans;
   letter-spacing: 0px;
   color: #2a2e43;
   opacity: 1;
@@ -741,4 +735,10 @@
   border-radius: 6px;
   margin-top: 1.4rem;
   font-size: 16px;
+}
+.redefine1{
+  justify-content: flex-start;
+}
+.llml{
+  margin-right: 1.5rem;
 }

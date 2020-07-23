@@ -37,7 +37,7 @@ const App: React.FC = () => {
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/forgotpassword" component={ForgotPassword} />
             <Route exact path="/emailverified" component={EmailVerified} />
-            <Route exact path="/resetpassword" component={EnterNewPassword} />
+            <Route exact path="/reset-password" component={EnterNewPassword} />
             <Route exact path="/products" component={Products} />
             <Route exact path="/product/:id" component={ProductDescription} />
             <Route exact path="/contact" component={Contact} />
@@ -85,7 +85,7 @@ const App: React.FC = () => {
             <Route exact path="/faqs" component={FAQs} />
             <Route
               exact
-              path="/verificationcode"
+              path="/verify-account"
               component={EnterVerificationCode}
             />
             <Route exact path="/about" component={About} />

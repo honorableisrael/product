@@ -9,40 +9,70 @@ import RightSideBar from "./rightSideBar";
 import slide1 from "../../assets/slide1.png";
 import Products from "../Products/Product";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import Axios from "axios";
+import { API } from "../../config";
 
 const ProductPurchased = () => {
   const [state, setFormState] = React.useState({
+    user: "",
+    products: "",
+    barrelCost: "",
     errorMessage: "",
-    firstname: "",
-    lastname: "",
-    dob: "",
-    gender: "",
-    phone: "",
-    nationality: "",
-    email: "",
+    visible: 6,
     isloading: false,
   });
   const {
+    user,
+    products,
+    barrelCost,
     errorMessage,
-    firstname,
-    lastname,
-    dob,
-    gender,
-    phone,
-    nationality,
-    email,
+    visible,
     isloading,
-  } = state;
+  }: any = state;
   const onchange = (e: any) => {
     setFormState({
       ...state,
       [e.target.id]: e.target.value,
     });
   };
-  const handleChange = (e) => {
-    setFormState({
-      ...state,
-      gender: e.target.value,
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("userDetails");
+    const userdata = loggedIn ? JSON.parse(loggedIn) : "";
+    const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    //load  product list
+    Axios.get(`${API}/api/v1/user`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        setFormState({
+          ...state,
+          products: res.data.user.orders,
+          isloading: false,
+        });
+        console.log(products);
+      })
+      .catch((err) => {
+        console.log(err);
+        setFormState({
+          ...state,
+          errorMessage: "Failed to load Products",
+          isloading: false,
+        });
+      });
+  }, []);
+  const FormatAmount = (amount) => {
+    return amount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+  const loadMore = () => {
+    setFormState((prev) => {
+      return {
+        ...prev,
+        visible: prev.visible + 4,
+      };
     });
   };
   return (
@@ -52,7 +82,7 @@ const ProductPurchased = () => {
           <Form>
             <Row>
               <Col md={12} className="modea nopad11">
-                {false && (
+                {products.length===0 && (
                   <div className="midcontent2">
                     <img
                       src={dashcenter}
@@ -67,159 +97,69 @@ const ProductPurchased = () => {
                     <div className="exploreprod">EXPLORE PRODUCTS</div>
                   </div>
                 )}
-                {
+                {products.length !==0 && 
                   <Col md={12} className="productlist nopad11">
-                    <div className="slidewrapperproduct">
-                      <div className="slide1wrapdashboardproduct">
-                        <div className="finished1product">
-                          <div className="finished11dashboardproduct">
-                            {" "}
-                            <span
-                              className="redcircleproduct nomargin"
-                              title="finished"
-                            ></span>
-                          </div>
-                        </div>
-                        <img
-                          src={slide1}
-                          alt="slide1"
-                          className="slide1product"
-                        />
-                        <div className="slidetitleproduct">
-                          <div>AGO-111</div>
-                          <div>
-                            <span className="buyatproduct">Cost </span>
-                            <span className="amountproduct smalltext">
-                              N100,000
-                            </span>
-                            <div>
-                              <span className="buyatproduct">Sold at</span>
-                              <span className="amountproduct smalltext">
-                                N800,000
-                              </span>
+                    <div className="slidewrapperproduct redefine1">
+                      {products &&
+                        products?.length > 0 &&
+                        products?.slice(0, visible)?.map((x, index) => (
+                          <div className="slide1wrapdashboardproduct">
+                            <div className="finished1product">
+                              <div
+                                className={
+                                  capitalizeFirstLetter(x.productStatus) === "Loaded"
+                                    ? "Loadeddashboardproduct"
+                                    : capitalizeFirstLetter(x.productStatus) ===
+                                      "Finished"
+                                    ? "finished11dashboardproduct"
+                                    : "Loadeddashboardproduct"
+                                }
+                              >
+                                {console.log(x)}{" "}
+                                <span
+                                  className={
+                                    capitalizeFirstLetter(x.productStatus) === "Finished"
+                                      ? "redcircleproduct nomargin"
+                                      : capitalizeFirstLetter(x.productStatus) === "Loaded"
+                                      ? "greencircleproduct  nomargin"
+                                      : "yellowcircleproduct"
+                                  }
+                                  title="finished"
+                                ></span>
+                              </div>
                             </div>
-                            <div className="buyatproduct textssproduct">
-                              In 8 months
-                            </div>
-                            <div className="slider22product">
-                              <span className="rightarrw1product">View</span>
-                              <span className="rightarrwproduct">&#8594;</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="slide1wrapdashboardproduct makelargerproduct">
-                        <div className="finished1product">
-                          <div className="Loadeddashboardproduct">
-                            {" "}
-                            <span
-                              className="greencircleproduct nomargin"
-                              title="loaded"
-                            ></span>
-                          </div>
-                        </div>
-                        <img
-                          src={slide1}
-                          alt="slide1"
-                          className="slide1product"
-                        />
-                        <div className="slidetitleproduct">
-                          <div>AGO-111</div>
-                          <div>
-                            <span className="buyatproduct">Cost</span>
-                            <span className="amountproduct smalltext">
-                              N100,000
-                            </span>
-                            <div>
-                              <span className="buyatproduct">Sold at</span>
-                              <span className="amountproduct smalltext">
-                                N800,000
-                              </span>
-                            </div>
-                            <div className="buyatproduct textssproduct">
-                              In 8 months
-                            </div>
-                            <div className="slider22product">
-                              <span className="rightarrw1product">View</span>
-                              <span className="rightarrwproduct">&#8594;</span>
+                            <img
+                              src={slide1}
+                              alt="slide1"
+                              className="slide1product"
+                            />
+                            <div className="slidetitleproduct">
+                              <div>AGO-111</div>
+                              <div>
+                                <span className="buyatproduct">Buy at</span>
+                                <span className="amountproduct smalltext">
+                                &#8358;{FormatAmount(x.totalPurchase)}
+                                </span>
+                                <div>
+                                  <span className="buyatproduct">Sell at</span>
+                                  <span className="amountproduct smalltext">
+                                  &#8358;{FormatAmount(x.returnAmount)}
+                                  </span>
+                                </div>
+                                <div className="buyatproduct textssproduct">
+                                </div>
+                                <div className="slider22product">
+                                  <span className="rightarrw1product">
+                                    View
+                                  </span>
+                                  <span className="rightarrwproduct">
+                                    &#8594;
+                                  </span>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                      <div className="slide1wrapdashboardproduct makelargerproduct">
-                        <div className="finished1product">
-                          <div className="Loadeddashboardproduct">
-                            {" "}
-                            <span
-                              className="greencircleproduct  nomargin"
-                              title="loaded"
-                            ></span>
-                          </div>
-                        </div>
-                        <img
-                          src={slide1}
-                          alt="slide1"
-                          className="slide1product"
-                        />
-                        <div className="slidetitleproduct">
-                          <div>AGO-111</div>
-                          <div>
-                            <span className="buyatproduct">Cost</span>
-                            <span className="amountproduct">N100,000</span>
-                            <div>
-                              <span className="buyatproduct">Sold at</span>
-                              <span className="amountproduct smalltext">
-                                N800,000
-                              </span>
-                            </div>
-                            <div className="buyatproduct textssproduct">
-                              In 8 months
-                            </div>
-                            <div className="slider22product">
-                              <span className="rightarrw1product">View</span>
-                              <span className="rightarrwproduct">&#8594;</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="slide1wrapdashboardproduct makelargerproduct">
-                        <div className="finished1product">
-                          <div className="Loadeddashboardproduct">
-                            {" "}
-                            <span
-                              className="greencircleproduct nomargin"
-                              title="loaded"
-                            ></span>
-                          </div>
-                        </div>
-                        <img
-                          src={slide1}
-                          alt="slide1"
-                          className="slide1product"
-                        />
-                        <div className="slidetitleproduct">
-                          <div>AGO-111</div>
-                          <div>
-                            <span className="buyatproduct">Cost</span>
-                            <span className="amountproduct smalltext">
-                              N100,000
-                            </span>
-                            <div>
-                              <span className="buyatproduct">Sold at</span>
-                              <span className="amountproduct smalltext">
-                                N800,000
-                              </span>
-                            </div>
-                            <div className="buyatproduct textssproduct">
-                              In 8 months
-                            </div>
-                            <div className="slider22product">
-                              <span className="rightarrw1product">View</span>
-                              <span className="rightarrwproduct">&#8594;</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                        ))}
                     </div>
                     <div className="text-center ksk">
                       <Link to="/products">Explore Products</Link>

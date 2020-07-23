@@ -14,8 +14,67 @@ import "./Dashboard.css";
 import SideBar from "./sidebar";
 import RightSideBar from "./rightSideBar";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import Axios from "axios";
+import { API } from "../../config";
 
-const Dashboard = () => {
+const Dashboard = (props: any) => {
+  const [state, setNewState] = React.useState({
+    focus: true,
+    focus1: false,
+    user: "",
+    token: "",
+    products: "",
+    modalShow: false,
+    hasprofileimage: false,
+    redirect: false,
+    endOfCycle: "",
+    expectedReturn: "",
+    show: false,
+    success: "",
+    errorMessage: "",
+    socialImage: "",
+    message: "",
+    isverified: false,
+    subject: "",
+    iscomplete: true,
+    isloading: "",
+    collectedReturn: "",
+  });
+  const { user, products, endOfCycle, isverified,expectedReturn,collectedReturn } = state;
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("userDetails");
+    const userdata = loggedIn ? JSON.parse(loggedIn) : props?.history?.push("/signin");
+    const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    //check location and redirect to realtime
+    const changeLocation = localStorage.getItem("ChangeLocation");
+    const newLocation = changeLocation ? JSON.parse(changeLocation) : "";
+    console.log(newLocation);
+    if (newLocation) {
+      sessionStorage.removeItem("ChangeLocation");
+      props.history.push("/realtime");
+    }
+    const userId = userdata.user.id;
+    Axios
+      .get(`${API}/api/v1/user/${userId}/statistics`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        console.log(res);
+        setNewState({
+          ...state,
+          endOfCycle: res.data.endOfCycle,
+          expectedReturn: res.data.expectedReturn,
+          collectedReturn: res.data.collectedReturn,
+        });
+      })
+      .catch((err) => {
+        setNewState({
+          ...state,
+          errorMessage: "Failed to load try again later",
+        });
+      });
+  }, []);
   return (
     <>
       <NavBar />
@@ -24,7 +83,7 @@ const Dashboard = () => {
           <SideBar dashboard={true} />
           <Col md={10} className="mainbody11">
             <Row className="rowss">
-              <Col md={8} className="modea">
+              <Col md={8} className="modea revcol1">
                 <div className="midcontent">
                   <img
                     src={dashcenter}
@@ -41,7 +100,7 @@ const Dashboard = () => {
                   </div>
                 </div>
               </Col>
-              <RightSideBar />
+              <RightSideBar endOfCycle={endOfCycle} expectedReturn={expectedReturn} collectedReturn={collectedReturn}/>
             </Row>
           </Col>
         </Row>

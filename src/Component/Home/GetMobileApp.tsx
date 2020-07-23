@@ -28,7 +28,7 @@ const GetMobileApp = () => {
                 >
                   <img src={appStore2} className="playstore" alt="app-store" />
                 </a>
-                <img src={appStore1} className="playstore" alt="playstore" />
+                {/* <img src={appStore1} className="playstore" alt="playstore" /> */}
               </div>
             </div>
             <div className="sideImage3wrap">

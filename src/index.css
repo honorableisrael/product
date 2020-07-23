@@ -19,3 +19,11 @@ body {
 html{
   scroll-behavior: smooth;
 }
+
+.Toastify__toast--default {
+  background: #fff;
+  color: #aaa;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 1rem;
+}

@@ -3,31 +3,37 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "./Dashboard.css";
+import allCountries from "./listOfCountriesInTheWorld";
 import Form from "react-bootstrap/Form";
+import axios from "axios";
+import { API } from "../../config";
+import { useEffect } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
-const BankDetails = () => {
+const BankDetails = (props) => {
   const [state, setFormState] = React.useState({
     errorMessage: "",
-    firstname: "",
-    lastname: "",
-    dob: "",
-    gender: "",
-    phone: "",
-    nationality: "",
-    email: "",
+    account_name: "",
+    Bank_Country: "Nigeria",
+    bank_name: "",
+    account_no: "",
+    success: false,
+    BankList: {},
+    islocal: true,
     isloading: false,
   });
   const {
     errorMessage,
-    firstname,
-    lastname,
-    dob,
-    gender,
-    phone,
-    nationality,
-    email,
+    account_name,
+    Bank_Country,
+    bank_name,
+    account_no,
+    success,
+    BankList,
+    islocal,
     isloading,
-  } = state;
+  }: any = state;
   const onchange = (e: any) => {
     setFormState({
       ...state,
@@ -37,9 +43,100 @@ const BankDetails = () => {
   const handleChange = (e) => {
     setFormState({
       ...state,
-      gender: e.target.value,
+      bank_name: e.target.value,
     });
   };
+  const notify = (message: string, container = "A") => {
+    toast(message, { containerId: container });
+    setTimeout(()=>{
+      window.location.reload()
+    },2000)
+  };
+  const updateBankDetails = () => {
+    setFormState({
+      ...state,
+      isloading: true,
+    });
+    const user: any = localStorage.getItem("userDetails");
+    const user_id = JSON.parse(user);
+    const id = user_id.user.id;
+    var token = user_id.token;
+
+    const data = {
+      account_name,
+      account_no,
+      bank_name,
+    };
+    console.log(data);
+    axios
+      .put(`${API}/api/v1/user/${id}/bank-details`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        console.log(res);
+        setFormState({
+          ...state,
+          isloading: false,
+          errorMessage: "",
+        });
+        setTimeout(() => {
+          notify("Update Successfull");
+        }, 2000);
+      })
+      .catch((err) => {
+        console.log(err);
+        setFormState({
+          ...state,
+          isloading: false,
+          errorMessage: "Failed to Update",
+        });
+        notify("Update Failed","B");
+      });
+  };
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("userDetails");
+    const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    axios
+      .all([
+        axios.get(`${API}/api/v1/banks`, {
+          headers: { Authorization: `Token ${token}` },
+        }),
+        axios.get(`${API}/api/v1/user`, {
+          headers: { Authorization: `Token ${token}` },
+        }),
+      ])
+      .then(
+        axios.spread((firstresponse, secondresponse) => {
+          console.log(firstresponse);
+          console.log(secondresponse);
+          if (firstresponse?.status == 200 && secondresponse?.status == 200) {
+            setFormState({
+              ...state,
+              account_no:
+                secondresponse.data.user &&
+                secondresponse.data.user.bank_details
+                  ? secondresponse.data.user.bank_details.account_no
+                  : "",
+              bank_name: secondresponse.data.user
+                ? secondresponse.data.user.bank_details.bank_name
+                : "",
+              account_name: secondresponse.data.user
+                ? secondresponse.data.user.bank_details.account_name
+                : "",
+              BankList: firstresponse.data.banks,
+            });
+          }
+        })
+      )
+      .catch((error) => {
+        console.log(error.response);
+        if (error && error.response && error.response.data) {
+        }
+        if (error && error.response == undefined) {
+        }
+      });
+  }, []);
+  console.log(BankList);
   return (
     <>
       <Row className="refwq1">
@@ -51,9 +148,9 @@ const BankDetails = () => {
                   <h6 className="userprofile">Account Name</h6>
                   <Form.Control
                     type="text"
-                    value={email}
+                    value={account_name}
                     className="userfield"
-                    id="email"
+                    id="account_name"
                     onChange={onchange}
                     placeholder=""
                   />
@@ -71,9 +168,13 @@ const BankDetails = () => {
                     className="fmc"
                     onChange={handleChange}
                   >
-                    <option></option>
-                    <option value="Male">...</option>
-                    <option value="Female">...</option>
+                    <option>{bank_name ? bank_name : "Not Chosen..."}</option>
+                    {BankList.length > 0 &&
+                      BankList?.map((x) => (
+                        <option value={x.name} key={x.name} id="country">
+                          {x.name}
+                        </option>
+                      ))}
                     ))}
                   </Form.Control>
                   <i
@@ -89,9 +190,9 @@ const BankDetails = () => {
                   <h6 className="userprofile">Account Number</h6>
                   <Form.Control
                     type="text"
-                    value={email}
+                    value={account_no}
                     className="userfield"
-                    id="email"
+                    id="account_no"
                     onChange={onchange}
                     placeholder=""
                   />
@@ -105,11 +206,27 @@ const BankDetails = () => {
           </Form>
           <Row className="sds">
             <div>
-              <div className="updatebtn">Update</div>
+              <div className="updatebtn" onClick={updateBankDetails}>
+                {isloading ? "Updating" : "Update"}
+              </div>
             </div>
           </Row>
         </Col>
       </Row>
+      <ToastContainer
+        enableMultiContainer
+        containerId={"B"}
+        toastClassName="bg-danger text-white"
+        hideProgressBar={true}
+        position={toast.POSITION.TOP_CENTER}
+      />
+      <ToastContainer
+        enableMultiContainer
+        containerId={"A"}
+        toastClassName="bg-success text-white"
+        hideProgressBar={true}
+        position={toast.POSITION.TOP_CENTER}
+      />
     </>
   );
 };

@@ -13,6 +13,8 @@ import Modal from "react-bootstrap/Modal";
 import Col from "react-bootstrap/Col";
 import "./animatedbutton.css";
 import { Link } from "react-router-dom";
+import Axios from "axios";
+import { API } from "../../config";
 
 interface IAppProps {}
 
@@ -29,6 +31,10 @@ const CompleteOrder: React.FunctionComponent<IAppProps> = (props: any) => {
     success: "",
     isloading: false,
   });
+  const FormatAmount = (amount) => {
+    return amount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+  const { product }: any = state;
   const {
     show,
     subject,
@@ -65,9 +71,16 @@ const CompleteOrder: React.FunctionComponent<IAppProps> = (props: any) => {
     });
   };
   useEffect(() => {
+    // Axios.get(`${API}`)
     window.scrollTo(-0, -0);
+    const getorder: any = localStorage.getItem("orderDetails");
+    const orderproduct = JSON.parse(getorder);
+    console.log(orderproduct);
+    setNewState({
+      ...state,
+      product: orderproduct.order,
+    });
   }, []);
-
   return (
     <>
       <NavBar />
@@ -87,11 +100,13 @@ const CompleteOrder: React.FunctionComponent<IAppProps> = (props: any) => {
               <div className="flee head22">AGO-0013</div>
               <div className="fke2">
                 <div className="fke3 head22">Quantity</div>
-                <div className="fke3">10</div>
+                <div className="fke3">{product?.unitsBought}</div>
               </div>
               <div className="fke2">
                 <div className="fke3 head22">Payment Amount</div>
-                <div className="fke3">₦399</div>
+                <div className="fke3">
+                  ₦{FormatAmount(product?.totalPurchase)}
+                </div>
               </div>
             </div>
           </Col>
@@ -127,7 +142,7 @@ const CompleteOrder: React.FunctionComponent<IAppProps> = (props: any) => {
               <p className="text-danger messagetocrm"> {errorMessage}</p>
               <div className="dssc">
                 <div className="amww">Payment Amount</div>
-                <div className="amw1">NGN 240,0000</div>
+                <div className="amw1"> ₦{FormatAmount(product?.totalPurchase)}</div>
               </div>
               <div className="amw12">
                 Use your Internet/Mobile Banking platform from your bank to pay

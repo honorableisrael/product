@@ -4,43 +4,103 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "./Dashboard.css";
 import Form from "react-bootstrap/Form";
+import { useEffect } from "react";
+import Axios from "axios";
+import { API } from "../../config";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+
+
+
 
 const NOKDetails = () => {
   const [state, setFormState] = React.useState({
     errorMessage: "",
     firstname: "",
     lastname: "",
-    dob: "",
-    relationship:"",
-    gender: "",
-    phone: "",
-    nationality: "",
     email: "",
+    phone: "",
+    address: "",
+    relationship: "",
     isloading: false,
   });
   const {
     errorMessage,
     firstname,
     lastname,
-    dob,
-    gender,
+    address,
     phone,
     relationship,
-    nationality,
     email,
     isloading,
   } = state;
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("userDetails");
+    const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    Axios.get(`${API}/api/v1/user`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        console.log(res);
+        setFormState({
+          ...state,
+          firstname: res.data.user ? res?.data?.user?.next_of_kin?.name : "",
+          lastname: res.data.user ? res?.data?.user?.next_of_kin?.name : "",
+          phone: res.data.user ? res.data.user.next_of_kin.phone : "",
+          email: res.data.user ? res.data.user.next_of_kin.email : "",
+          relationship: res.data.user
+            ? res?.data?.user?.next_of_kin?.relationship
+            : "",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   const onchange = (e: any) => {
     setFormState({
       ...state,
       [e.target.id]: e.target.value,
     });
   };
-  const handleChange = (e) => {
+  const updateNextOfKinInformation = () => {
     setFormState({
       ...state,
-      gender: e.target.value,
+      isloading: true,
     });
+    const user: any = localStorage.getItem("userDetails");
+    const user_id = JSON.parse(user);
+    const id = user_id.user.id;
+    var token = user_id.token;
+    const data = {
+      name:firstname+ "  " +lastname,
+      relationship,
+      phone,
+      email,
+    };
+    // console.log(data)
+    Axios.put(`${API}/api/v1/user/${id}/next-of-kin`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        setFormState({
+          ...state,
+          isloading: false,
+        });
+      })
+      .catch((err) => {
+        setFormState({
+          ...state,
+          isloading: false,
+          errorMessage:"Failed to update"
+        });
+      });
+  };
+  const notify = (message: string, container = "A") => {
+    toast(message, { containerId: container });
+    setTimeout(()=>{
+      window.location.reload()
+    },2000)
   };
   return (
     <>
@@ -53,9 +113,9 @@ const NOKDetails = () => {
                   <h6 className="userprofile">First Name</h6>
                   <Form.Control
                     type="text"
-                    value={email}
+                    value={firstname}
                     className="userfield"
-                    id="email"
+                    id="firstname"
                     onChange={onchange}
                     placeholder=""
                   />
@@ -70,9 +130,9 @@ const NOKDetails = () => {
                   <h6 className="userprofile">Last Name</h6>
                   <Form.Control
                     type="text"
-                    value={email}
+                    value={lastname}
                     className="userfield"
-                    id="email"
+                    id="lastname"
                     onChange={onchange}
                     placeholder=""
                   />
@@ -91,9 +151,9 @@ const NOKDetails = () => {
                     type="text"
                     value={relationship}
                     className="userfield"
-                    id="roles"
+                    id="relationship"
                     onChange={onchange}
-                    placeholder="email@email.com"
+                    placeholder=""
                   />
                   <i
                     className="fa fa-envelope field-right-icon"
@@ -112,7 +172,7 @@ const NOKDetails = () => {
                     className="userfield"
                     id="email"
                     onChange={onchange}
-                    placeholder="email@email.com"
+                    placeholder=""
                   />
                   <i
                     className="fa fa-envelope field-right-icon"
@@ -125,9 +185,9 @@ const NOKDetails = () => {
                   <h6 className="userprofile">Phone Number</h6>
                   <Form.Control
                     type="tel"
-                    value={email}
+                    value={phone}
                     className="userfield"
-                    id="email"
+                    id="phone"
                     onChange={onchange}
                     placeholder=""
                   />
@@ -144,9 +204,9 @@ const NOKDetails = () => {
                   <h6 className="userprofile">Address </h6>
                   <Form.Control
                     type="text"
-                    value={email}
+                    value={address}
                     className="userfield"
-                    id="email"
+                    id="address"
                     onChange={onchange}
                     placeholder=""
                   />
@@ -160,11 +220,25 @@ const NOKDetails = () => {
           </Form>
           <Row className="sds">
             <div>
-              <div className="updatebtn">Update</div>
+              <div className="updatebtn" onClick={updateNextOfKinInformation}>Update</div>
             </div>
           </Row>
         </Col>
       </Row>
+      <ToastContainer
+        enableMultiContainer
+        containerId={"B"}
+        toastClassName="bg-danger text-white"
+        hideProgressBar={true}
+        position={toast.POSITION.TOP_CENTER}
+      />
+      <ToastContainer
+        enableMultiContainer
+        containerId={"A"}
+        toastClassName="bg-success text-white"
+        hideProgressBar={true}
+        position={toast.POSITION.TOP_CENTER}
+      />
     </>
   );
 };

@@ -49,21 +49,19 @@ math.easeInOutQuad = function (
 const Slider: React.FC = (props) => {
   const [state, setNewState]: any = useState({
     products: {},
-    clientIsLoggedIn: "",
+    clientIsLoggedIn: false,
   });
   const { products, clientIsLoggedIn } = state;
   useEffect(() => {
-    const loggedIn = sessionStorage.getItem("userDetails");
+    const loggedIn = localStorage.getItem("userDetails");
     const clientdata = loggedIn ? JSON.parse(loggedIn) : "";
-    setNewState({
-      clientIsLoggedIn: clientdata,
-    });
     Axios.get(`${API}/api/v1/products`)
       .then((res) => {
         console.log(res);
-        return setNewState({
+        setNewState({
           ...state,
           products: res.data.products,
+          clientIsLoggedIn: clientdata.user.username ? true : false,
         });
       })
       .catch((err) => {
@@ -73,9 +71,14 @@ const Slider: React.FC = (props) => {
   const FormatAmount = (amount) => {
     return amount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
-  console.log(products);
+  console.log(clientIsLoggedIn);
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+  const calculateReturnAmount = (price: number, rate: number): any => {
+    const payBack = price + price * (rate / 100);
+    console.log(payBack);
+    return FormatAmount(payBack);
   };
   return (
     <>
@@ -113,34 +116,26 @@ const Slider: React.FC = (props) => {
                             ? "greencircle"
                             : "yellowcircle"
                         }
-                      >
-                      </span>{" "}
+                      ></span>{" "}
                       {capitalizeFirstLetter(x.status)}
                     </div>
                   </div>
-                  <img src={x.imageUrl} alt="slide1" className="slide1" />
+                  <Link to="/products"> <img src={x.imageUrl} alt="slide1" className="slide1" /></Link>
                   <div className="slidetitle">
                     <div>{x.name}</div>
                     <div>
                       <span className="buyat">Buy at</span>
                       <span className="amount">₦{FormatAmount(x.price)}</span>
                       <div>
-                        {/* <span className="buyat">Sell at</span>
-                        <span className="amount">₦800,000</span> */}
-                      </div>
-                      <div className="buyat textss">
-                        <div>
-                          Returns &nbsp;
-                          {x && !clientIsLoggedIn
-                            ? x.returnRangefrom + "% -"
-                            : ""}{" "}
-                          {x && !clientIsLoggedIn ? x.returnRangeto + "%" : ""}{" "}
-                          {clientIsLoggedIn && x ? x.return + "%" : ""}
-                        </div>
-                        <div>in {x ? x.cycle : ""} months</div>
+                        <span className="buyat">Sell at</span>
+                        <span className="amount">
+                          ₦{calculateReturnAmount(x.price, x.return)}
+                        </span>
                       </div>
                       <div className="slider22">
-                        <span className="rightarrw1"><Link to="/products">View</Link></span>
+                        <span className="rightarrw1">
+                          <Link to="/products">View</Link>
+                        </span>
                         <span className="rightarrw">&#8594;</span>
                       </div>
                     </div>

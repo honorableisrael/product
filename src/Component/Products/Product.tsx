@@ -14,6 +14,7 @@ import "./animatedbutton.css";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import { API } from "../../config";
+import preloader from "../../assets/preloader.gif";
 
 interface IAppProps {}
 
@@ -33,16 +34,25 @@ const Products: React.FunctionComponent<IAppProps> = (props: any) => {
     sortbyfuel: false,
     sortbyAGO: false,
   });
+
+  //filter by status
   const handleSelectChange = (e) => {
     setNewState({
       ...state,
       filter: e.target.value,
     });
+    filterProducts(e.target.value);
+  };
+
+  //filter by category
+  const handleSelectChange2 = (e) => {
+    setNewState({
+      ...state,
+      filter: e.target.value,
+    });
+    filterByProductType(e.target.value);
   };
   const {
-    sortbyFinished,
-    sortbyLoaded,
-    clientIsLoggedIn,
     visible,
     isloading,
     errorMessage,
@@ -55,6 +65,7 @@ const Products: React.FunctionComponent<IAppProps> = (props: any) => {
     const clientdata = loggedIn ? JSON.parse(loggedIn) : "";
     setNewState({
       ...state,
+      isloading: true,
       clientIsLoggedIn: clientdata,
     });
     window.scrollTo(-0, -0);
@@ -66,8 +77,8 @@ const Products: React.FunctionComponent<IAppProps> = (props: any) => {
       .then((res) => {
         setNewState({
           ...state,
-          products: res.data.products,
           isloading: false,
+          products: res.data.products,
         });
       })
       .catch((err) => {
@@ -92,6 +103,32 @@ const Products: React.FunctionComponent<IAppProps> = (props: any) => {
       };
     });
   };
+  const filterProducts = (filterby) => {
+    Axios.get(`${API}/api/v1/products/status/${filterby}`)
+      .then((res) => {
+        setNewState({
+          ...state,
+          products: res.data.products,
+        });
+      })
+      .catch((err) => {});
+  };
+  const filterByProductType = (category) => {
+    Axios.get(`${API}/api/v1/products/category/${category}`)
+      .then((res) => {
+        setNewState({
+          ...state,
+          products: res.data.products,
+        });
+      })
+      .catch((err) => {});
+  };
+
+  const calculateReturnAmount = (price: number, rate: number): any => {
+    const payBack = price + price * (rate / 100);
+    console.log(payBack);
+    return FormatAmount(payBack);
+  };
   //change dateformat
   return (
     <>
@@ -102,6 +139,11 @@ const Products: React.FunctionComponent<IAppProps> = (props: any) => {
             <div className="hproduct">Products</div>
           </Col>
         </Row>
+        {isloading && (
+          <div className="spinnnercenter">
+            <img src={preloader} alt="preloader" />
+          </div>
+        )}
         <Row className="jcenter filterrow">
           <Col md={10} className="filterwrap">
             <div>
@@ -116,20 +158,20 @@ const Products: React.FunctionComponent<IAppProps> = (props: any) => {
                   onChange={handleSelectChange}
                 >
                   <option value="">Status</option>
-                  <option value="Pass">Loading</option>
-                  <option value="Failed">Loaded</option>
-                  <option value="Failed">Finished</option>
+                  <option value="loading">Loading</option>
+                  <option value="loaded">Loaded</option>
+                  <option value="finished">Finished</option>
                 </Form.Control>
               </div>
               <div className="select2">
                 <Form.Control
                   as="select"
                   className="selecss loks"
-                  onChange={handleSelectChange}
+                  onChange={handleSelectChange2}
                 >
                   <option value="">Type</option>
-                  <option value="Pass">AGO</option>
-                  <option value="Failed">CNG</option>
+                  <option value="AGO">AGO</option>
+                  <option value="CNG">CNG</option>
                 </Form.Control>
               </div>
             </div>
@@ -137,11 +179,12 @@ const Products: React.FunctionComponent<IAppProps> = (props: any) => {
         </Row>
         <Row className="jcenter productwrapper1">
           <Col md={10} className="productlist">
-            <div className="slidewrapperproduct">
+            <div className="slidewrapperproduct redefine1">
               {products &&
+                !isloading &&
                 products.length > 0 &&
                 products.slice(0, visible).map((x, index) => (
-                  <div className="slide1wrapproduct">
+                  <div className="slide1wrapproduct llml">
                     <div className="finished1product">
                       <div
                         className={
@@ -165,7 +208,7 @@ const Products: React.FunctionComponent<IAppProps> = (props: any) => {
                         {capitalizeFirstLetter(x.status)}
                       </div>
                     </div>
-                    <Link to="/product/2">
+                    <Link to={`/product/${x.id}`}>
                       <img
                         src={x.imageUrl}
                         alt="slide1"
@@ -180,24 +223,16 @@ const Products: React.FunctionComponent<IAppProps> = (props: any) => {
                           ₦{FormatAmount(x.price)}
                         </span>
                         <div>
-                          {/* <span className="buyatproduct">Sell at</span>
-                          <span className="amountproduct">₦800,000</span> */}
-                        </div>
-                        <div className="buyatproduct textssproduct">
-                          <div>
-                            Returns &nbsp;
-                            {x && !clientIsLoggedIn
-                              ? x.returnRangefrom + "% -"
-                              : ""}{" "}
-                            {x && !clientIsLoggedIn
-                              ? x.returnRangeto + "%"
-                              : ""}{" "}
-                            {clientIsLoggedIn && x ? x.return + "%" : ""}
-                          </div>
-                          <div>in {x ? x.cycle : ""} months</div>
+                          <span className="buyatproduct">Sell at</span>
+                          <span className="amountproduct">
+                            {" "}
+                            ₦{calculateReturnAmount(x.price, x.return)}
+                          </span>
                         </div>
                         <div className="slider22product">
-                          <span className="rightarrw1product">View</span>
+                          <span className="rightarrw1product">
+                            <Link to={`/product/${x.id}`}>View</Link>
+                          </span>
                           <span className="rightarrwproduct">&#8594;</span>
                         </div>
                       </div>

@@ -90,10 +90,15 @@
 .linkphone {
   color: #2a2e43;
 }
-.linkphone:hover{
-    text-decoration: none;
+.linkphone:hover {
+  text-decoration: none;
 }
 
-.oi12{
-    margin-bottom: 10rem;
+.oi12 {
+  margin-bottom: 10rem;
+}
+@media (max-width: 600px) {
+  .contactus {
+    font: Bold 33px/84px Nunito Sans;
+  }
 }
