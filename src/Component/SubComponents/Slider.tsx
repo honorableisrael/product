@@ -83,14 +83,16 @@ const Slider: React.FC = (props) => {
   return (
     <>
       <div className="arrowflex">
-        <span className="leftarrowcontainer">
-          <img
-            src={leftarrow}
-            onClick={onclickLeft}
-            className="leftarrow"
-            alt="leftarrow"
-          />
-        </span>
+        {products.length>0 && (
+          <span className="leftarrowcontainer">
+            <img
+              src={leftarrow}
+              onClick={onclickLeft}
+              className="leftarrow"
+              alt="leftarrow"
+            />
+          </span>
+        )}
         <div className="center-changed" id="content">
           <div className="slidewrapper">
             {products &&
@@ -120,7 +122,10 @@ const Slider: React.FC = (props) => {
                       {capitalizeFirstLetter(x.status)}
                     </div>
                   </div>
-                  <Link to="/products"> <img src={x.imageUrl} alt="slide1" className="slide1" /></Link>
+                  <Link to="/products">
+                    {" "}
+                    <img src={x.imageUrl} alt="slide1" className="slide1" />
+                  </Link>
                   <div className="slidetitle">
                     <div>{x.name}</div>
                     <div>
@@ -276,14 +281,16 @@ const Slider: React.FC = (props) => {
             </div> */}
           </div>
         </div>
-        <span className="leftarrowcontainer">
-          <img
-            src={rightarrow}
-            onClick={onclickRight}
-            className="leftarrow"
-            alt="leftarrow"
-          />
-        </span>
+        {products.length>0 && (
+          <span className="leftarrowcontainer">
+            <img
+              src={rightarrow}
+              onClick={onclickRight}
+              className="leftarrow"
+              alt="leftarrow"
+            />
+          </span>
+        )}
       </div>
     </>
   );

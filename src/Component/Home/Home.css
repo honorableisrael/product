@@ -51,7 +51,7 @@
 }
 @media (min-width: 768px) {
   .greenground {
-    min-width: 350px;
+    min-width: 270px;
   }
   .customers {
     min-width: 291px;
@@ -388,6 +388,9 @@
   .how12 {
     display: none;
   }
+  .jusk{
+    top: 4rem;
+  }
   .push {
     margin-top: 1rem !important;
   }
@@ -407,6 +410,26 @@
 }
 
 @media (max-width: 865px) {
+  .jusk {
+    position: relative;
+    left: 13%;
+  }
+  .hom1 {
+    font-size: 2.5em;
+  }
+  .home2 {
+   padding-top: 0rem;
+    padding-bottom: .1rem;
+  }
+  .jusk{
+    top: 4rem;
+  }
+  .customers {
+    width: 277px;
+  }
+  .greenground {
+     width: 260px;
+  }
   .sideImage3 {
     display: none;
   }
@@ -461,10 +484,14 @@
   .slide1wrap {
     margin-left: 0rem;
   }
-  .greenground1,.greenground2{
+  .greenground1,
+  .greenground2 {
     display: none;
   }
-  .hom1,.home3,.home5,.centerp{
+  .hom1,
+  .home3,
+  .home5,
+  .centerp {
     font-size: 20px;
   }
   .icontray {
@@ -589,13 +616,18 @@
   text-decoration: none;
 }
 
-.container-fluid{
+.container-fluid {
   overflow-x: hidden;
 }
-.getstarted > a{
+.getstarted > a {
   color: inherit;
 }
-.rightarrw1product a{
+.rightarrw1product a {
   color: inherit !important;
   text-decoration: none;
+}
+@media (max-width: 665px) {
+  .footwrap {
+    padding-right: 0rem;
+  }
 }

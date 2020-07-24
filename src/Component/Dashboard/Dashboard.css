@@ -215,6 +215,12 @@
     position: relative;
     bottom: 6.5rem;
   }
+  .revcol2 {
+    padding-left: 3rem;
+  }
+  .transaction-table {
+    margin-left: 0.5rem;
+  }
 }
 @media (max-width: 1200px) {
   .dashrow {
@@ -845,6 +851,18 @@
   .settings {
     padding-top: 3rem;
   }
+  .prodcu {
+    padding-left: 1rem;
+    padding-bottom: 3rem;
+  }
+  .actiontime {
+    text-align: right;
+  }
+  .accountaction,
+  .accountaction2 {
+    text-align: center;
+    font-size: 13px;
+  }
 }
 @media (max-width: 801px) {
   .mainbody11 {
@@ -866,4 +884,33 @@
 }
 .change11 {
   cursor: pointer;
+}
+.tablehead {
+  text-align: center;
+  font: 13px/20px Nunito Sans;
+  letter-spacing: 0px;
+  color: #455065;
+  opacity: 1;
+  background: #efefef 0% 0% no-repeat padding-box !important;
+  color: #455065 !important;
+}
+.table td,
+.table th {
+  padding: 0px;
+  padding-left: 0.4rem;
+}
+.tdata > td {
+  font-size: 12px !important;
+  line-height: 1.8;
+  text-align: center;
+}
+@media (max-width: 1200px) {
+  .mainbody11 {
+    max-width: 100% !important;
+    width: 100%;
+    flex: 0 0 100%;
+  }
+  .revcol2 {
+    padding: 0rem;
+  }
 }

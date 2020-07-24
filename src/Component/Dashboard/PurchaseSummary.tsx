@@ -10,6 +10,8 @@ import Table from "react-bootstrap/Table";
 import { API } from "../../config";
 import "./Dashboard.css";
 import Col from "react-bootstrap/Col";
+import Axios from "axios";
+import { render } from "@testing-library/react";
 
 const renderTooltip = (props) => (
   <div
@@ -123,9 +125,45 @@ class PurchaseSummary extends Component {
       return { visible: prev.visible + 5 };
     });
   };
+  componentWillMount() {
+    window.scrollTo(-0, -0);
+    //fetch user info
+    const loggedIn = localStorage.getItem("userDetails");
+    const userdata = loggedIn ? JSON.parse(loggedIn) : "";
+    if (!userdata) {
+      return window.location.assign("/signin");
+    }
+    const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    axios
+      .get(`${API}/api/v1/user`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.data.responseStatus === 200) {
+          return this.setState({
+            user: res.data.user,
+            isverified: res.data.user.verified,
+          });
+        }
+        if (!res.data.user.verified) {
+          return window.location.assign("/verify-account");
+        }
+        if (res.data.responseStatus === 401) {
+          localStorage.clear();
+          return window.location.assign("/signin");
+        }
+      })
+      .catch((err) => {
+        // console.log(err)
+        this.setState({
+          errorMessage: "Failed to load try again later",
+        });
+      });
+  }
 
   render() {
-    const { user, products, isloading, errorMessage } = this.state;
+    const { user, products, isloading, errorMessage }: any = this.state;
     const loading = "#FFBF00";
     const finished = "#9B0000";
     const loaded = "rgb(67,160,71)";
@@ -141,7 +179,7 @@ class PurchaseSummary extends Component {
         ) : (
           ""
         )}
-        {true && (
+        {false && (
           <Col md={12} className="modea nopad11">
             <div className="midcontent2">
               <img src={dashcenter} className="dashcenter" alt="dashcenter" />
@@ -156,7 +194,7 @@ class PurchaseSummary extends Component {
             </div>
           </Col>
         )}
-        {false && (
+        {true && (
           <Table responsive>
             <thead>
               <tr>
@@ -166,12 +204,39 @@ class PurchaseSummary extends Component {
                 <th className="tablehead">Payment Date</th>
                 <th className="tablehead">End Of Cycle Day</th>
                 <th className="tablehead">Purchase Cost</th>
-                <th className="tablehead">Transaction Cost</th>
                 <th className="tablehead">Return</th>
                 <th className="tablehead">Total PayBack</th>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+              {user &&
+                user.orders.length > 0 &&
+                user.orders
+                  .reverse()
+                  .slice(0, this.state.visible)
+                  .map((x, index) => (
+                    <tr key={x.id} className="tdata">
+                      <td>{++index}</td>
+                      <td>{x.name}</td>
+                      <td>{x.unitsBought}</td>
+                      <td>{this.startDate(x.date ? x.date : x.date)}</td>
+                      <td>{this.endOfCycle(x.cycleEndDate)}</td>
+                      <td>
+                        &#8358;
+                        {x.totalPurchase
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      </td>
+                      <td>{x.return}%</td>
+                      <td>
+                        &#8358;
+                        {x.returnAmount
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      </td>
+                    </tr>
+                  ))}
+            </tbody>
           </Table>
         )}
         {/* {!isloading && errorMessage && this.state.products.length==0? <NoSponsor title={errorMessage}/>:'' }         */}
