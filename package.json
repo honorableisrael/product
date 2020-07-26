@@ -21,9 +21,11 @@
     "react-bar-chart": "^0.1.2",
     "react-bootstrap": "^1.0.0",
     "react-bootstrap-range-slider": "^0.3.2",
+    "react-data-table-component": "^6.9.7",
     "react-dom": "^16.12.0",
     "react-google-charts": "^3.0.15",
     "react-google-login": "^5.1.21",
+    "react-js-pagination": "^3.0.3",
     "react-rating": "^2.0.5",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
@@ -32,6 +34,7 @@
     "react-star-rating-component": "^1.4.1",
     "react-toastify": "^5.5.0",
     "salad-ui.chart": "^1.1.55",
+    "styled-components": "^5.1.1",
     "typescript": "^3.7.3"
   },
   "scripts": {

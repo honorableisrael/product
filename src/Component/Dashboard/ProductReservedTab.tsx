@@ -46,7 +46,7 @@ const ProductReservedTab = () => {
       .then((res) => {
         setFormState({
           ...state,
-          products: res.data.user.reservations,
+          products: res.data.user.reservations.reverse(),
           isloading: false,
         });
         console.log(products);

@@ -13,7 +13,7 @@ import GetMobileApp from "../Home/GetMobileApp";
 import linkedin from "../../assets/linkedin.svg";
 import Dapo from "../../assets/Dapo.png";
 import Mena from "../../assets/Mena.png";
-import Dan from "../../assets/Dan.png";
+import Dan from "../../assets/dansteve.jpg";
 import Eloho from "../../assets/Eloho.png";
 import Hilary from "../../assets/Israel.png";
 import { useState, useEffect } from "react";
@@ -262,7 +262,7 @@ const About: React.FunctionComponent<IAppProps> = (props: any) => {
                 <img src={linkedin} alt="linkedin" className="linkedin" />
               </div>
               <div className="teammember">
-                <img src={Dan} alt="teamimage" className="teamimage" />
+                <img src={Dan} alt="teamimage" className="teamimage mobile" />
                 <div className="teamtitle">Dansteve Adekanbi</div>
                 <div className="teamrole">Mobile Developer</div>
                 <img src={linkedin} alt="linkedin" className="linkedin" />

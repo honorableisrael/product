@@ -12,25 +12,10 @@ import "./Dashboard.css";
 import Col from "react-bootstrap/Col";
 import Axios from "axios";
 import { render } from "@testing-library/react";
+import Pagination from "react-js-pagination";
+// import "bootstrap/less/bootstrap.less";
+import DataTable, { createTheme } from "react-data-table-component";
 
-const renderTooltip = (props) => (
-  <div
-    {...props}
-    style={{
-      backgroundColor: "white",
-      padding: "2px 10px",
-      color: "black",
-      fontSize: "13px",
-      borderRadius: 3,
-      width: "120px",
-      ...props.style,
-    }}
-  >
-    To see actual return you have to login or create an account
-  </div>
-);
-
-//change dateformat
 const startDate = (date) => {
   //change end of cycle date
   if (date) {
@@ -161,7 +146,11 @@ class PurchaseSummary extends Component {
         });
       });
   }
-
+  
+  handlePageChange=(pageNumber)=> {
+    console.log(`active page is ${pageNumber}`);
+    this.setState({activePage: pageNumber});
+  }
   render() {
     const { user, products, isloading, errorMessage }: any = this.state;
     const loading = "#FFBF00";
@@ -239,6 +228,15 @@ class PurchaseSummary extends Component {
             </tbody>
           </Table>
         )}
+        {/* <div>
+          <Pagination
+            activePage={this.state.activePage}
+            itemsCountPerPage={10}
+            totalItemsCount={450}
+            pageRangeDisplayed={5}
+            onChange={this.handlePageChange}
+          />
+        </div> */}
         {/* {!isloading && errorMessage && this.state.products.length==0? <NoSponsor title={errorMessage}/>:'' }         */}
       </Row>
     );

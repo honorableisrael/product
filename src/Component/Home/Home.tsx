@@ -5,7 +5,6 @@ import Col from "react-bootstrap/Col";
 import NavBar from "../SubComponents/Navbar";
 import HomeLayer1 from "../../assets/HomeLayer1.svg";
 import "./Home.css";
-import Slider from "../SubComponents/Slider";
 import howitwk1 from "../../assets/howitwk1.svg";
 import howitwk2 from "../../assets/howitwk2.svg";
 import howitwk3 from "../../assets/howreplacement.png";
@@ -26,7 +25,9 @@ import pramopro4 from "../../assets/pramopronavlogo.svg";
 import Footer from "./Footer";
 import GetMobileApp from "./GetMobileApp";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, lazy } from "react";
+import Spinner from "react-bootstrap/Spinner";
+const Slider = lazy(() => import("../SubComponents/Slider"));
 
 interface IAppProps {}
 
@@ -48,7 +49,9 @@ const Home: React.FunctionComponent<IAppProps> = (props: any) => {
                 Premiere Energy Trading Platform
               </div>
               <div>
-                <div className="getstarted"><Link to="/signup">GET STARTED</Link></div>
+                <div className="getstarted">
+                  <Link to="/signup">GET STARTED</Link>
+                </div>
               </div>
             </div>
           </Col>
@@ -79,7 +82,17 @@ const Home: React.FunctionComponent<IAppProps> = (props: any) => {
             </div>
             <div className="home6a">Explore our opportunities</div>
             <div>
-              <Slider />
+              <React.Suspense
+                fallback={
+                  <Col className="sliderhomepage">
+                    <Spinner variant="success" animation="border" role="status">
+                      <span className="sr-only">Loading</span>
+                    </Spinner>
+                  </Col>
+                }
+              >
+                <Slider />
+              </React.Suspense>
             </div>
           </Col>
         </Row>

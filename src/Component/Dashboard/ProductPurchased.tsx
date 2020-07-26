@@ -47,7 +47,7 @@ const ProductPurchased = () => {
       .then((res) => {
         setFormState({
           ...state,
-          products: res.data.user.orders,
+          products: res.data.user.orders.reverse(),
           isloading: false,
         });
         console.log(products);
