@@ -790,6 +790,9 @@
   }
   .fkex {
     justify-content: space-between;
+    padding-top: 2rem;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
   }
   .nav-tabs .nav-link {
     font-size: 1em !important;
@@ -857,16 +860,21 @@
   }
   .actiontime {
     text-align: right;
+    margin-right: 1rem;
   }
   .accountaction,
   .accountaction2 {
     text-align: center;
     font-size: 13px;
+    min-width: 190ox;
   }
 }
 @media (max-width: 801px) {
   .mainbody11 {
     min-height: 94vh;
+  }
+  .sponsors {
+    padding-top: 3rem;
   }
 }
 .redefine1 {
@@ -904,6 +912,7 @@
   line-height: 1.8;
   text-align: center;
 }
+
 @media (max-width: 1200px) {
   .mainbody11 {
     max-width: 100% !important;
@@ -912,5 +921,59 @@
   }
   .revcol2 {
     padding: 0rem;
+  }
+  .sidebar {
+    display: none;
+  }
+  .csss11 {
+    display: block;
+  }
+}
+.sidebartoggle {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 5;
+  padding: 2em;
+  padding-top: 1em;
+}
+.lined1 {
+  width: 28px;
+  background: #43a047;
+  height: 3px;
+  margin-top: 5px;
+}
+.timescode {
+  color: #43a047;
+  margin-top: 2rem;
+  font-size: 52px;
+  font-weight: 900;
+}
+dl,
+ol,
+ul {
+  list-style: none;
+}
+
+@media (min-width: 1201px) {
+  .csss11 {
+    display: none;
+  }
+}
+@media (max-width: 501px) {
+  .accountaction,
+  .accountaction2 {
+    text-align: center;
+    font-size: 13px;
+    min-width: 190px;
+  }
+  .sponsorsacc {
+    margin-right: 1rem;
+    margin-top: 2rem;
+  }
+  .suss1 {
+    flex-wrap: wrap;
+    padding-right: 16rem;
+    margin-left: 0px;
   }
 }

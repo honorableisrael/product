@@ -275,7 +275,7 @@
   background: inherit;
 }
 nav div ul li {
-  background: #131313 !important;
+  /* background: #131313 !important; */
 }
 .dashboardmobile {
   padding: 5px 8px;

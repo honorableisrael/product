@@ -16,6 +16,7 @@ import ProductPurchased from "./ProductPurchased";
 import RightSideBar from "./rightSideBar";
 import ProductReservedTab from "./ProductReservedTab";
 import PurchaseSummary from "./PurchaseSummary";
+import MobileSideNav from "./MobileSideNav";
 
 const DashboardProducts = () => {
   return (
@@ -26,6 +27,7 @@ const DashboardProducts = () => {
           <SideBar products={true} />
           <Col md={6} className="mainbody11">
             <Row className="rowss">
+            <MobileSideNav/>
               <Col md={12}>
                 <div className="sponsors col-md-11">
                   <div>Sponsorship</div>

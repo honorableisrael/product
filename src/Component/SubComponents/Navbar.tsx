@@ -122,7 +122,7 @@ const NavBar = () => {
               <i className="fa fa-close" onClick={() => setShowNav(false)}></i>
             </div>,
           ]}
-          itemStyle={{ backgroundColor: "#fff" }}
+          itemStyle={{ backgroundColor: "#131313" }}
           items={[
             <div className="nav-section-mobile">
               <div className="nav-item-mobile">

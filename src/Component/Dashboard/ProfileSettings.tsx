@@ -19,6 +19,7 @@ import Axios from "axios";
 import { API } from "../../config";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import MobileSideNav from "./MobileSideNav";
 
 const ProfileSettings = (props) => {
   const [state, setFormState] = useState({
@@ -125,6 +126,7 @@ const ProfileSettings = (props) => {
           <SideBar settings={true} />
           <Col md={10} className="mainbody11">
             <Row className="rowss">
+            <MobileSideNav/>
               <Col md={12}>
                 <div className="settings col-md-11">
                   <div>Settings</div>

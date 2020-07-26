@@ -8,6 +8,7 @@ import prodcash from "../../assets/prodcash.png";
 import "./Dashboard.css";
 import SideBar from "./sidebar";
 import RightSideBar from "./rightSideBar";
+import MobileSideNav from "./MobileSideNav";
 
 const DashboardProductSubscribed = () => {
   return (
@@ -18,6 +19,7 @@ const DashboardProductSubscribed = () => {
           <SideBar products={true}/>
           <Col md={10} className="mainbody11">
             <Row className="rowss">
+            <MobileSideNav/>
               <Col md={8} className="prodcu">
                 <div className="wr111">
                   <div className="productcash">

@@ -17,6 +17,9 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import Axios from "axios";
 import { API } from "../../config";
+import MobileSideNav from "./MobileSideNav";
+
+
 
 const Dashboard = (props: any) => {
   const [state, setNewState] = React.useState({
@@ -41,10 +44,19 @@ const Dashboard = (props: any) => {
     isloading: "",
     collectedReturn: "",
   });
-  const { user, products, endOfCycle, isverified,expectedReturn,collectedReturn } = state;
+  const {
+    user,
+    products,
+    endOfCycle,
+    isverified,
+    expectedReturn,
+    collectedReturn,
+  } = state;
   useEffect(() => {
     const loggedIn = localStorage.getItem("userDetails");
-    const userdata = loggedIn ? JSON.parse(loggedIn) : props?.history?.push("/signin");
+    const userdata = loggedIn
+      ? JSON.parse(loggedIn)
+      : props?.history?.push("/signin");
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
     //check location and redirect to realtime
     const changeLocation = localStorage.getItem("ChangeLocation");
@@ -55,10 +67,9 @@ const Dashboard = (props: any) => {
       props.history.push("/realtime");
     }
     const userId = userdata.user.id;
-    Axios
-      .get(`${API}/api/v1/user/${userId}/statistics`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+    Axios.get(`${API}/api/v1/user/${userId}/statistics`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
       .then((res) => {
         console.log(res);
         setNewState({
@@ -83,6 +94,7 @@ const Dashboard = (props: any) => {
           <SideBar dashboard={true} />
           <Col md={10} className="mainbody11">
             <Row className="rowss">
+              <MobileSideNav/>
               <Col md={8} className="modea revcol1">
                 <div className="midcontent">
                   <img
@@ -100,7 +112,11 @@ const Dashboard = (props: any) => {
                   </div>
                 </div>
               </Col>
-              <RightSideBar endOfCycle={endOfCycle} expectedReturn={expectedReturn} collectedReturn={collectedReturn}/>
+              <RightSideBar
+                endOfCycle={endOfCycle}
+                expectedReturn={expectedReturn}
+                collectedReturn={collectedReturn}
+              />
             </Row>
           </Col>
         </Row>

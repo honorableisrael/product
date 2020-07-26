@@ -11,6 +11,7 @@ import RightSideBar from "./rightSideBar";
 import { Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
+import MobileSideNav from "./MobileSideNav";
 
 const DashboardSubaccountsConvert = () => {
   const [state, setFormState] = useState({
@@ -35,6 +36,7 @@ const DashboardSubaccountsConvert = () => {
           <SideBar subaccounts={true} />
           <Col md={10} className="mainbody11">
             <Row className="rowss">
+            <MobileSideNav/>
               <Col md={8} className="">
                 <div className="sponsorsacc col-md-11">
                   <div className="backks">

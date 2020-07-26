@@ -7,6 +7,7 @@ import "./Dashboard.css";
 import SideBar from "./sidebar";
 import RightSideBar from "./rightSideBar";
 import arrowleft from "../../assets/navigate_next.svg";
+import MobileSideNav from "./MobileSideNav";
 
 const DashboardHistory = () => {
   return (
@@ -17,6 +18,7 @@ const DashboardHistory = () => {
           <SideBar history={true} />
           <Col md={10} className="mainbody11">
             <Row className="rowss">
+            <MobileSideNav/>
               <Col md={8} className="prodcu">
                 <div className="historywrap">
                   <div>History</div>

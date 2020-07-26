@@ -14,6 +14,7 @@ import ProductPurchased from "./ProductPurchased";
 import RightSideBar from "./rightSideBar";
 import navigategreen from "../../assets/navigategreen.svg";
 import slide2 from "../../assets/slide2.png";
+import MobileSideNav from "./MobileSideNav";
 
 const DashboardReservedProductsDescription = () => {
   return (
@@ -24,6 +25,7 @@ const DashboardReservedProductsDescription = () => {
           <SideBar products={true} />
           <Col md={6} className="mainbody11">
             <Row className="rowss">
+            <MobileSideNav/>
               <Col md={12}>
                 <div className="sponsors backtoproducts">
                   <div>

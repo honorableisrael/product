@@ -8,6 +8,7 @@ import "./Dashboard.css";
 import SideBar from "./sidebar";
 import RightSideBar from "./rightSideBar";
 import { Link } from "react-router-dom";
+import MobileSideNav from "./MobileSideNav";
 
 const DashboardSubaccounts = () => {
   return (
@@ -18,6 +19,7 @@ const DashboardSubaccounts = () => {
           <SideBar subaccounts={true} />
           <Col md={10} className="mainbody11">
             <Row className="rowss">
+            <MobileSideNav/>
               <Col md={8} className="">
                 <div className="sponsorsacc col-md-11">
                   <div>Sub-Accounts</div>
