@@ -13,8 +13,10 @@
   opacity: 1;
   padding-bottom: 1rem;
 }
-.spinnnercenter{
+.spinnnercenter {
   text-align: center;
+  display: flex;
+  justify-content: center;
 }
 .headertext1 {
   text-align: center;
@@ -736,9 +738,21 @@
   margin-top: 1.4rem;
   font-size: 16px;
 }
-.redefine1{
+.redefine1 {
   justify-content: flex-start;
 }
-.llml{
+.llml {
   margin-right: 1.5rem;
+}
+@media (max-width: 665px) {
+  .redefine1 {
+    justify-content: center !important;
+  }
+  .llml {
+    margin-right: 0px !important;
+  }
+  .leftarrowcontainer,
+  .leftarrow {
+    top: 30%;
+  }
 }

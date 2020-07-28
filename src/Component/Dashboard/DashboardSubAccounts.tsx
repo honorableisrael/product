@@ -9,8 +9,40 @@ import SideBar from "./sidebar";
 import RightSideBar from "./rightSideBar";
 import { Link } from "react-router-dom";
 import MobileSideNav from "./MobileSideNav";
+import Modal from "react-bootstrap/Modal";
+
+
 
 const DashboardSubaccounts = () => {
+  const [state, setFormState] = React.useState({
+    errorMessage: "",
+    passwordhide: true,
+    show: false,
+    isloading: false,
+    visible: 6,
+  });
+  const {
+    errorMessage,
+    passwordhide,
+    show
+  } = state;
+
+  const onchange = (e) => {
+    setFormState({
+      ...state,
+      [e.target.id]: e.target.value,
+    });
+  };
+  const handleClose = () =>
+    setFormState({
+      ...state,
+      show: false,
+    });
+    const handleShow = () =>
+    setFormState({
+      ...state,
+      show: true,
+    });
   return (
     <>
       <NavBar />
@@ -41,7 +73,7 @@ const DashboardSubaccounts = () => {
                       <div className="em11">meetdapo1@gmail.com</div>
                     </div>
                   </div>
-                  <div className="conveta">Convert</div>
+                  <div className="conveta" onClick={handleShow}>Convert</div>
                 </div>
                 <div className="suss1">
                   <div className="emil1">
@@ -58,6 +90,35 @@ const DashboardSubaccounts = () => {
                   <div className="conveta">Convert</div>
                 </div>
               </Col>
+              <Modal show={show} centered={true} onHide={handleClose}>
+                <div className="ssds1w">
+                  <Modal.Header closeButton>
+                    <Modal.Title className="mks1">
+                      {" "}
+                      <div>
+                        <span className="mks2">CONFIRM CONVERT</span>{" "}
+                      </div>
+                    </Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <div className="congg">
+                      Are you sure you want to make this account a standalone
+                      account?
+                    </div>
+                    <div className="caaa">This action can't be undone</div>
+                    <div className="dsdds">
+                      <div className="continue1a" onClick={handleClose}>
+                        <a  className="continuelk">
+                          Back
+                        </a>
+                      </div>
+                      <div className="continueb">
+                        Continue
+                      </div>
+                    </div>
+                  </Modal.Body>
+                </div>
+              </Modal>
               <RightSideBar />
             </Row>
           </Col>

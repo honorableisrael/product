@@ -15,6 +15,7 @@ import "./animatedbutton.css";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import { API } from "../../config";
+import filecopy from "../../assets/filecopy.svg";
 
 interface IAppProps {}
 
@@ -22,6 +23,8 @@ const CompleteOrder: React.FunctionComponent<IAppProps> = (props: any) => {
   const [state, setNewState] = useState({
     product: "",
     filter: "",
+    clarityLink: "98282211298",
+    hascopiedLink: false,
   });
   const [paymentState, setFormState] = useState({
     show: false,
@@ -34,6 +37,7 @@ const CompleteOrder: React.FunctionComponent<IAppProps> = (props: any) => {
   const FormatAmount = (amount) => {
     return amount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
+  const { clarityLink, hascopiedLink } = state;
   const { product }: any = state;
   const {
     show,
@@ -48,6 +52,18 @@ const CompleteOrder: React.FunctionComponent<IAppProps> = (props: any) => {
       ...state,
       filter: e.target.value,
     });
+  };
+  const changeCopiedState = () => {
+    setNewState({
+      ...state,
+      hascopiedLink: true,
+    });
+    setTimeout(() => {
+      setNewState({
+        ...state,
+        hascopiedLink: false,
+      });
+    }, 3000);
   };
   const handleClose = () => {
     setFormState({
@@ -142,7 +158,10 @@ const CompleteOrder: React.FunctionComponent<IAppProps> = (props: any) => {
               <p className="text-danger messagetocrm"> {errorMessage}</p>
               <div className="dssc">
                 <div className="amww">Payment Amount</div>
-                <div className="amw1"> ₦{FormatAmount(product?.totalPurchase)}</div>
+                <div className="amw1">
+                  {" "}
+                  ₦{FormatAmount(product?.totalPurchase)}
+                </div>
               </div>
               <div className="amw12">
                 Use your Internet/Mobile Banking platform from your bank to pay
@@ -150,7 +169,28 @@ const CompleteOrder: React.FunctionComponent<IAppProps> = (props: any) => {
               </div>
               <div className="sddxx">
                 <div>
-                  <div className="sdaccount">Account Number</div>
+                  <div className="sdaccount">
+                    <div className="sweew">
+                      Account Number
+                      <div>
+                        <div
+                          onClick={() => {
+                            navigator.clipboard.writeText(clarityLink);
+                            changeCopiedState();
+                          }}
+                          className="copylink"
+                          title="copy account number"
+                        >
+                          {hascopiedLink ? "Copied!" : "Copy"}
+                          <img
+                            src={filecopy}
+                            className="filecopy"
+                            alt="filecopy"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div className="greentesr">98282211298</div>
                 </div>
                 <div className="proca">
@@ -166,6 +206,12 @@ const CompleteOrder: React.FunctionComponent<IAppProps> = (props: any) => {
                 <div className="jsjc">
                   Ensure to save account details for easy reference for future
                   payments.
+                </div>
+                <div className="payna">
+                  <span className="reec">
+                    Enter reference code along with your transfer
+                  </span>
+                  <div className="refcode">23344</div>
                 </div>
               </div>
               <Col md={12}>
