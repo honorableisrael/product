@@ -255,14 +255,15 @@ const RightSideBar = withRouter((props: any) => {
               </div>
             </div>
           </div>
+          <div className="picss">
+            <img
+              src={crmillustration}
+              className="crmillustration"
+              alt="crmillustration"
+            />
+          </div>
           <div className="moneydd">
-            <div className="illust">
-              <img
-                src={crmillustration}
-                className="crmillustration"
-                alt="crmillustration"
-              />
-            </div>
+            <div className="illust"></div>
             <div className="quesmes">
               Have any questions or issues to resolve?
             </div>

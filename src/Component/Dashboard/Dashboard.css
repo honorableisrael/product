@@ -179,7 +179,6 @@
   align-items: center;
   padding: 1rem;
   padding-bottom: 2rem;
-  margin-top: 8rem;
   margin-bottom: 1rem;
   padding-top: 3rem;
 }
@@ -202,8 +201,13 @@
   width: 146px;
   max-width: 146px;
   border-radius: 50%;
-  position: absolute;
   border-top-right-radius: 0px;
+  position: relative;
+  top: 4rem;
+}
+.picss{
+  margin-top: 7rem;
+  text-align: center;
 }
 .illust {
   position: relative;
@@ -220,6 +224,9 @@
   }
   .transaction-table {
     margin-left: 0.5rem;
+  }
+  .picss{
+    width: 280px;
   }
 }
 @media (max-width: 1200px) {
@@ -778,7 +785,13 @@
     width: 100%;
   }
   .moneydd {
-    width: max-content;
+    width: 100%;
+  }
+  .continue1a {
+    width: 40% !important;
+  }
+  .continueb{
+    width: 44% !important;
   }
   .illust {
     position: relative;
@@ -1107,4 +1120,11 @@ ul {
 }
 .lssdd{
   width: 100%;
+}
+@media(max-width:350px){
+  .settj{
+    background: white;
+    font-size: 16px;
+    padding: 1rem;
+  }
 }

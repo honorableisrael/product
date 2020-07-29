@@ -129,7 +129,7 @@ const ProfileSettings = (props) => {
             <MobileSideNav/>
               <Col md={12}>
                 <div className="settings col-md-11">
-                  <div>Settings</div>
+                  <div className="settj">Settings</div>
                   <div className="seet">
                     <img
                       src={
