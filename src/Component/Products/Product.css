@@ -756,3 +756,16 @@
     top: 30%;
   }
 }
+.refcode{
+  background: #fff;
+  padding: 0.4rem 1rem;
+  width: 100px;
+  height: 30px;
+  font-weight: 800;
+  color: #43a047;
+  text-align: center;
+  border-radius: 15px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
