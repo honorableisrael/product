@@ -91,11 +91,12 @@
   font-weight: 600;
 }
 .email11 {
-  font: SemiBold 12px/18px Nunito Sans;
+  font: 12px/18px Nunito Sans;
   letter-spacing: 0px;
   font-size: 14px;
   color: #455065b2;
   opacity: 1;
+  min-width: 170px;
 }
 
 .dategreen {

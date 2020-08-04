@@ -13,7 +13,7 @@ import Modal from "react-bootstrap/Modal";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import Axios from "axios";
-import { css } from "glamor";
+import { css, any } from "glamor";
 import { API } from "../../config";
 
 type State = {
@@ -66,6 +66,7 @@ const ProductDescription: React.FC = (props: any) => {
             product: res.data.product,
             amountperbarrel: res.data.product.price,
             rate: res.data.product.return,
+            numberofbarrels: res.data.product.price,
           });
         }
         if (res.data.responseStatus == 400) {
@@ -328,10 +329,10 @@ const ProductDescription: React.FC = (props: any) => {
       show: false,
     });
   };
-  const notify = (message: string, container = "A") =>{
+  const notify = (message: string, container = "A") => {
     toast(message, { containerId: container });
-  }
-    
+  };
+
   const handleShow = () => {
     setNewState({
       ...state,
@@ -346,6 +347,13 @@ const ProductDescription: React.FC = (props: any) => {
       const payBack = price + price * (rate / 100);
       console.log(payBack);
       return FormatAmount(payBack);
+    }
+  };
+  const calculateSecondReturnAmount = (price: string, rate: number) => {
+    if (price && rate) {
+      const payBack: any = parseInt(price) + parseInt(price) * (rate / 100);
+      console.log(payBack);
+      return FormatAmount(Math.round(payBack));
     }
   };
   console.log(product);
@@ -400,14 +408,14 @@ const ProductDescription: React.FC = (props: any) => {
                   <div className="buyattext">
                     Buy at
                     <span className="buyatprice">
-                      ₦{FormatAmount(payBackCalculation().sponsorship)}
+                      ₦{FormatAmount(product.price)}
                     </span>
                   </div>
                   <div className="buyattext">
                     Sell at{" "}
                     <span className="buyatprice">
                       {" "}
-                      ₦{FormatAmount(payBackCalculation().totalPayback)}
+                      ₦{calculateReturnAmount(product.price, product.return)}
                     </span>
                   </div>
                 </div>
@@ -418,24 +426,36 @@ const ProductDescription: React.FC = (props: any) => {
                   </div>
                 </div>
                 <hr />
-                <div className="prod133">
-                  <div className="d22">
-                    <span className="prodname">Quantity</span>
-                    <div className="incww">
-                      <span className="numberdecrease" onClick={handleDecrease}>
-                        -
-                      </span>
-                      <input
-                        type="text"
-                        value={numberofbarrels}
-                        onChange={onInputChange}
-                        className="totalSelected capital-input"
-                      />{" "}
-                      <span className="numberincrease" onClick={handleIncrease}>
-                        +
-                      </span>
+                <div className="amv">
+                  <div className="amw">
+                    <div className="amw0">Enter desired amount</div>
+                    <div className="amw1">
+                      <div>
+                        <div className="amw2">Amount</div>
+                        <span className="amw3">₦</span>
+                        <span className="amw4">
+                          <input
+                            type="text"
+                            value={numberofbarrels}
+                            onChange={onInputChange}
+                            className="totalSelected capital-input"
+                          />
+                        </span>
+                      </div>
                     </div>
                   </div>
+                  <div className="amm0">
+                    <div className="amm1">To be sold at</div>
+                    <div className="amm2">
+                      ₦
+                      {calculateSecondReturnAmount(
+                        numberofbarrels,
+                        product.return
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="textrift">
                   <div className="d22">
                     <span className="prodname">Order for</span>
                     <div>
@@ -453,8 +473,6 @@ const ProductDescription: React.FC = (props: any) => {
                       </Form.Control>
                     </div>
                   </div>
-                </div>
-                <div className="textrift">
                   {capitalizeFirstLetter(product?.status) === "Loaded" ? (
                     <div className="placeorder" onClick={placeOrderForProduct}>
                       ORDER
