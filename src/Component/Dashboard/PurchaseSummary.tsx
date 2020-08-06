@@ -120,27 +120,26 @@ class PurchaseSummary extends Component {
     }
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
     axios
-      .get(`${API}/api/v1/user`, {
+      .get(`${API}/user`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
         console.log(res);
-        if (res.data.responseStatus === 200) {
+        if (res.status === 200) {
           return this.setState({
-            user: res.data.user,
-            isverified: res.data.user.verified,
+            user: res.data.data,
+            isverified: res.data.data.verified,
           });
         }
-        if (!res.data.user.verified) {
+        if (!res.data.data.verified) {
           return window.location.assign("/verify-account");
-        }
-        if (res.data.responseStatus === 401) {
-          localStorage.clear();
-          return window.location.assign("/signin");
         }
       })
       .catch((err) => {
-        // console.log(err)
+        if (err.status === 401) {
+          localStorage.clear();
+          return window.location.assign("/signin");
+        }
         this.setState({
           errorMessage: "Failed to load try again later",
         });
@@ -189,7 +188,6 @@ class PurchaseSummary extends Component {
               <tr>
                 <th className="tablehead">S/N</th>
                 <th className="tablehead">Product Name</th>
-                <th className="tablehead">Units</th>
                 <th className="tablehead">Payment Date</th>
                 <th className="tablehead">End Of Cycle Day</th>
                 <th className="tablehead">Purchase Cost</th>
@@ -207,7 +205,6 @@ class PurchaseSummary extends Component {
                     <tr key={x.id} className="tdata">
                       <td>{++index}</td>
                       <td>{x.name}</td>
-                      <td>{x.unitsBought}</td>
                       <td>{this.startDate(x.date ? x.date : x.date)}</td>
                       <td>{this.endOfCycle(x.cycleEndDate)}</td>
                       <td>

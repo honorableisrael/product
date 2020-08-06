@@ -41,13 +41,13 @@ const ProductPurchased = () => {
     const userdata = loggedIn ? JSON.parse(loggedIn) : "";
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
     //load  product list
-    Axios.get(`${API}/api/v1/user`, {
+    Axios.get(`${API}/user`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
         setFormState({
           ...state,
-          products: res.data.user.orders.reverse(),
+          products: res.data.data.orders.reverse(),
           isloading: false,
         });
         console.log(products);

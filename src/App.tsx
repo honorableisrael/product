@@ -68,7 +68,7 @@ const App: React.FC = () => {
             />
             <Route
               exact
-              path="/convertsubaccount"
+              path="/subaccount/:id"
               component={DashboardSubaccountsConvert}
             />
             <Route

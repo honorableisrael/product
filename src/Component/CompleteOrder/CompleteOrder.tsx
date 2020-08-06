@@ -94,7 +94,7 @@ const CompleteOrder: React.FunctionComponent<IAppProps> = (props: any) => {
     console.log(orderproduct);
     setNewState({
       ...state,
-      product: orderproduct.order,
+      product: orderproduct,
     });
   }, []);
   return (
@@ -114,10 +114,10 @@ const CompleteOrder: React.FunctionComponent<IAppProps> = (props: any) => {
             </div>
             <div className="fleq1">
               <div className="flee head22">AGO-0013</div>
-              <div className="fke2">
+              {/* <div className="fke2">
                 <div className="fke3 head22">Quantity</div>
                 <div className="fke3">{product?.unitsBought}</div>
-              </div>
+              </div> */}
               <div className="fke2">
                 <div className="fke3 head22">Payment Amount</div>
                 <div className="fke3">

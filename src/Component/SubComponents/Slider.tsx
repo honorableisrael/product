@@ -55,12 +55,12 @@ const Slider: React.FC = (props) => {
   useEffect(() => {
     const loggedIn = localStorage.getItem("userDetails");
     const clientdata = loggedIn ? JSON.parse(loggedIn) : "";
-    Axios.get(`${API}/api/v1/products`)
+    Axios.get(`${API}/products`)
       .then((res) => {
         console.log(res);
         setNewState({
           ...state,
-          products: res.data.products,
+          products: res.data.data,
           clientIsLoggedIn: clientdata.user.username ? true : false,
         });
       })

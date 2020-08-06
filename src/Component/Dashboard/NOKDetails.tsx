@@ -10,9 +10,6 @@ import { API } from "../../config";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 
-
-
-
 const NOKDetails = () => {
   const [state, setFormState] = React.useState({
     errorMessage: "",
@@ -37,20 +34,18 @@ const NOKDetails = () => {
   useEffect(() => {
     const loggedIn = localStorage.getItem("userDetails");
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
-    Axios.get(`${API}/api/v1/user`, {
+    Axios.get(`${API}/user/next-of-kin`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
         console.log(res);
         setFormState({
           ...state,
-          firstname: res.data.user ? res?.data?.user?.next_of_kin?.name : "",
-          lastname: res.data.user ? res?.data?.user?.next_of_kin?.name : "",
-          phone: res.data.user ? res.data.user.next_of_kin.phone : "",
-          email: res.data.user ? res.data.user.next_of_kin.email : "",
-          relationship: res.data.user
-            ? res?.data?.user?.next_of_kin?.relationship
-            : "",
+          firstname: res.data.data.name,
+          lastname: res.data.data.name,
+          phone: res.data.data.phone,
+          email: res.data.data.email,
+          relationship: res.data.data.relationship,
         });
       })
       .catch((err) => {
@@ -73,16 +68,16 @@ const NOKDetails = () => {
     const id = user_id.user.id;
     var token = user_id.token;
     const data = {
-      name:firstname+ "  " +lastname,
+      name: firstname,
       relationship,
       phone,
       email,
     };
-    // console.log(data)
-    Axios.put(`${API}/api/v1/user/${id}/next-of-kin`, data, {
+    Axios.put(`${API}/user/next-of-kin`, data, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
+        notify("Next of kin updated successfully");
         setFormState({
           ...state,
           isloading: false,
@@ -92,15 +87,15 @@ const NOKDetails = () => {
         setFormState({
           ...state,
           isloading: false,
-          errorMessage:"Failed to update"
+          errorMessage: "Failed to update",
         });
       });
   };
   const notify = (message: string, container = "A") => {
     toast(message, { containerId: container });
-    setTimeout(()=>{
-      window.location.reload()
-    },2000)
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
   };
   return (
     <>
@@ -110,7 +105,7 @@ const NOKDetails = () => {
             <Row>
               <Col md={6}>
                 <Form.Group>
-                  <h6 className="userprofile">First Name</h6>
+                  <h6 className="userprofile">Full Name</h6>
                   <Form.Control
                     type="text"
                     value={firstname}
@@ -125,25 +120,6 @@ const NOKDetails = () => {
                   ></i>
                 </Form.Group>
               </Col>
-              <Col md={6}>
-                <Form.Group>
-                  <h6 className="userprofile">Last Name</h6>
-                  <Form.Control
-                    type="text"
-                    value={lastname}
-                    className="userfield"
-                    id="lastname"
-                    onChange={onchange}
-                    placeholder=""
-                  />
-                  <i
-                    className="fa fa-envelope field-right-icon"
-                    aria-hidden="true"
-                  ></i>
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
               <Col md={6}>
                 <Form.Group>
                   <h6 className="userprofile">Relationship</h6>
@@ -162,6 +138,7 @@ const NOKDetails = () => {
                 </Form.Group>
               </Col>
             </Row>
+            <Row></Row>
             <Row>
               <Col md={6}>
                 <Form.Group>
@@ -220,7 +197,9 @@ const NOKDetails = () => {
           </Form>
           <Row className="sds">
             <div>
-              <div className="updatebtn" onClick={updateNextOfKinInformation}>Update</div>
+              <div className="updatebtn" onClick={updateNextOfKinInformation}>
+                Update
+              </div>
             </div>
           </Row>
         </Col>

@@ -48,9 +48,9 @@ const BankDetails = (props) => {
   };
   const notify = (message: string, container = "A") => {
     toast(message, { containerId: container });
-    setTimeout(()=>{
-      window.location.reload()
-    },2000)
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
   };
   const updateBankDetails = () => {
     setFormState({
@@ -69,7 +69,7 @@ const BankDetails = (props) => {
     };
     console.log(data);
     axios
-      .put(`${API}/api/v1/user/${id}/bank-details`, data, {
+      .put(`${API}/user/bank-details`, data, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -90,7 +90,7 @@ const BankDetails = (props) => {
           isloading: false,
           errorMessage: "Failed to Update",
         });
-        notify("Update Failed","B");
+        notify("Update Failed", "B");
       });
   };
   useEffect(() => {
@@ -98,10 +98,10 @@ const BankDetails = (props) => {
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
     axios
       .all([
-        axios.get(`${API}/api/v1/banks`, {
+        axios.get(`${API}/banks`, {
           headers: { Authorization: `Token ${token}` },
         }),
-        axios.get(`${API}/api/v1/user`, {
+        axios.get(`${API}/user/bank-details`, {
           headers: { Authorization: `Token ${token}` },
         }),
       ])
@@ -113,17 +113,17 @@ const BankDetails = (props) => {
             setFormState({
               ...state,
               account_no:
-                secondresponse.data.user &&
-                secondresponse.data.user.bank_details
+                secondresponse.data.data &&
+                secondresponse.data.data.bank_details
                   ? secondresponse.data.user.bank_details.account_no
                   : "",
-              bank_name: secondresponse.data.user
-                ? secondresponse.data.user.bank_details.bank_name
+              bank_name: secondresponse.data.data
+                ? secondresponse.data.data.bank_details.bank_name
                 : "",
-              account_name: secondresponse.data.user
-                ? secondresponse.data.user.bank_details.account_name
+              account_name: secondresponse.data.data
+                ? secondresponse.data.data.bank_details.account_name
                 : "",
-              BankList: firstresponse.data.banks,
+              BankList: firstresponse.data.data,
             });
           }
         })
@@ -169,7 +169,7 @@ const BankDetails = (props) => {
                     onChange={handleChange}
                   >
                     <option>{bank_name ? bank_name : "Not Chosen..."}</option>
-                    {BankList.length > 0 &&
+                    {BankList?.length > 0 &&
                       BankList?.map((x) => (
                         <option value={x.name} key={x.name} id="country">
                           {x.name}

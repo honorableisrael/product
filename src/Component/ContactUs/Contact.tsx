@@ -83,7 +83,7 @@ const Contact: React.FunctionComponent<IAppProps> = (props: any) => {
       message,
     };
     console.log(data)
-    Axios.post(`${API}/api/v1/contact`, data)
+    Axios.post(`${API}/contact`, data)
       .then((res) => {
         console.log(res);
         setFormState({

@@ -44,7 +44,7 @@ const SignUp: React.FunctionComponent = (props: any) => {
       provider: "Google",
     };
     // console.log(data)
-    Axios.post(`${API}/api/v1/login/social`, data)
+    Axios.post(`${API}/login/social`, data)
       .then((res) => {
         // console.log(res)
         if (res.data.responseStatus === 400) {
@@ -68,7 +68,7 @@ const SignUp: React.FunctionComponent = (props: any) => {
     setFormState({
       ...state,
       [e.target.id]: e.target.value,
-      errorMessage:""
+      errorMessage: "",
     });
   };
   const SubmitForm = (e) => {
@@ -77,37 +77,42 @@ const SignUp: React.FunctionComponent = (props: any) => {
       ...state,
       isloading: true,
     });
-    const { lastname, firstname, email, password,successMessage, isloading }: any = state;
+    const {
+      lastname,
+      firstname,
+      email,
+      password,
+      successMessage,
+      isloading,
+    }: any = state;
     const data = {
       firstname,
       lastname,
       username: email,
       password,
     };
-    Axios.post(`${API}/api/v1/register`, data)
+    Axios.post(`${API}/register`, data)
       .then((res) => {
-        console.log(res)
+        console.log(res);
         localStorage.setItem("userDetails", JSON.stringify(res.data));
-        if (res.data.responseStatus === 200) {
-          localStorage.setItem("userEmail", JSON.stringify(res.data.user.username));
+        if (res.status == 201) {
+          console.log("made it here");
+          localStorage.setItem(
+            "userEmail",
+            JSON.stringify(res.data.data.user.username)
+          );
           setFormState({
             ...state,
             isloading: false,
             successMessage: "You have successfully registered",
           });
-
-          props.history.push("/verify-account");
-        }
-        if (res.data.responseStatus === 401) {
-          setFormState({
-            ...state,
-            isloading: false,
-            errorMessage: res.statusText,
-          });
+         setInterval(()=>{
+          return props.history.push("/verify-account");
+         },2000)
         }
       })
-      .catch((err) => {
-        console.log(err.response)
+      .catch(err => {
+        console.log(err.response);
         const duplicateErr = "Duplicate entry";
         if (
           err && err.response && err.response.data
@@ -124,13 +129,16 @@ const SignUp: React.FunctionComponent = (props: any) => {
                 isloading: false,
               })
             : "";
-        } else if (err.message ? err.message : err) {
+        } 
+        else if (err.message ? err.message : err) {
           setFormState({
             ...state,
             errorMessage: "Network Error",
             isloading: false,
           });
-        } else {
+        } 
+        else {
+          console.log(err)
           setFormState({
             ...state,
             errorMessage: "Sign Up Failed",

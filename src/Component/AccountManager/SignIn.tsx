@@ -50,12 +50,17 @@ const SignIn: React.FunctionComponent = (props: any) => {
       ...state,
       isloading: true,
     });
-    Axios.post(`${API}/api/v1/login`, data)
+    Axios.post(`${API}/login`, data)
       .then((res) => {
-        if (res.data.responseStatus == 200) {
-          localStorage.setItem("userDetails", JSON.stringify(res.data));
+        console.log(res.data.data)
+        if (res.status === 200) {
+          localStorage.setItem("userDetails", JSON.stringify(res.data.data));
+          localStorage.setItem(
+            "userEmail",
+            JSON.stringify(res.data.data.user.username)
+          );
           checkIfUserIsVerified();
-          setFormState({
+          setFormState({  
             ...state,
             isloading: false,
           });
@@ -92,15 +97,15 @@ const SignIn: React.FunctionComponent = (props: any) => {
     const loggedIn = localStorage.getItem("userDetails");
     const userdata = loggedIn ? JSON.parse(loggedIn) : "";
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
-    Axios.get(`${API}/api/v1/user`, {
+    Axios.get(`${API}/user`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
         console.log(res);
-        if (res.data.user.verified === false) {
+        if (res?.data?.data?.verified === false) {
           return props.history.push("/verify-account");
         }
-        if (res.data.user.verified === true) {
+        if (res?.data?.data?.verified === true) {
           props.history.push("/dashboard");
         }
       })
@@ -118,7 +123,7 @@ const SignIn: React.FunctionComponent = (props: any) => {
       provider: "Google",
     };
     // console.log(data)
-    Axios.post(`${API}/api/v1/login/social`, data)
+    Axios.post(`${API}/login/social`, data)
       .then((res) => {
         // console.log(res)
         if (res.data.responseStatus === 400) {

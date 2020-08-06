@@ -9,6 +9,8 @@ import Axios from "axios";
 import { API } from "../../config";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 const PersonalDetails = () => {
   const [state, setFormState] = React.useState({
@@ -48,9 +50,9 @@ const PersonalDetails = () => {
   };
   const notify = (message: string, container = "A") => {
     toast(message, { containerId: container });
-    setTimeout(()=>{
-      window.location.reload()
-    },2000)
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
   };
   const handleChange = (e) => {
     setFormState({
@@ -62,22 +64,23 @@ const PersonalDetails = () => {
   useEffect(() => {
     const loggedIn = localStorage.getItem("userDetails");
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
-    Axios.get(`${API}/api/v1/user`, {
+    Axios.get(`${API}/user`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
-        // console.log(res)
+        console.log(res)
         setFormState({
           ...state,
-          user: res.data.user,
-          firstname: res.data.user ? res.data.user.firstname : "",
-          email: res.data.user ? res.data.user.username : "",
-          phone: res.data.user ? res.data.user.phone : "",
-          address: res.data.user ? res.data.user.address : "",
-          country: res.data.user ? res.data.user.country : "Nigeria",
-          stateOfResidence: res.data.user ? res.data.user.state : "",
-          dob: res.data.user ? res.data.user.dob : "",
-          gender: res.data.user ? res.data.user.sex : "",
+          user: res.data.data,
+          firstname: res.data.data ? res.data.data.firstname : "",
+          lastname: res.data.data ? res.data.data.lastname : "",
+          email: res.data.data ? res.data.data.username : "",
+          phone: res.data.data ? res.data.data.phone : "",
+          address: res.data.data ? res.data.data.address : "",
+          country: res.data.data ? res.data.data.country : "Nigeria",
+          stateOfResidence: res.data.data ? res.data.data.state : "",
+          dob: res.data.data ? res.data.data.dob : "",
+          gender: res.data.data ? res.data.data.sex : "",
         });
       })
       .catch((err) => {
@@ -104,7 +107,7 @@ const PersonalDetails = () => {
       country: nationality,
       phone,
     };
-    Axios.put(`${API}/api/v1/user/${id}`, data, {
+    Axios.put(`${API}/user/update`, data, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
@@ -123,7 +126,7 @@ const PersonalDetails = () => {
           isloading: false,
           errorMessage: "Failed to update",
         });
-        notify("Update Failed","B");
+        notify("Update Failed", "B");
       });
   };
   return (
@@ -227,13 +230,28 @@ const PersonalDetails = () => {
               <Col md={6}>
                 <Form.Group>
                   <h6 className="userprofile">Phone Number</h6>
-                  <Form.Control
+                  {/* <Form.Control
                     type="tel"
                     value={phone}
                     className="userfield"
                     id="phone"
                     onChange={onchange}
                     placeholder=""
+                  /> */}
+                  <PhoneInput
+                    country={"ng"}
+                    inputProps={{
+                      name: "phone",
+                      required: true,
+                      autoFocus: true,
+                    }}
+                    value={phone}
+                    onChange={(e:any) => {
+                      setFormState({
+                        ...state,
+                        phone: e?.target?.value,
+                      });
+                    }}
                   />
                   <i
                     className="fa fa-envelope field-right-icon"

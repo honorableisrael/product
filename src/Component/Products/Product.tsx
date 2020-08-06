@@ -73,12 +73,12 @@ const Products: React.FunctionComponent<IAppProps> = (props: any) => {
       ...state,
       isloading: true,
     });
-    Axios.get(`${API}/api/v1/products`)
+    Axios.get(`${API}/products`)
       .then((res) => {
         setNewState({
           ...state,
           isloading: false,
-          products: res.data.products,
+          products: res.data.data,
         });
       })
       .catch((err) => {
@@ -104,21 +104,23 @@ const Products: React.FunctionComponent<IAppProps> = (props: any) => {
     });
   };
   const filterProducts = (filterby) => {
-    Axios.get(`${API}/api/v1/products/status/${filterby}`)
+    Axios.get(`${API}/products/status/${filterby}`)
       .then((res) => {
+        console.log(res)
         setNewState({
           ...state,
-          products: res.data.products,
+          products: res.data.data,
         });
       })
       .catch((err) => {});
   };
   const filterByProductType = (category) => {
-    Axios.get(`${API}/api/v1/products/category/${category}`)
+    Axios.get(`${API}/products/category/${category}`)
       .then((res) => {
+        console.log(res)
         setNewState({
           ...state,
-          products: res.data.products,
+          products: res.data.data,
         });
       })
       .catch((err) => {});
@@ -158,9 +160,9 @@ const Products: React.FunctionComponent<IAppProps> = (props: any) => {
                   onChange={handleSelectChange}
                 >
                   <option value="">Status</option>
-                  <option value="loading">Loading</option>
-                  <option value="loaded">Loaded</option>
-                  <option value="finished">Finished</option>
+                  <option value="1">Loading</option>
+                  <option value="2">Loaded</option>
+                  <option value="3">Finished</option>
                 </Form.Control>
               </div>
               <div className="select2">
@@ -170,8 +172,8 @@ const Products: React.FunctionComponent<IAppProps> = (props: any) => {
                   onChange={handleSelectChange2}
                 >
                   <option value="">Type</option>
-                  <option value="AGO">AGO</option>
-                  <option value="CNG">CNG</option>
+                  <option value="1">AGO</option>
+                  <option value="2">CNG</option>
                 </Form.Control>
               </div>
             </div>
@@ -195,7 +197,6 @@ const Products: React.FunctionComponent<IAppProps> = (props: any) => {
                             : "Loadingproduct"
                         }
                       >
-                        {console.log(x)}
                         <span
                           className={
                             capitalizeFirstLetter(x.status) === "Finished"

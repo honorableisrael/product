@@ -47,29 +47,42 @@ const ProductDescription: React.FC = (props: any) => {
     sponsorEmail: "",
     isloading: false,
   });
-  const { product, rate, amountperbarrel, numberofbarrels }: any = state;
+  const {
+    show,
+    success,
+    errorMessage,
+    sponsorEmail,
+    sponsorFirstname,
+    sponsorLastName,
+    product,
+    rate,
+    amountperbarrel,
+    numberofbarrels,
+    isloading
+  }: any = state;
   React.useEffect(() => {
     window.scrollTo(-0, -0);
     const productId = props.match.params.id;
     localStorage.setItem("productId", JSON.stringify(productId)); //save the product id so we orders can be returned back to this point when cancelled
     const userInfo: any = localStorage.getItem("userDetails");
-    const token = JSON.parse(userInfo);
-    console.log(token);
-    Axios.get(`${API}/api/v1/products/${productId}`, {
-      headers: { Authorization: `Bearer ${token.token}` },
+    const token = userInfo
+      ? JSON.parse(userInfo)
+      : props.history.push("/signin");
+    Axios.get(`${API}/products/${productId}`, {
+      headers: { Authorization: `Bearer ${token?.token}` },
     })
       .then((res) => {
         console.log(res);
-        if (res.data.responseStatus === 200) {
+        if (res.status === 200) {
           setNewState({
             ...state,
-            product: res.data.product,
-            amountperbarrel: res.data.product.price,
-            rate: res.data.product.return,
-            numberofbarrels: res.data.product.price,
+            product: res.data.data,
+            amountperbarrel: res.data.data.price,
+            rate: res.data.data.return,
+            numberofbarrels: res.data.data.price,
           });
         }
-        if (res.data.responseStatus == 400) {
+        if (res.status == 400) {
           props.history.push("/products");
         }
       })
@@ -83,6 +96,40 @@ const ProductDescription: React.FC = (props: any) => {
       [e.target.id]: e.target.value,
     });
   };
+  const CreateSubAccount = () => {
+    setNewState({
+      ...state,
+      isloading: true,
+    });
+    const data = {
+      first_name: sponsorFirstname,
+      last_name: sponsorLastName,
+      email: sponsorEmail,
+    };
+    const userInfo: any = localStorage.getItem("userDetails");
+    const token = JSON.parse(userInfo);
+    Axios.post(`${API}/sub-accounts`, data, {
+      headers: { Authorization: `Bearer ${token.token}` },
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.status === 201) {
+          notify(res?.data?.message);
+        }
+        setTimeout(()=>{
+          window.location.reload() 
+        },3000)
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err) {
+          notify("Failed to create");
+        }
+        setTimeout(()=>{
+          window.location.reload() 
+        },3000)
+      });
+  };
   const placeOrderForProduct = () => {
     setNewState({
       ...state,
@@ -92,37 +139,16 @@ const ProductDescription: React.FC = (props: any) => {
     const token = JSON.parse(userInfo);
     const productId = props.match.params.id;
     const data = {
-      units: state.numberofbarrels,
+      amount: state.numberofbarrels,
     };
-    Axios.post(`${API}/api/v1/products/${productId}/order`, data, {
+    Axios.post(`${API}/products/${productId}/order`, data, {
       headers: { Authorization: `Bearer ${token.token}` },
     })
       .then((res) => {
         console.log(res);
-        if (res.data && res.data.responseStatus === 307) {
-          setNewState({
-            ...state,
-            isloading: false,
-          });
-          return notify(res.data.responseMessage, "B");
-        }
-        if (res.data && res.data.order.paymentType == "manual") {
-          setNewState({
-            ...state,
-            isloading: false,
-          });
-          return notify(res.data.order.message, "A");
-        }
-        if (res.data && res.data.responseStatus === 400) {
-          setNewState({
-            ...state,
-            isloading: false,
-          });
-          return notify(res.data.responseMessage, "B");
-        }
-        if (res.data && res.data.responseStatus === 200) {
-          localStorage.setItem("orderDetails", JSON.stringify(res.data));
-          localStorage.setItem("orderDetailsProfile", JSON.stringify(res.data));
+        if (res.status === 201) {
+          localStorage.setItem("orderDetails", JSON.stringify(res.data.data));
+          localStorage.setItem("orderDetailsProfile", JSON.stringify(res.data.data));
           setTimeout(() => {
             props.history.push("/completeorder");
           }, 3000);
@@ -130,10 +156,31 @@ const ProductDescription: React.FC = (props: any) => {
             ...state,
             isloading: false,
           });
-          notify("Successfull", "A");
+         return notify(res.data.message, "A");
+        }
+        if (res.data && res.status === 307) {
+          setNewState({
+            ...state,
+            isloading: false,
+          });
+          return notify(res.data.responseMessage, "B");
+        }
+        if (res.data && res.data.data.order.paymentType == "manual") {
+          setNewState({
+            ...state,
+            isloading: false,
+          });
+          return notify(res.data.order.message, "A");
         }
       })
       .catch((err) => {
+        if (err?.response?.status === 400) {
+          setNewState({
+            ...state,
+            isloading: false,
+          });
+         return notify(err?.response?.message, "B");
+        }
         notify("Order Failed!", "B");
         console.log(err.response);
         setNewState({
@@ -233,18 +280,18 @@ const ProductDescription: React.FC = (props: any) => {
     const data = {
       units: state.numberofbarrels,
     };
-    Axios.post(`${API}/api/v1/products/${productId}/reserve`, data, {
+    Axios.post(`${API}/products/${productId}/reserve`, data, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
-        if (res.data.responseStatus === 400) {
+        if (res.status === 400) {
           notify(res.data.responseMessage, "B");
           setNewState({
             ...state,
             isloading: false,
           });
         }
-        if (res.data.responseStatus === 200) {
+        if (res.status === 200) {
           notify("Reservation Successfull!", "A");
           setNewState({
             ...state,
@@ -272,14 +319,6 @@ const ProductDescription: React.FC = (props: any) => {
     console.log(totalPayback);
     return { totalPayback, total, sponsorship };
   };
-  const {
-    show,
-    success,
-    errorMessage,
-    sponsorEmail,
-    sponsorFirstname,
-    sponsorLastName,
-  }: any = state;
   const onInputChange = (e) => {
     const letterNumber = /^[A-Za-z]+$/;
     if (e.target.value < 0) {
@@ -345,18 +384,15 @@ const ProductDescription: React.FC = (props: any) => {
   const calculateReturnAmount = (price: number, rate: number): any => {
     if (price && rate) {
       const payBack = price + price * (rate / 100);
-      console.log(payBack);
       return FormatAmount(payBack);
     }
   };
   const calculateSecondReturnAmount = (price: string, rate: number) => {
     if (price && rate) {
       const payBack: any = parseInt(price) + parseInt(price) * (rate / 100);
-      console.log(payBack);
       return FormatAmount(Math.round(payBack));
     }
   };
-  console.log(product);
   return (
     <>
       <NavBar />
@@ -436,7 +472,7 @@ const ProductDescription: React.FC = (props: any) => {
                         <span className="amw4">
                           <input
                             type="text"
-                            value={numberofbarrels}
+                            value={FormatAmount(numberofbarrels)}
                             onChange={onInputChange}
                             className="totalSelected capital-input"
                           />
@@ -481,7 +517,7 @@ const ProductDescription: React.FC = (props: any) => {
                     ""
                   )}
                 </div>
-                <div className="textrift">
+                {/* <div className="textrift">
                   {capitalizeFirstLetter(product?.status) === "Loading" ? (
                     <div className="placeorder" onClick={ReserveForProduct}>
                       Reserve
@@ -489,7 +525,7 @@ const ProductDescription: React.FC = (props: any) => {
                   ) : (
                     ""
                   )}
-                </div>
+                </div> */}
               </Col>
             </Row>
           </Col>
@@ -511,7 +547,7 @@ const ProductDescription: React.FC = (props: any) => {
             </Modal.Header>
             <Modal.Body>
               <p className="text-success messagetocrm"> {success}</p>
-              <p className="text-danger messagetocrm"> {errorMessage}</p>
+              <p className="text-danger loginerror messagetocrm"> {errorMessage}</p>
               <div className="">
                 <div>
                   <Form.Group>
@@ -520,7 +556,7 @@ const ProductDescription: React.FC = (props: any) => {
                       type="text"
                       value={sponsorFirstname}
                       className="userfield"
-                      id="sponsorName"
+                      id="sponsorFirstname"
                       onChange={onchange}
                       placeholder=""
                     />
@@ -555,7 +591,9 @@ const ProductDescription: React.FC = (props: any) => {
               </div>
               <Col md={12}>
                 <div className="btnwwrap btnwwrap2">
-                  <div className="conform">Proceed</div>
+                  <div className="conform" onClick={CreateSubAccount}>
+                    {isloading?"Processing":"Proceed"}
+                  </div>
                 </div>
               </Col>
               <i
@@ -567,15 +605,8 @@ const ProductDescription: React.FC = (props: any) => {
         </Modal>
         <ToastContainer
           enableMultiContainer
-          containerId={"B"}
-          toastClassName="bg-danger text-white"
-          hideProgressBar={true}
-          position={toast.POSITION.TOP_CENTER}
-        />
-        <ToastContainer
-          enableMultiContainer
           containerId={"A"}
-          toastClassName="bg-success text-white"
+          toastClassName="bg-info text-white"
           hideProgressBar={true}
           position={toast.POSITION.TOP_CENTER}
         />

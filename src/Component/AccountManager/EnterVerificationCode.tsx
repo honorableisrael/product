@@ -52,10 +52,7 @@ const EnterVerificationCode: React.FunctionComponent = (props: any) => {
     if (inputVal5 && !inputVal6) {
       inputEl6.current.focus();
     }
-    if (inputVal6) {
-      return sendVerificationCode(e);
-    }
-    if (e.target.value.length >= 6) {
+    if (e.target.value.length > 6) {
       inputEl2.current.focus(); //submit form
     }
     setFormState({
@@ -68,6 +65,9 @@ const EnterVerificationCode: React.FunctionComponent = (props: any) => {
         inputEl5.current.value +
         inputEl6.current.value,
     });
+    if (inputVal6) {
+      return sendVerificationCode(e);
+    }
   };
   const { errorMessage, email, code, isloading, successMessage } = state;
   const onchange = (e: any) => {
@@ -81,6 +81,7 @@ const EnterVerificationCode: React.FunctionComponent = (props: any) => {
   React.useEffect(() => {
     const parseNew: any = localStorage.getItem("userEmail");
     const email = JSON.parse(parseNew);
+    console.log(email)
     setFormState({
       ...state,
       email: email,
@@ -99,38 +100,38 @@ const EnterVerificationCode: React.FunctionComponent = (props: any) => {
     const user: any = localStorage.getItem("userDetails");
     const user_id = JSON.parse(user);
     var token = user_id.token;
-    Axios.post(`${API}/api/v1/user/email/verify`, data, {
+    Axios.post(`${API}/user/email/verify`, data, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
-        // console.log(res)
-        if (res.data.responseStatus === 200) {
+        console.log(res)
+        if (res.status === 200) {
           setFormState({
             ...state,
             isloading: false,
-            errorMessage: res.data.responseMessage,
+            errorMessage: "Successfully",
           });
           props.history.push("/dashboard");
         }
-        if (res.data.responseStatus === 400) {
-          // console.log(res.data)
-          setFormState({
+      })
+      .catch((error) => {
+        console.log(error.response)
+        if (error.response.status === 400) {
+        return  setFormState({
             ...state,
             isloading: false,
-            errorMessage: res.data.responseMessage,
+            errorMessage: error.response.data.message,
           });
         }
 
-        if (res.data.responseStatus == 401) {
+        if (error.response.status == 401) {
           // console.log(res.data)
-          setFormState({
+        return  setFormState({
             ...state,
             isloading: false,
             errorMessage: "Incorrect Verification Code",
           });
         }
-      })
-      .catch((error) => {
         setFormState({
           ...state,
           isloading: false,
@@ -150,21 +151,21 @@ const EnterVerificationCode: React.FunctionComponent = (props: any) => {
     const data = {
       email,
     };
-    Axios.post(`${API}/api/v1/email/resend`, data, {
+    Axios.post(`${API}/email/resend`, data, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
         console.log(res);
-        if (res.data.responseStatus) {
+        if (res.status===200) {
           setFormState({
             ...state,
             errorMessage:"",
-            successMessage: res?.data?.responseMessage,
+            successMessage: "A new code has been sent to the provided email",
             isResending: false,
           });
           setTimeout(()=>{
             window.location.reload()
-          },2000)
+          },4000)
         }
       })
       .catch((err) => {

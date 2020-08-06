@@ -10,23 +10,36 @@ import RightSideBar from "./rightSideBar";
 import { Link } from "react-router-dom";
 import MobileSideNav from "./MobileSideNav";
 import Modal from "react-bootstrap/Modal";
+import Axios from "axios";
+import { API } from "../../config";
 
-
-
-const DashboardSubaccounts = () => {
+const DashboardSubaccounts = (props) => {
   const [state, setFormState] = React.useState({
     errorMessage: "",
+    subaccounts: [],
     passwordhide: true,
     show: false,
     isloading: false,
     visible: 6,
   });
-  const {
-    errorMessage,
-    passwordhide,
-    show
-  } = state;
-
+  const { errorMessage, passwordhide, show, subaccounts }: any = state;
+  React.useEffect(() => {
+    const loggedIn = localStorage.getItem("userDetails");
+    const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    Axios.get(`${API}/sub-accounts`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        console.log(res);
+        setFormState({
+          ...state,
+          subaccounts: res.data.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   const onchange = (e) => {
     setFormState({
       ...state,
@@ -38,11 +51,42 @@ const DashboardSubaccounts = () => {
       ...state,
       show: false,
     });
-    const handleShow = () =>
+  const handleShow = () =>
     setFormState({
       ...state,
       show: true,
     });
+  const convertToStandAlone = () => {
+    const loggedIn = localStorage.getItem("userDetails");
+    const userdata = loggedIn ? JSON.parse(loggedIn) : "";
+    const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    const subaccountId: any = props.match.params.id;
+    Axios.post(`${API}/sub-accounts/${subaccountId}/convert`)
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          setFormState({
+            ...state,
+            isloading: false,
+          });
+          setTimeout(() => {
+            props.history.push("/subaccountsuccess");
+          }, 2000);
+        }
+      })
+      .catch((err) => {
+        console.log(err.response);
+        if (err?.status === 400) {
+          return setFormState({
+            ...state,
+            isloading: false,
+            errorMessage:
+              err?.data?.message || err?.data?.message || err?.data?.statusText,
+          });
+        }
+      });
+  };
+  console.log(subaccounts);
   return (
     <>
       <NavBar />
@@ -51,7 +95,7 @@ const DashboardSubaccounts = () => {
           <SideBar subaccounts={true} />
           <Col md={10} className="mainbody11">
             <Row className="rowss">
-            <MobileSideNav/>
+              <MobileSideNav />
               <Col md={8} className="">
                 <div className="sponsorsacc col-md-11">
                   <div>Sub-Accounts</div>
@@ -59,36 +103,28 @@ const DashboardSubaccounts = () => {
                     View all sub-accounts under your account.
                   </div>
                 </div>
-                <div className="suss1">
-                  <div className="emil1">
-                    <img
-                      src={useraccount}
-                      className="useraccount"
-                      alt="useraccount"
-                    />
-                    <div>
-                      <div className="usernameo1">
-                        <Link to="/convertsubaccount">Adeshina Adedapo</Link>
+                {subaccounts?.map((data, i) => (
+                  <div className="suss1" key={i}>
+                    <div className="emil1">
+                      <img
+                        src={useraccount}
+                        className="useraccount"
+                        alt="useraccount"
+                      />
+                      <div>
+                        <div className="usernameo1">
+                          <Link to={`/subaccount/${data.id}`}>
+                            {data.first_name} {data.last_name}
+                          </Link>
+                        </div>
+                        <div className="em11">{data.email}</div>
                       </div>
-                      <div className="em11">meetdapo1@gmail.com</div>
+                    </div>
+                    <div className="conveta" onClick={handleShow}>
+                      Convert
                     </div>
                   </div>
-                  <div className="conveta" onClick={handleShow}>Convert</div>
-                </div>
-                <div className="suss1">
-                  <div className="emil1">
-                    <img
-                      src={useraccount}
-                      className="useraccount"
-                      alt="useraccount"
-                    />
-                    <div>
-                      <div className="usernameo1">Adeshina Adedapo</div>
-                      <div className="em11">meetdapo1@gmail.com</div>
-                    </div>
-                  </div>
-                  <div className="conveta">Convert</div>
-                </div>
+                ))}
               </Col>
               <Modal show={show} centered={true} onHide={handleClose}>
                 <div className="ssds1w">
@@ -108,13 +144,9 @@ const DashboardSubaccounts = () => {
                     <div className="caaa">This action can't be undone</div>
                     <div className="dsdds">
                       <div className="continue1a" onClick={handleClose}>
-                        <a  className="continuelk">
-                          Back
-                        </a>
+                        <a className="continuelk">Back</a>
                       </div>
-                      <div className="continueb">
-                        Continue
-                      </div>
+                      <div className="continueb" onClick={convertToStandAlone}>Continue</div>
                     </div>
                   </Modal.Body>
                 </div>

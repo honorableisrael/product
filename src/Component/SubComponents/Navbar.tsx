@@ -16,7 +16,7 @@ const NavBar = () => {
     const details: any = localStorage.getItem("userDetails");
     const info = JSON.parse(details);
     var token = info.token;
-    Axios.get(`${API}/api/v1/logout`, {
+    Axios.get(`${API}/logout`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {

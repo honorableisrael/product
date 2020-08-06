@@ -18,8 +18,8 @@ import { useEffect } from "react";
 import Axios from "axios";
 import { API } from "../../config";
 import MobileSideNav from "./MobileSideNav";
-
-
+import standingman from "../../assets/standingman.svg";
+import prodcash from "../../assets/prodcash.png";
 
 const Dashboard = (props: any) => {
   const [state, setNewState] = React.useState({
@@ -41,7 +41,7 @@ const Dashboard = (props: any) => {
     isverified: false,
     subject: "",
     iscomplete: true,
-    isloading: "",
+    isloading: false,
     collectedReturn: "",
   });
   const {
@@ -49,10 +49,15 @@ const Dashboard = (props: any) => {
     products,
     endOfCycle,
     isverified,
+    isloading,
     expectedReturn,
     collectedReturn,
-  } = state;
+  }: any = state;
   useEffect(() => {
+    setNewState({
+      ...state,
+      isloading: true,
+    });
     const loggedIn = localStorage.getItem("userDetails");
     const userdata = loggedIn
       ? JSON.parse(loggedIn)
@@ -67,25 +72,28 @@ const Dashboard = (props: any) => {
       props.history.push("/realtime");
     }
     const userId = userdata.user.id;
-    Axios.get(`${API}/api/v1/user/${userId}/statistics`, {
+    Axios.get(`${API}/user/trade-summary`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
         console.log(res);
         setNewState({
           ...state,
-          endOfCycle: res.data.endOfCycle,
-          expectedReturn: res.data.expectedReturn,
-          collectedReturn: res.data.collectedReturn,
+          user: res.data.data[0],
+          isloading: false,
         });
       })
       .catch((err) => {
         setNewState({
           ...state,
           errorMessage: "Failed to load try again later",
+          isloading: false,
         });
       });
   }, []);
+  const FormatAmount = (amount) => {
+    return amount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
   return (
     <>
       <NavBar />
@@ -94,23 +102,64 @@ const Dashboard = (props: any) => {
           <SideBar dashboard={true} />
           <Col md={10} className="mainbody11">
             <Row className="rowss">
-              <MobileSideNav/>
-              <Col md={8} className="modea revcol1">
-                <div className="midcontent">
-                  <img
-                    src={dashcenter}
-                    className="dashcenter"
-                    alt="dashcenter"
-                  />
-                  <div className="noactivities">No Activities</div>
-                  <div>
-                    You currently have no active sponsorship activity. Explore
-                    our exciting opportunities to get started.
+              <MobileSideNav />
+              <Col
+                md={8}
+                className={
+                  user.numberPurchased > 0 ? "prodcu" : "modea revcol1"
+                }
+              >
+                {user?.numberPurchased == 0 && (
+                  <div className="midcontent">
+                    <img
+                      src={dashcenter}
+                      className="dashcenter"
+                      alt="dashcenter"
+                    />
+                    <div className="noactivities">No Activities</div>
+                    <div>
+                      You currently have no active sponsorship activity. Explore
+                      our exciting opportunities to get started.
+                    </div>
+                    <div className="exploreprod">
+                      <Link to="/products">EXPLORE PRODUCTS</Link>
+                    </div>
                   </div>
-                  <div className="exploreprod">
-                    <Link to="/products">EXPLORE PRODUCTS</Link>
-                  </div>
-                </div>
+                )}
+                {user?.numberPurchased !== 0 && !isloading && (
+                  <>
+                    <div className="wr111">
+                      <div className="productcash">
+                        <img
+                          src={standingman}
+                          className="mancashimg"
+                          alt="productcash"
+                        />
+                      </div>
+                      <div>
+                        <div className="productsdash">Products</div>
+                        <div className="productsdash1">Total Subscribed</div>
+                      </div>
+                      <div className="productsdash2">
+                        {user?.numberPurchased}
+                      </div>
+                    </div>
+                    <div className="wr111">
+                      <img
+                        src={prodcash}
+                        className="productcash"
+                        alt="productcash"
+                      />
+                      <div>
+                        <div className="productsdash">Sales</div>
+                        <div className="productsdash1">Total Sales</div>
+                      </div>
+                      <div className="productsdash2">
+                        ₦{FormatAmount(user?.totalSales)}
+                      </div>
+                    </div>
+                  </>
+                )}
               </Col>
               <RightSideBar
                 endOfCycle={endOfCycle}

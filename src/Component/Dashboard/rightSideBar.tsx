@@ -41,21 +41,21 @@ const RightSideBar = withRouter((props: any) => {
     const loggedIn = localStorage.getItem("userDetails");
     const userdata = loggedIn ? JSON.parse(loggedIn) : "";
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
-    Axios.get(`${API}/api/v1/user`, {
+    Axios.get(`${API}/user`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
         console.log(res);
-        if (res?.data?.responseStatus === 401) {
+        if (res?.status === 401) {
           props.history.push("/signin");
         }
-        if (res.data.user.verified === false) {
+        if (res.data.data.verified === false) {
           return props.history.push("/verify-account");
         }
-        if (res?.data?.user?.verified === true) {
+        if (res?.data?.data?.verified === true) {
           setFormState({
             ...state,
-            user: res.data.user,
+            user: res.data.data,
           });
         }
       })
@@ -79,16 +79,16 @@ const RightSideBar = withRouter((props: any) => {
       props.history.push("/realtime");
     }
     const userId = userdata.user.id;
-    Axios.get(`${API}/api/v1/user/${userId}/statistics`, {
+    Axios.get(`${API}/user/statistics`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
         console.log(res);
         setNewState({
           ...Appstate,
-          endOfCycle: res.data.endOfCycle,
-          expectedReturn: res.data.expectedReturn,
-          collectedReturn: res.data.collectedReturn,
+          endOfCycle: res.data.data.endOfCycle,
+          expectedReturn: res.data.data.expectedReturn,
+          collectedReturn: res.data.data.collectedReturn,
         });
       })
       .catch((err) => {
@@ -110,7 +110,7 @@ const RightSideBar = withRouter((props: any) => {
       subject,
       message,
     };
-    Axios.post(`${API}/api/v1/contact/crm`, data, {
+    Axios.post(`${API}/contact/crm`, data, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
@@ -192,7 +192,7 @@ const RightSideBar = withRouter((props: any) => {
   const FormatAmount = (amount) => {
     return "₦" + amount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
-  console.log(props);
+  console.log(user);
   return (
     <>
       <Col md={4} style={{ background: props.bg }} className="revcol2">

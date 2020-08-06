@@ -66,12 +66,12 @@ const About: React.FunctionComponent<IAppProps> = (props: any) => {
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
-    Axios.get(`${API}/api/v1/category`)
+    Axios.get(`${API}/category`)
       .then((res) => {
         console.log(res);
         setNewState({
           ...state,
-          categories: res.data.categories,
+          categories: res.data.data,
         });
       })
       .catch((err) => {

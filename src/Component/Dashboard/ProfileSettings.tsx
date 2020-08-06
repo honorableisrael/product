@@ -62,12 +62,12 @@ const ProfileSettings = (props) => {
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
     const data = new FormData();
     data.append("image", selectedFile);
-    Axios.post(`${API}/api/v1/user/${userinfo.user.id}/profile-picture`, data, {
+    Axios.post(`${API}/user/upload-picture`, data, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
         console.log(res);
-        if (res.data.responseStatus === 200) {
+        if (res.status === 200) {
           setFormState({
             ...state,
             isloading: false,
@@ -96,21 +96,18 @@ const ProfileSettings = (props) => {
     const loggedIn = localStorage.getItem("userDetails");
     const userdata = loggedIn ? JSON.parse(loggedIn) : "";
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
-    Axios.get(`${API}/api/v1/user`, {
+    Axios.get(`${API}/user`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
-        console.log(res);
-        if (res?.data?.responseStatus === 401) {
-          props.history.push("/signin");
-        }
-        if (res.data.user.verified === false) {
+        console.log(res);    
+        if (res.data.data.verified === false) {
           return props.history.push("/verify-account");
         }
-        if (res?.data?.user?.verified === true) {
+        if (res?.data?.data?.verified === true) {
           setFormState({
             ...state,
-            user: res.data.user,
+            user: res.data.data,
           });
         }
       })

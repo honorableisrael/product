@@ -54,34 +54,32 @@ const EnterNewPassword: React.FunctionComponent = (props: any) => {
       password_confirmation: password,
       password,
     };
-    Axios.post(`${API}/api/v1/password/reset`, data)
+    Axios.post(`${API}/password/reset`, data)
       .then((res) => {
         console.log(res);
-        if (res.data.responseStatus === 200) {
+        if (res.status === 200) {
           setFormState({
             ...state,
             isloading: false,
-            successMessage: res.data.responseMessage,
+            successMessage: res.data.message,
           });
           setTimeout(() => {
             props.history.push("/signin");
           }, 2000);
         }
-        if (res?.data?.responseStatus === 400) {
+      })
+      .catch((err) => {
+        console.log(err.response);
+        if (err?.status === 400) {
           return setFormState({
             ...state,
             isloading: false,
             error: true,
             show: true,
             errorMessage:
-              res?.data?.message ||
-              res?.data?.message ||
-              res?.data?.responseMessage,
+              err?.data?.message || err?.data?.message || err?.data?.statusText,
           });
         }
-      })
-      .catch((err) => {
-        console.log(err.response);
         setFormState({
           ...state,
           isloading: false,
@@ -169,7 +167,9 @@ const EnterNewPassword: React.FunctionComponent = (props: any) => {
                   <div className="checkwrap2">
                     <div>
                       Remember your password?{" "}
-                      <span className="forgotpass"><Link to="/signin">Login</Link></span>
+                      <span className="forgotpass">
+                        <Link to="/signin">Login</Link>
+                      </span>
                     </div>
                   </div>
                 </Form.Group>

@@ -14,8 +14,9 @@ import { useState } from "react";
 import MobileSideNav from "./MobileSideNav";
 import Axios from "axios";
 import { API } from "../../config";
+import Modal from "react-bootstrap/Modal";
 
-const DashboardSubaccountsConvert = () => {
+const DashboardSubaccountsConvert = (props: any) => {
   const [state, setFormState] = useState({
     errorMessage: "",
     email: "",
@@ -41,6 +42,36 @@ const DashboardSubaccountsConvert = () => {
     accountnumber,
     bankname,
   } = state;
+  const convertToStandAlone = () => {
+    const loggedIn = localStorage.getItem("userDetails");
+    const userdata = loggedIn ? JSON.parse(loggedIn) : "";
+    const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    const subaccountId: any = props.match.params.id;
+    Axios.post(`${API}/sub-accounts/${subaccountId}/convert`)
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          setFormState({
+            ...state,
+            isloading: false,
+          });
+          setTimeout(() => {
+            props.history.push("/subaccountsuccess");
+          }, 2000);
+        }
+      })
+      .catch((err) => {
+        console.log(err.response);
+        if (err?.status === 400) {
+          return setFormState({
+            ...state,
+            isloading: false,
+            errorMessage:
+              err?.data?.message || err?.data?.message || err?.data?.statusText,
+          });
+        }
+      });
+  };
   const onchange = (e) => {
     setFormState({
       ...state,
@@ -57,14 +88,16 @@ const DashboardSubaccountsConvert = () => {
     const loggedIn = localStorage.getItem("userDetails");
     const userdata = loggedIn ? JSON.parse(loggedIn) : "";
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    const subaccountId: any = props.match.params.id;
     //load  product list
-    Axios.get(`${API}/api/v1/user`, {
+    Axios.get(`${API}/sub-accounts/${subaccountId}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
+        console.log(res);
         setFormState({
           ...state,
-          products: res.data.user.orders.reverse(),
+          user: res.data.data,
           isloading: false,
         });
         console.log(products);
@@ -73,7 +106,7 @@ const DashboardSubaccountsConvert = () => {
         console.log(err);
         setFormState({
           ...state,
-          errorMessage: "Failed to load Products",
+          errorMessage: "Failed to Load Sub Account",
           isloading: false,
         });
       });
@@ -92,6 +125,11 @@ const DashboardSubaccountsConvert = () => {
       };
     });
   };
+  const handleShow = () =>
+    setFormState({
+      ...state,
+      show: true,
+    });
   return (
     <>
       <NavBar />
@@ -119,15 +157,16 @@ const DashboardSubaccountsConvert = () => {
                         alt="useraccount"
                       />
                       <div>
-                        <div className="usernameo1">Adeshina Adedapo</div>
-                        <div className="em11">meetdapo1@gmail.com</div>
+                        <div className="usernameo1">
+                          {user?.subAccount?.first_name}{" "}
+                          {user?.subAccount?.last_name}
+                        </div>
+                        <div className="em11">{user?.subAccount?.email}</div>
                       </div>
                     </div>
-                    <div>
-                      <div className="phonene">Phone</div>
-                      <div className="numssd">09287377311</div>
+                    <div className="conveta" onClick={handleShow}>
+                      Convert
                     </div>
-                    <div className="conveta">Convert</div>
                   </div>
                   <div>
                     <Form className="jjsus">
@@ -255,7 +294,7 @@ const DashboardSubaccountsConvert = () => {
                     </Col>
                   )}
                 </div>
-                <div>
+                {/* <div>
                   <div className="prodpurchased prodda">Other Sub-Accounts</div>
                   <div className="othersubacct">
                     <img src={useraccount} className="avatr" alt="avatr" />
@@ -265,8 +304,33 @@ const DashboardSubaccountsConvert = () => {
                       <div className="msse2">Convert</div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </Col>
+              <Modal show={show} centered={true} onHide={handleClose}>
+                <div className="ssds1w">
+                  <Modal.Header closeButton>
+                    <Modal.Title className="mks1">
+                      {" "}
+                      <div>
+                        <span className="mks2">CONFIRM CONVERT</span>{" "}
+                      </div>
+                    </Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <div className="congg">
+                      Are you sure you want to make this account a standalone
+                      account?
+                    </div>
+                    <div className="caaa">This action can't be undone</div>
+                    <div className="dsdds">
+                      <div className="continue1a" onClick={handleClose}>
+                        <a className="continuelk">Back</a>
+                      </div>
+                      <div className="continueb" onClick={convertToStandAlone}>Continue</div>
+                    </div>
+                  </Modal.Body>
+                </div>
+              </Modal>
               <RightSideBar />
             </Row>
           </Col>

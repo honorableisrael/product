@@ -46,27 +46,13 @@ const ForgotPassword: React.FunctionComponent = (props: any) => {
     const data = {
       email,
     };
-    Axios.post(`${API}/api/v1/password/email`, data)
-      .then((res) => {
+    Axios.post(`${API}/password/email`, data)
+      .then(res => {
         console.log(res);
-        if (res.data.responseStatus == "422") {
+        if (res?.status === 200) {
           return setFormState({
             ...state,
-            errorMessage: res.statusText,
-            isloading: false,
-          });
-        }
-        if (res.data.responseStatus == 400) {
-          return setFormState({
-            ...state,
-            errorMessage: res.data.responseMessage,
-            isloading: false,
-          });
-        }
-        if (res.data.responseStatus == "200") {
-          return setFormState({
-            ...state,
-            successMessage: res.data.responseMessage,
+            successMessage: res.data.message,
             isloading: false,
           });
         }
@@ -76,6 +62,20 @@ const ForgotPassword: React.FunctionComponent = (props: any) => {
         });
       })
       .catch((err) => {
+        if (err.status == 422) {
+          return setFormState({
+            ...state,
+            errorMessage: err?.statusText,
+            isloading: false,
+          });
+        }
+        if (err.status == 400) {
+          return setFormState({
+            ...state,
+            errorMessage: err.data.message,
+            isloading: false,
+          });
+        }
         setFormState({
           ...state,
           isloading: false,

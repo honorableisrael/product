@@ -14,7 +14,9 @@ import { Link } from "react-router-dom";
 
 interface IAppProps {}
 
-const SubAccountConversionSuccess: React.FunctionComponent<IAppProps> = (props: any) => {
+const SubAccountConversionSuccess: React.FunctionComponent<IAppProps> = (
+  props: any
+) => {
   const [state, setNewState] = useState({
     product: "",
     filter: "",
@@ -81,7 +83,9 @@ const SubAccountConversionSuccess: React.FunctionComponent<IAppProps> = (props: 
               Your request to convert sub-account to standalone account was
               successful.
             </div>
-            <div className="Continue">Continue</div>
+            <div className="Continue">
+              <Link to="/dashboardsubaccounts">Continue</Link>
+            </div>
           </Col>
         </Row>
         <GetMobileApp />

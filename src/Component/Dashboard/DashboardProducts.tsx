@@ -40,9 +40,9 @@ const DashboardProducts = () => {
                     <Tab eventKey="PersonalDetails" title="Products Purchased">
                       <ProductPurchased />
                     </Tab>
-                    <Tab eventKey="ContactDetails" title="Products Reserved">
+                    {/* <Tab eventKey="ContactDetails" title="Products Reserved">
                       <ProductReservedTab />
-                    </Tab>
+                    </Tab> */}
                     <Tab eventKey="nxtofkin" title="Transaction Summary">
                       <PurchaseSummary />
                     </Tab>

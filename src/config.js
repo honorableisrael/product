@@ -1,1 +1,1 @@
-export const API ='https://staging.pramopro.com'
+export const API ='https://staging-api.pramopro.com/api/v2'

@@ -8,8 +8,40 @@ import SideBar from "./sidebar";
 import RightSideBar from "./rightSideBar";
 import arrowleft from "../../assets/navigate_next.svg";
 import MobileSideNav from "./MobileSideNav";
+import Axios from "axios";
+import { API } from "../../config";
+import { useState } from "react";
 
-const DashboardHistory = () => {
+const DashboardHistory = (props: any) => {
+  const [state, setFormState] = useState({
+    show: false,
+    subject: "",
+    message: "",
+    errorMessage: "",
+    user: {},
+    isloading: false,
+  });
+  React.useEffect(() => {
+    const loggedIn = localStorage.getItem("userDetails");
+    const userdata = loggedIn ? JSON.parse(loggedIn) : "";
+    const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    Axios.get(`${API}/user/history`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        console.log(res);
+        setFormState({
+          ...state,
+          user: res.data.data,
+        });
+      })
+      .catch((err) => {
+        if (err?.status === 401) {
+          props.history.push("/signin");
+        }
+        console.log(err);
+      });
+  }, []);
   return (
     <>
       <NavBar />
@@ -18,7 +50,7 @@ const DashboardHistory = () => {
           <SideBar history={true} />
           <Col md={10} className="mainbody11">
             <Row className="rowss">
-            <MobileSideNav/>
+              <MobileSideNav />
               <Col md={8} className="prodcu">
                 <div className="historywrap">
                   <div>History</div>
