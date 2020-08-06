@@ -25,6 +25,7 @@ type State = {
   amountperbarrel: number;
   product: string;
   rate: number;
+  sub_account_id:number| null;
   errorMessage: string;
   sponsorFirstname: string;
   sponsorLastName: string;
@@ -44,11 +45,18 @@ const ProductDescription: React.FC = (props: any) => {
     errorMessage: "",
     sponsorFirstname: "",
     sponsorLastName: "",
+    sub_account_id:null,
     sponsorEmail: "",
     isloading: false,
   });
+  const [sub, setFormState] = React.useState({
+    errorMessage: "",
+    subaccounts: [],
+  });
+  const { subaccounts } = sub;
   const {
     show,
+    sub_account_id,
     success,
     errorMessage,
     sponsorEmail,
@@ -58,7 +66,7 @@ const ProductDescription: React.FC = (props: any) => {
     rate,
     amountperbarrel,
     numberofbarrels,
-    isloading
+    isloading,
   }: any = state;
   React.useEffect(() => {
     window.scrollTo(-0, -0);
@@ -90,6 +98,25 @@ const ProductDescription: React.FC = (props: any) => {
         console.log(err);
       });
   }, []);
+  React.useEffect(() => {
+    const loggedIn = localStorage.getItem("userDetails");
+    const token = loggedIn
+      ? JSON.parse(loggedIn).token
+      : props.history.push("/signin");
+    Axios.get(`${API}/sub-accounts`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        console.log(res);
+        setFormState({
+          ...sub,
+          subaccounts: res.data.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },[]);
   const onchange = (e) => {
     setNewState({
       ...state,
@@ -116,18 +143,18 @@ const ProductDescription: React.FC = (props: any) => {
         if (res.status === 201) {
           notify(res?.data?.message);
         }
-        setTimeout(()=>{
-          window.location.reload() 
-        },3000)
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       })
       .catch((err) => {
         console.log(err);
         if (err) {
           notify("Failed to create");
         }
-        setTimeout(()=>{
-          window.location.reload() 
-        },3000)
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       });
   };
   const placeOrderForProduct = () => {
@@ -140,6 +167,7 @@ const ProductDescription: React.FC = (props: any) => {
     const productId = props.match.params.id;
     const data = {
       amount: state.numberofbarrels,
+      sub_account_id
     };
     Axios.post(`${API}/products/${productId}/order`, data, {
       headers: { Authorization: `Bearer ${token.token}` },
@@ -148,7 +176,10 @@ const ProductDescription: React.FC = (props: any) => {
         console.log(res);
         if (res.status === 201) {
           localStorage.setItem("orderDetails", JSON.stringify(res.data.data));
-          localStorage.setItem("orderDetailsProfile", JSON.stringify(res.data.data));
+          localStorage.setItem(
+            "orderDetailsProfile",
+            JSON.stringify(res.data.data)
+          );
           setTimeout(() => {
             props.history.push("/completeorder");
           }, 3000);
@@ -156,7 +187,7 @@ const ProductDescription: React.FC = (props: any) => {
             ...state,
             isloading: false,
           });
-         return notify(res.data.message, "A");
+          return notify(res.data.message, "A");
         }
         if (res.data && res.status === 307) {
           setNewState({
@@ -179,7 +210,7 @@ const ProductDescription: React.FC = (props: any) => {
             ...state,
             isloading: false,
           });
-         return notify(err?.response?.message, "B");
+          return notify(err?.response?.message, "B");
         }
         notify("Order Failed!", "B");
         console.log(err.response);
@@ -345,9 +376,17 @@ const ProductDescription: React.FC = (props: any) => {
     if (e?.target?.value === "others") {
       return handleShow();
     }
+    if(e.target.value==="self"){
+     return setNewState({
+        ...state,
+        orderFor: e.target.value,
+        sub_account_id:0
+      });
+    }
     setNewState({
       ...state,
       orderFor: e.target.value,
+      sub_account_id:e.target.value
     });
   };
   const handleDecrease = () => {
@@ -506,6 +545,9 @@ const ProductDescription: React.FC = (props: any) => {
                         <option className="payfor" value="others">
                           Others
                         </option>
+                        {subaccounts.map((data:any, ind) => (
+                          <option key={ind} value={data.id}>{data.first_name}</option>
+                        ))}
                       </Form.Control>
                     </div>
                   </div>
@@ -547,7 +589,10 @@ const ProductDescription: React.FC = (props: any) => {
             </Modal.Header>
             <Modal.Body>
               <p className="text-success messagetocrm"> {success}</p>
-              <p className="text-danger loginerror messagetocrm"> {errorMessage}</p>
+              <p className="text-danger loginerror messagetocrm">
+                {" "}
+                {errorMessage}
+              </p>
               <div className="">
                 <div>
                   <Form.Group>
@@ -592,7 +637,7 @@ const ProductDescription: React.FC = (props: any) => {
               <Col md={12}>
                 <div className="btnwwrap btnwwrap2">
                   <div className="conform" onClick={CreateSubAccount}>
-                    {isloading?"Processing":"Proceed"}
+                    {isloading ? "Processing" : "Proceed"}
                   </div>
                 </div>
               </Col>

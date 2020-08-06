@@ -7,6 +7,8 @@ import Form from "react-bootstrap/Form";
 import allCountries from "./listOfCountriesInTheWorld";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import Axios from "axios";
+import { API } from "../../config";
 
 
 
@@ -15,12 +17,21 @@ const ContactDetails = () => {
     errorMessage: "",
     address: "",
     isloading: false,
-    state_city: "",
-    Bank_Country:"",
+    user: "",
+    firstname: "",
+    lastname: "",
+    dob: "",
     gender: "",
+    country: "",
+    phone: "",
+    nationality: "",
+    stateOfResidence: "",
+    email: "",
+    state_city: "",
+    Country:"Nigeria",
     city: "",
   });
-  const { errorMessage, state_city, gender, city, address, isloading,Bank_Country } = state;
+  const { errorMessage, state_city, gender, city, address, isloading,Country } = state;
   const onchange = (e: any) => {
     setFormState({
       ...state,
@@ -30,7 +41,7 @@ const ContactDetails = () => {
   const handleChange = (e) => {
     setFormState({
       ...state,
-      gender: e.target.value,
+      Country: e.target.value,
     });
   };
   const notify = (message: string, container = "A") => {
@@ -38,6 +49,69 @@ const ContactDetails = () => {
     setTimeout(()=>{
       window.location.reload()
     },2000)
+  };
+  React.useEffect(() => {
+    const loggedIn = localStorage.getItem("userDetails");
+    const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    Axios.get(`${API}/user`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        console.log(res)
+        setFormState({
+          ...state,
+          user: res.data.data,
+          firstname: res.data.data ? res.data.data.firstname : "",
+          lastname: res.data.data ? res.data.data.lastname : "",
+          email: res.data.data ? res.data.data.username : "",
+          phone: res.data.data ? res.data.data.phone : "",
+          address: res.data.data ? res.data.data.address : "",
+          country: res.data.data ? res.data.data.country : "Nigeria",
+          state_city: res.data.data ? res.data.data.state : "",
+          dob: res.data.data ? res.data.data.dob : "",
+          gender: res.data.data ? res.data.data.sex : "",
+        });
+      })
+      .catch((err) => {
+        // console.log(err)
+      });
+  }, []);
+  const updateContactDetails = () => {
+    setFormState({
+      ...state,
+      isloading: true,
+    });
+    console.log("running")
+    const userinfo: any = localStorage.getItem("userDetails");
+    const user_id = JSON.parse(userinfo);
+    const id = user_id.user.id;
+    var token = user_id.token;
+    const data = {
+      country:Country,
+      address,
+      state:state_city,
+    };
+    Axios.put(`${API}/user/update`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        console.log(res);
+        setFormState({
+          ...state,
+          isloading: false,
+          errorMessage: "",
+        });
+        notify("Update Successfull");
+      })
+      .catch((err) => {
+           console.log(err)
+        setFormState({
+          ...state,
+          isloading: false,
+          errorMessage: "Failed to update",
+        });
+        notify("Update Failed", "B");
+      });
   };
   return (
     <>
@@ -73,7 +147,7 @@ const ContactDetails = () => {
                     onChange={handleChange}
                   >
                     <option>
-                      {Bank_Country ? Bank_Country : "Not Chosen..."}
+                      {Country ? Country : "Not Chosen..."}
                     </option>
                     {allCountries.map((x) => (
                       <option value={x.name} key={x.name} id="country">
@@ -127,7 +201,7 @@ const ContactDetails = () => {
           </Form>
           <Row className="sds">
             <div>
-              <div className="updatebtn">Update</div>
+              <div className="updatebtn" onClick={updateContactDetails}>Update</div>
             </div>
           </Row>
         </Col>

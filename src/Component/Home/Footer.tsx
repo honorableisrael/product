@@ -61,14 +61,14 @@ const Footer = () => {
               </div>
             </div>
             <div className="Appwrapper">
-              <img src={appStore2} className="playstore1" alt="playstore" />
               <a
                 href="https://play.google.com/store/apps/details?id=com.pramopro.app"
                 className="playstorelink"
                 target="blank"
               >
-                {/* <img src={appStore1} className="playstore1" alt="app-store" /> */}
+                <img src={appStore2} className="playstore1" alt="playstore" />
               </a>
+              {/* <img src={appStore1} className="playstore1" alt="app-store" /> */}
             </div>
           </div>
         </Col>

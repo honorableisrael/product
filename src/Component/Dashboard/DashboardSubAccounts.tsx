@@ -19,10 +19,17 @@ const DashboardSubaccounts = (props) => {
     subaccounts: [],
     passwordhide: true,
     show: false,
+    convertId: "",
     isloading: false,
     visible: 6,
   });
-  const { errorMessage, passwordhide, show, subaccounts }: any = state;
+  const {
+    errorMessage,
+    passwordhide,
+    show,
+    convertId,
+    subaccounts,
+  }: any = state;
   React.useEffect(() => {
     const loggedIn = localStorage.getItem("userDetails");
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
@@ -51,17 +58,24 @@ const DashboardSubaccounts = (props) => {
       ...state,
       show: false,
     });
-  const handleShow = () =>
+  const handleShow = (id) =>
     setFormState({
       ...state,
       show: true,
+      convertId: id,
     });
   const convertToStandAlone = () => {
+    console.log(convertId);
     const loggedIn = localStorage.getItem("userDetails");
     const userdata = loggedIn ? JSON.parse(loggedIn) : "";
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
-    const subaccountId: any = props.match.params.id;
-    Axios.post(`${API}/sub-accounts/${subaccountId}/convert`)
+    Axios.post(
+      `${API}/sub-accounts/${convertId}/convert`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
       .then((res) => {
         console.log(res);
         if (res.status === 200) {
@@ -84,6 +98,11 @@ const DashboardSubaccounts = (props) => {
               err?.data?.message || err?.data?.message || err?.data?.statusText,
           });
         }
+        return setFormState({
+          ...state,
+          isloading: false,
+          errorMessage:"Failed to convert"
+        });
       });
   };
   console.log(subaccounts);
@@ -120,7 +139,10 @@ const DashboardSubaccounts = (props) => {
                         <div className="em11">{data.email}</div>
                       </div>
                     </div>
-                    <div className="conveta" onClick={handleShow}>
+                    <div
+                      className="conveta"
+                      onClick={() => handleShow(data.id)}
+                    >
                       Convert
                     </div>
                   </div>
@@ -141,12 +163,15 @@ const DashboardSubaccounts = (props) => {
                       Are you sure you want to make this account a standalone
                       account?
                     </div>
+                    <p>{errorMessage}</p>
                     <div className="caaa">This action can't be undone</div>
                     <div className="dsdds">
                       <div className="continue1a" onClick={handleClose}>
                         <a className="continuelk">Back</a>
                       </div>
-                      <div className="continueb" onClick={convertToStandAlone}>Continue</div>
+                      <div className="continueb" onClick={convertToStandAlone}>
+                        Continue
+                      </div>
                     </div>
                   </Modal.Body>
                 </div>

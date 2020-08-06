@@ -19,7 +19,7 @@ const BankDetails = (props) => {
     bank_name: "",
     account_no: "",
     success: false,
-    BankList: {},
+    BankList: [],
     islocal: true,
     isloading: false,
   });
@@ -102,27 +102,19 @@ const BankDetails = (props) => {
           headers: { Authorization: `Token ${token}` },
         }),
         axios.get(`${API}/user/bank-details`, {
-          headers: { Authorization: `Token ${token}` },
+          headers: { Authorization: `Bearer ${token}` },
         }),
       ])
       .then(
         axios.spread((firstresponse, secondresponse) => {
           console.log(firstresponse);
           console.log(secondresponse);
-          if (firstresponse?.status == 200 && secondresponse?.status == 200) {
+          if (firstresponse?.status == 200 || secondresponse?.status == 200) {
             setFormState({
               ...state,
-              account_no:
-                secondresponse.data.data &&
-                secondresponse.data.data.bank_details
-                  ? secondresponse.data.user.bank_details.account_no
-                  : "",
-              bank_name: secondresponse.data.data
-                ? secondresponse.data.data.bank_details.bank_name
-                : "",
-              account_name: secondresponse.data.data
-                ? secondresponse.data.data.bank_details.account_name
-                : "",
+              account_no: secondresponse?.data?.data?.account_no,
+              bank_name: secondresponse.data.data.bank_name,
+              account_name: secondresponse.data.data.account_name,
               BankList: firstresponse.data.data,
             });
           }
@@ -169,7 +161,7 @@ const BankDetails = (props) => {
                     onChange={handleChange}
                   >
                     <option>{bank_name ? bank_name : "Not Chosen..."}</option>
-                    {BankList?.length > 0 &&
+                    {BankList.length > 0 &&
                       BankList?.map((x) => (
                         <option value={x.name} key={x.name} id="country">
                           {x.name}

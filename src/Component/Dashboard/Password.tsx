@@ -61,7 +61,7 @@ const Password = () => {
       password,
       confirmPassword,
     };
-    Axios.post(`${API}/api/v1/user/${id}/password/update`, data, {
+    Axios.post(`${API}/user/password/update`, data, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {

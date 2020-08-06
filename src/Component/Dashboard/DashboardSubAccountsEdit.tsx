@@ -47,7 +47,9 @@ const DashboardSubaccountsConvert = (props: any) => {
     const userdata = loggedIn ? JSON.parse(loggedIn) : "";
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
     const subaccountId: any = props.match.params.id;
-    Axios.post(`${API}/sub-accounts/${subaccountId}/convert`)
+    Axios.post(`${API}/sub-accounts/${subaccountId}/convert`,{},{
+      headers: { Authorization: `Bearer ${token}` }
+    })
       .then((res) => {
         console.log(res);
         if (res.status === 200) {
@@ -326,7 +328,9 @@ const DashboardSubaccountsConvert = (props: any) => {
                       <div className="continue1a" onClick={handleClose}>
                         <a className="continuelk">Back</a>
                       </div>
-                      <div className="continueb" onClick={convertToStandAlone}>Continue</div>
+                      <div className="continueb" onClick={convertToStandAlone}>
+                        Continue
+                      </div>
                     </div>
                   </Modal.Body>
                 </div>

@@ -11,6 +11,7 @@ import MobileSideNav from "./MobileSideNav";
 import Axios from "axios";
 import { API } from "../../config";
 import { useState } from "react";
+const moment = require("moment");
 
 const DashboardHistory = (props: any) => {
   const [state, setFormState] = useState({
@@ -18,9 +19,12 @@ const DashboardHistory = (props: any) => {
     subject: "",
     message: "",
     errorMessage: "",
-    user: {},
+    nextLink: "",
+    prevLink: "",
+    user: [],
     isloading: false,
   });
+  const { user, nextLink, prevLink }: any = state;
   React.useEffect(() => {
     const loggedIn = localStorage.getItem("userDetails");
     const userdata = loggedIn ? JSON.parse(loggedIn) : "";
@@ -32,7 +36,9 @@ const DashboardHistory = (props: any) => {
         console.log(res);
         setFormState({
           ...state,
-          user: res.data.data,
+          user: res.data.data.data,
+          nextLink: res.data.data.links.next,
+          prevLink: res.data.data.links.prev,
         });
       })
       .catch((err) => {
@@ -42,6 +48,70 @@ const DashboardHistory = (props: any) => {
         console.log(err);
       });
   }, []);
+  const LoadNewData = () => {
+    const loggedIn = localStorage.getItem("userDetails");
+    const userdata = loggedIn ? JSON.parse(loggedIn) : "";
+    const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    Axios.get(`${nextLink}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        console.log(res);
+        setFormState({
+          ...state,
+          user: res.data.data.data,
+          nextLink: res.data.data.links.next,
+          prevLink: res.data.data.links.prev,
+        });
+      })
+      .catch((err) => {
+        if (err?.status === 401) {
+          props.history.push("/signin");
+        }
+        console.log(err);
+      });
+  };
+  const LoadOldData = () => {
+    const loggedIn = localStorage.getItem("userDetails");
+    const userdata = loggedIn ? JSON.parse(loggedIn) : "";
+    const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    Axios.get(`${prevLink}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        console.log(res);
+        setFormState({
+          ...state,
+          user: res.data.data.data,
+          nextLink: res.data.data.links.next,
+          prevLink: res.data.data.links.prev,
+        });
+      })
+      .catch((err) => {
+        if (err?.status === 401) {
+          props.history.push("/signin");
+        }
+        console.log(err);
+      });
+  };
+  const formatHours = (date) => {
+    const dateTime = moment(date).format("h:mm:ss a");
+    return dateTime;
+  };
+  const formatDay = (date) => {
+    const dateTime = moment(date).format("D");
+    return dateTime;
+  };
+  const formatWeekDay = (date) => {
+    const dateTime = moment(date).format("dddd");
+    return dateTime;
+  };
+  const formatTime = (date) => {
+    const dateTime = moment(date).format("MMMM YYYY");
+    return dateTime;
+  };
+  console.log(user);
+  console.log(nextLink);
   return (
     <>
       <NavBar />
@@ -56,48 +126,47 @@ const DashboardHistory = (props: any) => {
                   <div>History</div>
                   <div className="midwrap">
                     <span>
-                      <img
-                        src={arrowleft}
-                        className="arrowleft"
-                        alt="arrowright"
-                      />
+                      {prevLink !== null && (
+                        <img
+                          src={arrowleft}
+                          className="arrowleft"
+                          alt="arrowright"
+                          onClick={LoadOldData}
+                        />
+                      )}
                     </span>
-                    <span>March</span>
+                    <span> {formatTime(user[0]?.created_at)}</span>
                     <span>
-                      <img
-                        src={arrowleft}
-                        className="arrowright"
-                        alt="arrowleft"
-                      />
+                      {nextLink && (
+                        <img
+                          src={arrowleft}
+                          className="arrowright"
+                          alt="arrowleft"
+                          onClick={LoadNewData}
+                        />
+                      )}
                     </span>
                   </div>
                 </div>
-                <div className="historywrap1">
-                  <div className="datedata">
-                    <div className="days">Mon</div>
-                    <div className="numberday">20</div>
-                  </div>
-                  <div>
-                    <div className="accountaction">Account Created</div>
-                    <div className="accountaction2">
-                      You created your account via email
+                {user?.map((data, i) => (
+                  <div className="historywrap1" key={i}>
+                    <div className="datedata">
+                      <div className="days">
+                        {formatWeekDay(data.created_at)}
+                      </div>
+                      <div className="numberday">
+                        {formatDay(data.created_at)}{" "}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="accountaction">{data.caption}</div>
+                      <div className="accountaction2">{data.summary}</div>
+                    </div>
+                    <div className="actiontime">
+                      <div>{formatHours(data.created_at)}</div>
                     </div>
                   </div>
-                  <div className="actiontime">11:24:23 am</div>
-                </div>
-                <div className="historywrap1">
-                  <div className="datedata">
-                    <div className="days">Mon</div>
-                    <div className="numberday">20</div>
-                  </div>
-                  <div>
-                    <div className="accountaction">Account Created</div>
-                    <div className="accountaction2">
-                      You created your account via email
-                    </div>
-                  </div>
-                  <div className="actiontime">11:24:23 am</div>
-                </div>
+                ))}
               </Col>
               <RightSideBar />
             </Row>

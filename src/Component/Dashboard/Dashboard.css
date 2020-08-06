@@ -418,7 +418,7 @@
   padding-bottom: 0.6rem;
 }
 .midwrap {
-  width: 138px;
+  width: 190px;
   display: flex;
   justify-content: space-between;
   background: #f5f5f5 0% 0% no-repeat padding-box;
@@ -431,6 +431,10 @@
 }
 .arrowleft {
   transform: rotate(180deg);
+  cursor: pointer;
+}
+.arrowright{
+  cursor: pointer;
 }
 .days {
   letter-spacing: 0px;
@@ -779,6 +783,9 @@
     margin-top: 1.8rem;
     padding-left: 0px;
   }
+  .days{
+    min-width: 70px;
+  }
 }
 @media (max-width: 700px) {
   .minicard {
@@ -871,6 +878,9 @@
   .prodcu {
     padding-left: 0rem;
     padding-top: 2rem;
+  }
+  .historywrap1 {
+    font-size: 12px;
   }
   .productsdash2 {
     font-size: 1.5em;
