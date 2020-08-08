@@ -48,7 +48,7 @@ math.easeInOutQuad = function (
 
 const Slider: React.FC = (props) => {
   const [state, setNewState]: any = useState({
-    products: {},
+    products: [],
     clientIsLoggedIn: false,
   });
   const { products, clientIsLoggedIn } = state;
@@ -61,7 +61,7 @@ const Slider: React.FC = (props) => {
         setNewState({
           ...state,
           products: res.data.data,
-          clientIsLoggedIn: clientdata.user.username ? true : false,
+          clientIsLoggedIn: clientdata ? true : false,
         });
       })
       .catch((err) => {
@@ -95,7 +95,7 @@ const Slider: React.FC = (props) => {
         )}
         <div className="center-changed" id="content">
           <div className="slidewrapper">
-            {products &&
+            {
               products.length > 0 &&
               products.map((x, index) => (
                 <div className="slide1wrap" key={index}>

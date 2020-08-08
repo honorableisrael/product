@@ -191,16 +191,22 @@ const CompleteOrder: React.FunctionComponent<IAppProps> = (props: any) => {
                       </div>
                     </div>
                   </div>
-                  <div className="greentesr">98282211298</div>
+                  <div className="greentesr">
+                    {product?.paymentAccount?.account_number}
+                  </div>
                 </div>
                 <div className="proca">
                   <div>
                     <div className="sdaccount">Bank</div>
-                    <div className="greentesr">Providus Bank</div>
+                    <div className="greentesr">
+                      {product?.paymentAccount?.bank}
+                    </div>
                   </div>
                   <div>
                     <div className="sdaccount">Account Name</div>
-                    <div className="greentesr">Pramopro Ltd</div>
+                    <div className="greentesr">
+                      {product?.paymentAccount?.account_name}
+                    </div>
                   </div>
                 </div>
                 <div className="jsjc">
@@ -211,7 +217,7 @@ const CompleteOrder: React.FunctionComponent<IAppProps> = (props: any) => {
                   <span className="reec">
                     Enter reference code along with your transfer
                   </span>
-                  <div className="refcode">23344</div>
+                  <div className="refcode">{product?.orderReference}</div>
                 </div>
               </div>
               <Col md={12}>

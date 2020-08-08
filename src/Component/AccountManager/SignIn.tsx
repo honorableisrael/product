@@ -52,15 +52,14 @@ const SignIn: React.FunctionComponent = (props: any) => {
     });
     Axios.post(`${API}/login`, data)
       .then((res) => {
-        console.log(res.data.data)
+        console.log(res);
         if (res.status === 200) {
-          localStorage.setItem("userDetails", JSON.stringify(res.data.data));
           localStorage.setItem(
-            "userEmail",
-            JSON.stringify(res.data.data.user.username)
+            "userDetails",
+            JSON.stringify({ token: res.data.data })
           );
           checkIfUserIsVerified();
-          setFormState({  
+          setFormState({
             ...state,
             isloading: false,
           });
@@ -96,12 +95,20 @@ const SignIn: React.FunctionComponent = (props: any) => {
   const checkIfUserIsVerified = () => {
     const loggedIn = localStorage.getItem("userDetails");
     const userdata = loggedIn ? JSON.parse(loggedIn) : "";
-    const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    const token = loggedIn ? JSON.parse(loggedIn) : "";
     Axios.get(`${API}/user`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${token.token}` },
     })
       .then((res) => {
         console.log(res);
+        localStorage.setItem(
+          "userEmail",
+          JSON.stringify(res.data.data.username)
+        );
+        localStorage.setItem(
+          "userInfo",
+          JSON.stringify(res.data.data)
+        );
         if (res?.data?.data?.verified === false) {
           return props.history.push("/verify-account");
         }

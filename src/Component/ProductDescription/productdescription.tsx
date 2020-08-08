@@ -25,7 +25,7 @@ type State = {
   amountperbarrel: number;
   product: string;
   rate: number;
-  sub_account_id:number| null;
+  sub_account_id: number | null;
   errorMessage: string;
   sponsorFirstname: string;
   sponsorLastName: string;
@@ -45,7 +45,7 @@ const ProductDescription: React.FC = (props: any) => {
     errorMessage: "",
     sponsorFirstname: "",
     sponsorLastName: "",
-    sub_account_id:null,
+    sub_account_id: 0,
     sponsorEmail: "",
     isloading: false,
   });
@@ -116,7 +116,7 @@ const ProductDescription: React.FC = (props: any) => {
       .catch((err) => {
         console.log(err);
       });
-  },[]);
+  }, []);
   const onchange = (e) => {
     setNewState({
       ...state,
@@ -162,16 +162,26 @@ const ProductDescription: React.FC = (props: any) => {
       ...state,
       isloading: true,
     });
+    if (numberofbarrels < amountperbarrel) {
+      return notify("Cannot place order below " + "₦"+FormatAmount(amountperbarrel));
+    }
     const userInfo: any = localStorage.getItem("userDetails");
     const token = JSON.parse(userInfo);
     const productId = props.match.params.id;
     const data = {
       amount: state.numberofbarrels,
-      sub_account_id
+      sub_account_id,
     };
-    Axios.post(`${API}/products/${productId}/order`, data, {
-      headers: { Authorization: `Bearer ${token.token}` },
-    })
+    const selfData = {
+      amount: state.numberofbarrels,
+    };
+    Axios.post(
+      `${API}/products/${productId}/order`,
+      sub_account_id === 0 ? selfData : data,
+      {
+        headers: { Authorization: `Bearer ${token.token}` },
+      }
+    )
       .then((res) => {
         console.log(res);
         if (res.status === 201) {
@@ -376,17 +386,17 @@ const ProductDescription: React.FC = (props: any) => {
     if (e?.target?.value === "others") {
       return handleShow();
     }
-    if(e.target.value==="self"){
-     return setNewState({
+    if (e.target.value === "self") {
+      return setNewState({
         ...state,
         orderFor: e.target.value,
-        sub_account_id:0
+        sub_account_id: 0,
       });
     }
     setNewState({
       ...state,
       orderFor: e.target.value,
-      sub_account_id:e.target.value
+      sub_account_id: e.target.value,
     });
   };
   const handleDecrease = () => {
@@ -545,8 +555,10 @@ const ProductDescription: React.FC = (props: any) => {
                         <option className="payfor" value="others">
                           Others
                         </option>
-                        {subaccounts.map((data:any, ind) => (
-                          <option key={ind} value={data.id}>{data.first_name}</option>
+                        {subaccounts.map((data: any, ind) => (
+                          <option key={ind} value={data.id}>
+                            {data.first_name} {data.last_name}
+                          </option>
                         ))}
                       </Form.Control>
                     </div>

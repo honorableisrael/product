@@ -59,6 +59,8 @@ const Dashboard = (props: any) => {
       isloading: true,
     });
     const loggedIn = localStorage.getItem("userDetails");
+    const userID:any  = localStorage.getItem("userInfo")
+    const passedID = JSON.parse(userID);
     const userdata = loggedIn
       ? JSON.parse(loggedIn)
       : props?.history?.push("/signin");
@@ -71,7 +73,7 @@ const Dashboard = (props: any) => {
       sessionStorage.removeItem("ChangeLocation");
       props.history.push("/realtime");
     }
-    const userId = userdata.user.id;
+    const userId = passedID.id;
     Axios.get(`${API}/user/trade-summary`, {
       headers: { Authorization: `Bearer ${token}` },
     })

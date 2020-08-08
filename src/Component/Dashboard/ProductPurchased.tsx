@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import Axios from "axios";
 import { API } from "../../config";
+import download from "../../assets/download.png";
 
 const ProductPurchased = () => {
   const [state, setFormState] = React.useState({
@@ -20,6 +21,7 @@ const ProductPurchased = () => {
     barrelCost: "",
     errorMessage: "",
     visible: 6,
+    token:"",
     isloading: false,
   });
   const {
@@ -47,8 +49,10 @@ const ProductPurchased = () => {
       .then((res) => {
         setFormState({
           ...state,
+          user:res.data.data,
           products: res.data.data.orders.reverse(),
           isloading: false,
+          token:token,
         });
         console.log(products);
       })
@@ -62,10 +66,14 @@ const ProductPurchased = () => {
       });
   }, []);
   const FormatAmount = (amount) => {
-    return amount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    if (amount) {
+      return amount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
   };
   const capitalizeFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    if (string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
   };
   const loadMore = () => {
     setFormState((prev) => {
@@ -75,6 +83,7 @@ const ProductPurchased = () => {
       };
     });
   };
+  console.log(user)
   return (
     <>
       <Row className="refdark2">
@@ -82,7 +91,7 @@ const ProductPurchased = () => {
           <Form>
             <Row>
               <Col md={12} className="modea nopad11">
-                {products.length===0 && (
+                {products.length === 0 && (
                   <div className="midcontent2">
                     <img
                       src={dashcenter}
@@ -97,7 +106,7 @@ const ProductPurchased = () => {
                     <div className="exploreprod">EXPLORE PRODUCTS</div>
                   </div>
                 )}
-                {products.length !==0 && 
+                {products.length !== 0 && (
                   <Col md={12} className="productlist nopad11">
                     <div className="slidewrapperproduct redefine1">
                       {products &&
@@ -107,7 +116,8 @@ const ProductPurchased = () => {
                             <div className="finished1product">
                               <div
                                 className={
-                                  capitalizeFirstLetter(x.productStatus) === "Loaded"
+                                  capitalizeFirstLetter(x.productStatus) ===
+                                  "Loaded"
                                     ? "Loadeddashboardproduct"
                                     : capitalizeFirstLetter(x.productStatus) ===
                                       "Finished"
@@ -118,9 +128,12 @@ const ProductPurchased = () => {
                                 {console.log(x)}{" "}
                                 <span
                                   className={
-                                    capitalizeFirstLetter(x.productStatus) === "Finished"
+                                    capitalizeFirstLetter(x.productStatus) ===
+                                    "Finished"
                                       ? "redcircleproduct nomargin"
-                                      : capitalizeFirstLetter(x.productStatus) === "Loaded"
+                                      : capitalizeFirstLetter(
+                                          x.productStatus
+                                        ) === "Loaded"
                                       ? "greencircleproduct  nomargin"
                                       : "yellowcircleproduct"
                                   }
@@ -138,22 +151,29 @@ const ProductPurchased = () => {
                               <div>
                                 <span className="buyatproduct">Buy at</span>
                                 <span className="amountproduct smalltext">
-                                &#8358;{FormatAmount(x.totalPurchase)}
+                                  &#8358;{FormatAmount(x.totalPurchase)}
                                 </span>
                                 <div>
                                   <span className="buyatproduct">Sell at</span>
                                   <span className="amountproduct smalltext">
-                                  &#8358;{FormatAmount(x.returnAmount)}
+                                    &#8358;{FormatAmount(x.returnAmount)}
                                   </span>
                                 </div>
-                                <div className="buyatproduct textssproduct">
-                                </div>
+                                <div className="buyatproduct textssproduct"></div>
                                 <div className="slider22product">
                                   <span className="rightarrw1product">
-                                    View
+                                    
                                   </span>
                                   <span className="rightarrwproduct">
-                                    &#8594;
+                                  <a href={`${API}/user/${user.user_id}/orders/${x.id}/receipt`}>
+                                    <img
+                                      src={download}
+                                      className="download"
+                                      alt="download"
+                                      title={"Download Reciept"}
+                                      width={"14px"}
+                                    />
+                                    </a>
                                   </span>
                                 </div>
                               </div>
@@ -165,7 +185,7 @@ const ProductPurchased = () => {
                       <Link to="/products">Explore Products</Link>
                     </div>
                   </Col>
-                }
+                )}
               </Col>
             </Row>
           </Form>

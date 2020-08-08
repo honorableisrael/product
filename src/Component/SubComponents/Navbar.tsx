@@ -20,7 +20,8 @@ const NavBar = () => {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
-        window.location.pathname = "/";
+        console.log(res)
+        window.location.assign("/");
         localStorage.clear();
       })
       .catch((err) => {
@@ -30,7 +31,7 @@ const NavBar = () => {
   React.useEffect(() => {
     const details: any = localStorage.getItem("userDetails");
     const info = JSON.parse(details);
-    setNewState(info?.user?.username);
+    setNewState(info?.token);
     var token = info?.token;
   }, []);
   console.log(user);
@@ -73,7 +74,7 @@ const NavBar = () => {
           )}
           {user && (
             <div className="n3wrapp">
-              <div className="n3">LOGOUT</div>
+              <div className="n3" onClick={logOutMobile}>LOGOUT</div>
               <div className="n4">
                 <Link to="/dashboard">DASHBOARD</Link>
               </div>
@@ -122,7 +123,7 @@ const NavBar = () => {
               <i className="fa fa-close" onClick={() => setShowNav(false)}></i>
             </div>,
           ]}
-          itemStyle={{ backgroundColor: "#131313" }}
+          itemStyle={{ backgroundColor: "#131313", }}
           items={[
             <div className="nav-section-mobile">
               <div className="nav-item-mobile">
@@ -167,7 +168,7 @@ const NavBar = () => {
               <div className="dasjj">
                 {user && (
                   <div className="dashm2">
-                    <a className="menu-mobile-link nav-btn1-2 dashboardmobile">
+                    <a className="menu-mobile-link nav-btn1-2 dashboardmobile" onClick={logOutMobile}>
                       LOGOUT
                     </a>
                   </div>

@@ -78,7 +78,7 @@ const RightSideBar = withRouter((props: any) => {
       localStorage.removeItem("ChangeLocation");
       props.history.push("/realtime");
     }
-    const userId = userdata.user.id;
+    const userId = userdata?.user?.id;
     Axios.get(`${API}/user/statistics`, {
       headers: { Authorization: `Bearer ${token}` },
     })

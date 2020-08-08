@@ -31,6 +31,7 @@
   color: #2a2e43;
   font-weight: 700;
   opacity: 1;
+  min-width: 100px;
 }
 .finished11productdesc {
   display: inline-block;
@@ -128,10 +129,9 @@
 .placeorder {
   color: #fff;
   display: flex;
-  padding-top: 0.4rem;
-  padding-bottom: 0.4rem;
-  min-width: 167px;
-  display: flex;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  min-width: 120px;
   justify-content: center;
   align-items: center;
   background: #43a047 0% 0% no-repeat padding-box;
@@ -139,6 +139,11 @@
   opacity: 1;
   width: 50%;
   margin-right: 0.3rem;
+  display: inline-table;
+  text-align: center;
+  margin-top: inherit;
+  padding-top: .2rem;
+  padding-bottom: .2rem;
 }
 .proddesctit {
   text-align: left;
@@ -249,7 +254,7 @@
   background: #e5ffe6;
   position: relative;
   right: 0.5rem;
-  padding-right: 5rem;
+  padding-right: 1rem;
 }
 .jss:active {
   background: #e5ffe6;

@@ -13,13 +13,16 @@ import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import MobileSideNav from "./MobileSideNav";
 import Axios from "axios";
+import axios from "axios";
 import { API } from "../../config";
 import Modal from "react-bootstrap/Modal";
+import Alert from "react-bootstrap/Alert";
 
 const DashboardSubaccountsConvert = (props: any) => {
   const [state, setFormState] = useState({
     errorMessage: "",
     email: "",
+    message: "",
     accountname: "",
     accountnumber: "",
     bankname: "",
@@ -31,25 +34,30 @@ const DashboardSubaccountsConvert = (props: any) => {
     products: "",
     barrelCost: "",
     visible: 6,
+    BankList: [],
+    bankid: "",
   });
   const {
-    errorMessage,
-    password,
-    email,
-    passwordhide,
     isloading,
+    message,
     accountname,
     accountnumber,
     bankname,
-  } = state;
+    BankList,
+    bankid,
+  }: any = state;
   const convertToStandAlone = () => {
     const loggedIn = localStorage.getItem("userDetails");
     const userdata = loggedIn ? JSON.parse(loggedIn) : "";
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
     const subaccountId: any = props.match.params.id;
-    Axios.post(`${API}/sub-accounts/${subaccountId}/convert`,{},{
-      headers: { Authorization: `Bearer ${token}` }
-    })
+    Axios.post(
+      `${API}/sub-accounts/${subaccountId}/convert`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
       .then((res) => {
         console.log(res);
         if (res.status === 200) {
@@ -74,10 +82,60 @@ const DashboardSubaccountsConvert = (props: any) => {
         }
       });
   };
+  const updateSubaccountBankDetails = (e) => {
+    e.preventDefault();
+    const loggedIn = localStorage.getItem("userDetails");
+    const userdata = loggedIn ? JSON.parse(loggedIn) : "";
+    const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    const subaccountId: any = props.match.params.id;
+    const data = {
+      account_name: accountname,
+      account_number: accountnumber,
+      bank_id: bankid,
+    };
+    Axios.post(`${API}/sub-accounts/${subaccountId}/bank`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.status === 201) {
+          setFormState({
+            ...state,
+            message: "Bank Details Saved",
+            isloading: false,
+          });
+        }
+        setTimeout(() => {
+          setFormState({
+            ...state,
+            message: "",
+          });
+        }, 2000);
+      })
+      .catch((err) => {
+        console.log(err.response);
+        if (err?.status === 400) {
+          return setFormState({
+            ...state,
+            isloading: false,
+            errorMessage:
+              err?.data?.message || err?.data?.message || err?.data?.statusText,
+          });
+        }
+      });
+  };
   const onchange = (e) => {
     setFormState({
       ...state,
       [e.target.id]: e.target.value,
+      errorMessage: "",
+      message: "",
+    });
+  };
+  const handleChange = (e) => {
+    setFormState({
+      ...state,
+      bankid: e.target.value,
     });
   };
   const handleClose = () =>
@@ -88,29 +146,47 @@ const DashboardSubaccountsConvert = (props: any) => {
   const { user, products, barrelCost, visible, show }: any = state;
   React.useEffect(() => {
     const loggedIn = localStorage.getItem("userDetails");
-    const userdata = loggedIn ? JSON.parse(loggedIn) : "";
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
     const subaccountId: any = props.match.params.id;
-    //load  product list
-    Axios.get(`${API}/sub-accounts/${subaccountId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => {
-        console.log(res);
-        setFormState({
-          ...state,
-          user: res.data.data,
-          isloading: false,
-        });
-        console.log(products);
-      })
-      .catch((err) => {
-        console.log(err);
-        setFormState({
-          ...state,
-          errorMessage: "Failed to Load Sub Account",
-          isloading: false,
-        });
+    axios
+      .all([
+        axios.get(`${API}/banks`, {
+          headers: { Authorization: `Token ${token}` },
+        }),
+        axios.get(`${API}/sub-accounts/${subaccountId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+      ])
+      .then(
+        axios.spread((firstresponse, secondresponse) => {
+          console.log(firstresponse);
+          console.log(secondresponse);
+          if (firstresponse?.status == 200 || secondresponse?.status == 200) {
+            setFormState({
+              ...state,
+              user: secondresponse.data.data,
+              isloading: false,
+              accountnumber:
+                secondresponse?.data.data?.subAccount?.bank_details
+                  ?.account_number,
+              accountname:
+                secondresponse?.data?.data?.subAccount?.bank_details
+                  ?.account_name,
+              bankname:
+                secondresponse?.data?.data?.subAccount?.bank_details.bank.name,
+              bankid:
+                secondresponse?.data?.data?.subAccount?.bank_details.bank.id,
+              BankList: firstresponse.data.data,
+            });
+          }
+        })
+      )
+      .catch((error) => {
+        console.log(error);
+        if (error && error.response && error.response.data) {
+        }
+        if (error && error.response == undefined) {
+        }
       });
   }, []);
   const FormatAmount = (amount) => {
@@ -127,11 +203,13 @@ const DashboardSubaccountsConvert = (props: any) => {
       };
     });
   };
-  const handleShow = () =>
+  const handleShow = () => {
     setFormState({
       ...state,
       show: true,
     });
+  };
+  console.log(BankList);
   return (
     <>
       <NavBar />
@@ -172,6 +250,7 @@ const DashboardSubaccountsConvert = (props: any) => {
                   </div>
                   <div>
                     <Form className="jjsus">
+                      {message && <Alert variant="info">{message}</Alert>}
                       <div className="tite">Bank Details</div>
                       <Form.Group>
                         <h6 className="user12 iuusP">Account Name</h6>
@@ -206,18 +285,32 @@ const DashboardSubaccountsConvert = (props: any) => {
                       <Form.Group>
                         <h6 className="user12 iuusP">Bank Name</h6>
                         <Form.Control
-                          type="text"
-                          value={bankname}
-                          className="userfield"
-                          id="bankname"
-                          onChange={onchange}
-                          placeholder=""
-                        />
+                          as="select"
+                          className="fmc"
+                          onChange={handleChange}
+                        >
+                          <option>{bankname ? bankname : ""}</option>
+                          {BankList.length > 0 &&
+                            BankList.map((x) => (
+                              <option value={x.id} key={x.name} id="country">
+                                {x.name}
+                              </option>
+                            ))}
+                          ))}
+                        </Form.Control>
                         <i
                           className="fa fa-envelope field-right-icon"
                           aria-hidden="true"
                         ></i>
                       </Form.Group>
+                      <div className="savee2">
+                        <button
+                          className="savee"
+                          onClick={updateSubaccountBankDetails}
+                        >
+                          Save
+                        </button>
+                      </div>
                     </Form>
                   </div>
                 </div>
