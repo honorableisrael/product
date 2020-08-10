@@ -10,7 +10,7 @@ import { API } from "../../config";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import GoogleLogo from "../../assets/Google.svg";
-import Alert from "react-bootstrap/Alert";  
+import Alert from "react-bootstrap/Alert";
 import whitepramopro from "../../assets/whitepramopro.svg";
 
 const ForgotPassword: React.FunctionComponent = (props: any) => {
@@ -47,7 +47,7 @@ const ForgotPassword: React.FunctionComponent = (props: any) => {
       email,
     };
     Axios.post(`${API}/password/email`, data)
-      .then(res => {
+      .then((res) => {
         console.log(res);
         if (res?.status === 200) {
           return setFormState({
@@ -62,17 +62,24 @@ const ForgotPassword: React.FunctionComponent = (props: any) => {
         });
       })
       .catch((err) => {
-        if (err.status == 422) {
+        if (err?.response?.status == 422) {
           return setFormState({
             ...state,
             errorMessage: err?.statusText,
             isloading: false,
           });
         }
-        if (err.status == 400) {
+        if (err?.response?.status == 400) {
           return setFormState({
             ...state,
-            errorMessage: err.data.message,
+            errorMessage: err.response.data.message,
+            isloading: false,
+          });
+        }
+        if (err?.response?.status == 500) {
+          return setFormState({
+            ...state,
+            errorMessage: "Failed to please try again later",
             isloading: false,
           });
         }
@@ -92,7 +99,9 @@ const ForgotPassword: React.FunctionComponent = (props: any) => {
         <Row className="signrow">
           <Col md={12} className="diax">
             {" "}
-            <img src={whitepramopro} className="whitepram" />
+            <Link to="/">
+              <img src={whitepramopro} className="whitepram" />
+            </Link>
           </Col>
           <Col md={5} sm={10} className="signinwrap">
             <div className="wlcmback">Hello</div>

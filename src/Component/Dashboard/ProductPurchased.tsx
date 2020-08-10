@@ -21,7 +21,7 @@ const ProductPurchased = () => {
     barrelCost: "",
     errorMessage: "",
     visible: 6,
-    token:"",
+    token: "",
     isloading: false,
   });
   const {
@@ -49,10 +49,10 @@ const ProductPurchased = () => {
       .then((res) => {
         setFormState({
           ...state,
-          user:res.data.data,
+          user: res.data.data,
           products: res.data.data.orders.reverse(),
           isloading: false,
-          token:token,
+          token: token,
         });
         console.log(products);
       })
@@ -83,7 +83,7 @@ const ProductPurchased = () => {
       };
     });
   };
-  console.log(user)
+  console.log(products);
   return (
     <>
       <Row className="refdark2">
@@ -116,10 +116,10 @@ const ProductPurchased = () => {
                             <div className="finished1product">
                               <div
                                 className={
-                                  capitalizeFirstLetter(x.productStatus) ===
+                                  capitalizeFirstLetter(x.product.status) ===
                                   "Loaded"
                                     ? "Loadeddashboardproduct"
-                                    : capitalizeFirstLetter(x.productStatus) ===
+                                    : capitalizeFirstLetter(x.product.status) ===
                                       "Finished"
                                     ? "finished11dashboardproduct"
                                     : "Loadeddashboardproduct"
@@ -128,11 +128,11 @@ const ProductPurchased = () => {
                                 {console.log(x)}{" "}
                                 <span
                                   className={
-                                    capitalizeFirstLetter(x.productStatus) ===
+                                    capitalizeFirstLetter(x.product.status) ===
                                     "Finished"
                                       ? "redcircleproduct nomargin"
                                       : capitalizeFirstLetter(
-                                          x.productStatus
+                                          x.product.status
                                         ) === "Loaded"
                                       ? "greencircleproduct  nomargin"
                                       : "yellowcircleproduct"
@@ -161,18 +161,19 @@ const ProductPurchased = () => {
                                 </div>
                                 <div className="buyatproduct textssproduct"></div>
                                 <div className="slider22product">
-                                  <span className="rightarrw1product">
-                                    
-                                  </span>
+                                  <span className="rightarrw1product"></span>
                                   <span className="rightarrwproduct">
-                                  <a href={`${API}/user/${user.user_id}/orders/${x.id}/receipt`}>
-                                    <img
-                                      src={download}
-                                      className="download"
-                                      alt="download"
-                                      title={"Download Reciept"}
-                                      width={"14px"}
-                                    />
+                                    <a
+                                      href={`${API}/orders/${x.id}/order`}
+                                      target="blank"
+                                    >
+                                      <img
+                                        src={download}
+                                        className="download"
+                                        alt="download"
+                                        title={"Download Reciept"}
+                                        width={"14px"}
+                                      />
                                     </a>
                                   </span>
                                 </div>

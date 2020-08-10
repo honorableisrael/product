@@ -101,4 +101,14 @@
   .contactus {
     font: Bold 33px/84px Nunito Sans;
   }
+  .infowrapper1 {
+    padding: 2.9rem 0rem;
+    margin-left: 1.8rem;
+  }
+  .formwrapper {
+    padding: 2rem;
+  }
+  .nopaddin{
+    padding-left: 1rem;
+  }
 }

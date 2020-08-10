@@ -544,11 +544,30 @@
     padding: 3rem 1rem;
     font-size: 1.7em;
   }
+  .capital-input {
+    font-size: 20px;
+    width: 100%;
+  }
   .slidewrapperproduct {
     justify-content: center;
   }
+  .amm2,
+  .amw4 {
+    font-size: 20px;
+    font-weight: bold;
+  }
 }
-
+@media (max-width: 400px) {
+  .amv {
+    flex-wrap: wrap;
+  }
+  .amm0 {
+    width: 100%;
+  }
+  .capital-input {
+    width: 80%;
+  }
+}
 .wrapw {
   background: #ffffff 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 40px #0000000d;
@@ -739,7 +758,7 @@
   font-size: 16px;
 }
 .redefine1 {
-  justify-content: flex-start;
+  justify-content: center !important;
 }
 .llml {
   margin-right: 1.5rem;
@@ -754,6 +773,9 @@
   .leftarrowcontainer,
   .leftarrow {
     top: 30%;
+  }
+  ul {
+    padding-left: 1rem;
   }
 }
 .refcode {
@@ -771,5 +793,4 @@
 }
 .conform > a {
   color: #fff;
-
 }

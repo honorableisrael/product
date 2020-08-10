@@ -50,7 +50,7 @@ class PurchaseSummary extends Component {
     const userdata = loggedIn ? JSON.parse(loggedIn) : "";
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
     axios
-      .get(`${API}/api/v1/user`, {
+      .get(`${API}/user`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {

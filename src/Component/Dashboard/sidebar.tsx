@@ -31,7 +31,8 @@ const SideBar = (props: any) => {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
-        window.location.pathname = "/";
+        console.log(res)
+        window.location.assign("/");
         localStorage.clear();
       })
       .catch((err) => {
@@ -117,7 +118,7 @@ const SideBar = (props: any) => {
             <span>
               <img src={power} className="dashicon" alt="dashicon" />
             </span>
-            <span className="dash123">Logout</span>
+            <span className="dash123" onClick={logOutMobile}>Logout</span>
           </div>
         </div>
       </Col>

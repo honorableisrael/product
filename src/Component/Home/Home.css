@@ -5,6 +5,7 @@
   color: #2a2e43;
   opacity: 1;
   line-height: 1;
+  max-width: 410px;
 }
 .push {
   margin-top: 2rem !important;
@@ -167,7 +168,7 @@
   word-spacing: 1.9px;
 }
 .home6a {
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0px;
   color: #2a2e43;
   opacity: 1;
@@ -634,4 +635,16 @@
   .footwrap {
     padding-right: 0rem;
   }
+}
+a{
+  cursor: pointer;
+}
+.leftarrow{
+  cursor: pointer;
+}
+.iconpaystack,.iconsouth{
+  max-width: 290px;
+}
+.iconmonnify{
+  max-width: 230px;
 }

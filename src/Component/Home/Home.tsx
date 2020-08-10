@@ -158,22 +158,6 @@ class Home extends React.Component {
           </Row>
           <Testimonial />
           <Row className="thirdrow1 shiftbottom1">
-            <Col md={12} className="thirdrow4a">
-              <div>
-                <div className="home5">Our Partners</div>
-                <div className="greenground2"></div>
-              </div>
-              <div className="home6a">We believe in the power of community</div>
-              <div className="icontray">
-                <img
-                  src={Paystack}
-                  className="iconpaystack"
-                  alt="iconmonnify"
-                />
-                <img src={Monnify} className="iconmonnify" alt="iconmonnify" />{" "}
-                <img src={southquay} className="iconsouth" alt="iconmonnify" />
-              </div>
-            </Col>
           </Row>
           <GetMobileApp />
           <Footer />
