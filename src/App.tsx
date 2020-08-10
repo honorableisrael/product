@@ -26,6 +26,9 @@ import SubAccountConversionSuccess from "./Component/CompleteOrder/SubAccountCon
 import DashboardSubaccounts from "./Component/Dashboard/DashboardSubAccounts";
 import DashboardSubaccountsConvert from "./Component/Dashboard/DashboardSubAccountsEdit";
 import ProductDescription from "./Component/ProductDescription/productdescription";
+import Statistics from "./Component/Admin/Statistics/Statistics";
+import Statistics1 from "./Component/Admin/Statistics/Statistics1";
+
 
 const App: React.FC = () => {
   return (
@@ -88,6 +91,8 @@ const App: React.FC = () => {
               path="/verify-account"
               component={EnterVerificationCode}
             />
+            <Route exact path="/realtime1" component={Statistics} />
+            <Route exact path="/realtime" component={Statistics1} />
             <Route exact path="/about" component={About} />
             <Route exact path="/" component={Home} />
           </Switch>

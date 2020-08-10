@@ -78,6 +78,7 @@ const OrderSuccess: React.FunctionComponent<IAppProps> = (props: any) => {
               <img src={pending} className="pending" alt="pending" />
             </div>
             <div className="ordertext2">Purchase Confirmed</div>
+            <div className="Continue"><Link to="/dashboard">Continue</Link></div>
           </Col>
         </Row>
         <GetMobileApp />

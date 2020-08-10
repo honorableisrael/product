@@ -46,14 +46,17 @@ const SignUp: React.FunctionComponent = (props: any) => {
     // console.log(data)
     Axios.post(`${API}/login/social`, data)
       .then((res) => {
-        // console.log(res)
+        console.log(res)
         if (res.data.responseStatus === 400) {
           return setFormState({
             ...state,
             errorMessage: "Failed request please try again later",
           });
         }
-        localStorage.setItem("userDetails", JSON.stringify(res.data));
+        localStorage.setItem(
+          "userDetails",
+          JSON.stringify({ token: res.data.data })
+        );
         props.history.push("/dashboard");
       })
       .catch((err) => {
@@ -61,7 +64,7 @@ const SignUp: React.FunctionComponent = (props: any) => {
           ...state,
           errorMessage: "failed to login",
         });
-        // console.log(err)
+        console.log(err.response)
       });
   };
   const onchange = (e) => {
@@ -71,8 +74,23 @@ const SignUp: React.FunctionComponent = (props: any) => {
       errorMessage: "",
     });
   };
-  const SubmitForm = (e) => {
+  const validateForm = (e) => {
     e.preventDefault();
+    if (
+      lastname === "" ||
+      firstname === "" ||
+      email === "" ||
+      password === ""
+    ) {
+      return setFormState({
+        ...state,
+        errorMessage: "All feilds are required",
+      });
+    } else {
+      SubmitForm();
+    }
+  };
+  const SubmitForm = () => {
     setFormState({
       ...state,
       isloading: true,
@@ -95,50 +113,43 @@ const SignUp: React.FunctionComponent = (props: any) => {
       .then((res) => {
         console.log(res);
         localStorage.setItem("userDetails", JSON.stringify(res.data));
-        if (res.status == 201) {
-          console.log("made it here");
+        if (res?.status == 200) {
+          setFormState({
+            ...state,
+            isloading: false,
+            errorMessage: "failed to create user please try again",
+          });
+        }
+        if (res?.status == 201) {
           localStorage.setItem(
-            "userEmail",
-            JSON.stringify(res.data.data.user.username)
+            "userDetails",
+            JSON.stringify({ token: res.data.data })
           );
+          checkIfUserIsVerified();
           setFormState({
             ...state,
             isloading: false,
             successMessage: "You have successfully registered",
           });
-         setInterval(()=>{
-          return props.history.push("/verify-account");
-         },2000)
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err.response);
-        const duplicateErr = "Duplicate entry";
-        if (
-          err && err.response && err.response.data
-            ? err.response.data.message
-            : err === duplicateErr
-        ) {
-          const searchResult = err.response.data
-            ? err.response.data.message.indexOf(duplicateErr)
-            : "";
-          return searchResult > -1
-            ? setFormState({
-                ...state,
-                errorMessage: "Email Address is Already Registered ",
-                isloading: false,
-              })
-            : "";
-        } 
-        else if (err.message ? err.message : err) {
+        if (err?.response?.status === 422) {
+          return setFormState({
+            ...state,
+            errorMessage:
+              err?.response?.data?.error?.username ||
+              err?.response?.data?.error?.password,
+          });
+        } else if (err.message ? err.message : err) {
           setFormState({
             ...state,
             errorMessage: "Network Error",
             isloading: false,
           });
-        } 
-        else {
-          console.log(err)
+        } else {
+          console.log(err);
           setFormState({
             ...state,
             errorMessage: "Sign Up Failed",
@@ -147,6 +158,32 @@ const SignUp: React.FunctionComponent = (props: any) => {
         }
       });
   };
+  const checkIfUserIsVerified = () => {
+    const loggedIn = localStorage.getItem("userDetails");
+    const userdata = loggedIn ? JSON.parse(loggedIn) : "";
+    const token = loggedIn ? JSON.parse(loggedIn) : "";
+    Axios.get(`${API}/user`, {
+      headers: { Authorization: `Bearer ${token.token}` },
+    })
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem(
+          "userEmail",
+          JSON.stringify(res.data.data.username)
+        );
+        localStorage.setItem(
+          "userInfo",
+          JSON.stringify(res.data.data)
+        );
+        setInterval(() => {
+          return props.history.push("/verify-account");
+        }, 1000);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
   return (
     <>
       <Container fluid={true} className="signincontainer">
@@ -161,7 +198,7 @@ const SignUp: React.FunctionComponent = (props: any) => {
             <div className="wlcmback">Welcome to Pramopro,</div>
             <div className="wlcmback1">Create your account</div>
             <div>
-              <Form onSubmit={SubmitForm}>
+              <Form onSubmit={validateForm}>
                 <p className="loginerror">{errorMessage}</p>
                 <p className="bgs">{successMessage}</p>
                 <Form.Group>
@@ -236,7 +273,7 @@ const SignUp: React.FunctionComponent = (props: any) => {
                 <Form.Group>
                   <Button
                     className="sub-btn"
-                    onClick={SubmitForm}
+                    onClick={validateForm}
                     type="submit"
                     size="lg"
                     variant="secondary"

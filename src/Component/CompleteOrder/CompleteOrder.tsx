@@ -6,9 +6,6 @@ import "../Products/Product.css";
 import Footer from "../Home/Footer";
 import GetMobileApp from "../Home/GetMobileApp";
 import { useState, useEffect } from "react";
-import filter from "../../assets/filter.svg";
-import Form from "react-bootstrap/Form";
-import slide1 from "../../assets/slide1.png";
 import Modal from "react-bootstrap/Modal";
 import Col from "react-bootstrap/Col";
 import "./animatedbutton.css";
@@ -222,7 +219,9 @@ const CompleteOrder: React.FunctionComponent<IAppProps> = (props: any) => {
               </div>
               <Col md={12}>
                 <div className="btnwwrap btnwwrap2">
-                  <div className="conform">Confirm Payment</div>
+                  <div className="conform">
+                    <Link to="/pendingsuccess">Confirm Payment</Link>
+                  </div>
                 </div>
               </Col>
               <i

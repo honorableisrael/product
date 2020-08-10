@@ -132,14 +132,17 @@ const SignIn: React.FunctionComponent = (props: any) => {
     // console.log(data)
     Axios.post(`${API}/login/social`, data)
       .then((res) => {
-        // console.log(res)
+        console.log(res)
         if (res.data.responseStatus === 400) {
           return setFormState({
             ...state,
             errorMessage: "Failed request please try again later",
           });
         }
-        localStorage.setItem("userDetails", JSON.stringify(res.data));
+        localStorage.setItem(
+          "userDetails",
+          JSON.stringify({ token: res.data.data })
+        );
         props.history.push("/dashboard");
       })
       .catch((err) => {
@@ -147,7 +150,7 @@ const SignIn: React.FunctionComponent = (props: any) => {
           ...state,
           errorMessage: "failed to login",
         });
-        // console.log(err)
+        console.log(err.response)
       });
   };
   return (

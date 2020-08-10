@@ -121,7 +121,7 @@ const RightSideBar = withRouter((props: any) => {
             isloading: false,
             success: "Message Sent",
           });
-          setInterval(
+          setTimeout(
             () =>
               setFormState({
                 ...state,

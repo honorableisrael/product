@@ -10,7 +10,6 @@ import { API } from "../../config";
 import { Link } from "react-router-dom";
 import emailverified from "../../assets/emailverified.svg";
 import Button from "react-bootstrap/Button";
-import GoogleLogo from "../../assets/Google.svg";
 import whitepramopro from "../../assets/whitepramopro.svg";
 
 const EnterVerificationCode: React.FunctionComponent = (props: any) => {
@@ -57,16 +56,17 @@ const EnterVerificationCode: React.FunctionComponent = (props: any) => {
     }
     setFormState({
       ...state,
-      code:
+      errorMessage: "",
+    });
+    if (inputEl1 && inputEl2 && inputEl3 && inputEl4 && inputEl5 && inputVal6) {
+      const vcode =
         inputEl1.current.value +
         inputEl2.current.value +
         inputEl3.current.value +
         inputEl4.current.value +
         inputEl5.current.value +
-        inputEl6.current.value,
-    });
-    if (inputVal6) {
-      return sendVerificationCode(e);
+        inputEl6.current.value;
+      return sendVerificationCode(e, vcode);
     }
   };
   const { errorMessage, email, code, isloading, successMessage } = state;
@@ -81,21 +81,21 @@ const EnterVerificationCode: React.FunctionComponent = (props: any) => {
   React.useEffect(() => {
     const parseNew: any = localStorage.getItem("userEmail");
     const email = JSON.parse(parseNew);
-    console.log(email)
+    console.log(email);
     setFormState({
       ...state,
       email: email,
     });
     console.log(email);
   }, []);
-  const sendVerificationCode = (e) => {
+  const sendVerificationCode = (e, vcode) => {
     e.preventDefault();
     setFormState({
       ...state,
       isloading: true,
     });
     const data = {
-      verificationCode: code,
+      verificationCode: vcode,
     };
     const user: any = localStorage.getItem("userDetails");
     const user_id = JSON.parse(user);
@@ -104,7 +104,7 @@ const EnterVerificationCode: React.FunctionComponent = (props: any) => {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
-        console.log(res)
+        console.log(res);
         if (res.status === 200) {
           setFormState({
             ...state,
@@ -115,9 +115,9 @@ const EnterVerificationCode: React.FunctionComponent = (props: any) => {
         }
       })
       .catch((error) => {
-        console.log(error.response)
+        console.log(error.response);
         if (error.response.status === 400) {
-        return  setFormState({
+          return setFormState({
             ...state,
             isloading: false,
             errorMessage: error.response.data.message,
@@ -126,7 +126,7 @@ const EnterVerificationCode: React.FunctionComponent = (props: any) => {
 
         if (error.response.status == 401) {
           // console.log(res.data)
-        return  setFormState({
+          return setFormState({
             ...state,
             isloading: false,
             errorMessage: "Incorrect Verification Code",
@@ -142,7 +142,7 @@ const EnterVerificationCode: React.FunctionComponent = (props: any) => {
   const resendCode = () => {
     setFormState({
       ...state,
-      errorMessage:"",
+      errorMessage: "",
       isResending: true,
     });
     const user: any = localStorage.getItem("userDetails");
@@ -156,20 +156,26 @@ const EnterVerificationCode: React.FunctionComponent = (props: any) => {
     })
       .then((res) => {
         console.log(res);
-        if (res.status===200) {
+        if (res.status === 200) {
           setFormState({
             ...state,
-            errorMessage:"",
+            errorMessage: "",
             successMessage: "A new code has been sent to the provided email",
             isResending: false,
           });
-          setTimeout(()=>{
-            window.location.reload()
-          },4000)
+          setTimeout(() => {
+            window.location.reload();
+          }, 4000);
         }
       })
       .catch((err) => {
         console.log(err.response);
+        if (err?.response?.status === 422) {
+          setFormState({
+            ...state,
+            errorMessage: err.response.data.error.email,
+          });
+        }
         setFormState({
           ...state,
           errorMessage: "Resend Failed",
@@ -251,11 +257,11 @@ const EnterVerificationCode: React.FunctionComponent = (props: any) => {
               />
             </div>
             <div>
-              <Form onSubmit={sendVerificationCode}>
+              <Form>
                 <Form.Group>
                   <Button
                     className="sub-btn"
-                    // onClick={onButtonClick}
+                    onClick={(e)=> e.preventDefault()}
                     type="submit"
                     size="lg"
                     variant="secondary"

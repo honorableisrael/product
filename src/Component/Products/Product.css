@@ -732,7 +732,7 @@
   text-align: center;
   color: white;
   padding: 0.5rem;
-  width: 80%;
+  width: 200px;
   margin: auto;
   border-radius: 6px;
   margin-top: 1.4rem;
@@ -756,7 +756,7 @@
     top: 30%;
   }
 }
-.refcode{
+.refcode {
   background: #fff;
   padding: 0.4rem 1rem;
   width: 100px;
@@ -768,4 +768,8 @@
   font-size: 20px;
   display: flex;
   align-items: center;
+}
+.conform > a {
+  color: #fff;
+
 }

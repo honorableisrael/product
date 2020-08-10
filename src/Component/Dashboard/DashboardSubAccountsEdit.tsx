@@ -36,6 +36,8 @@ const DashboardSubaccountsConvert = (props: any) => {
     visible: 6,
     BankList: [],
     bankid: "",
+    subaccounts: [],
+    subacctid: "",
   });
   const {
     isloading,
@@ -43,8 +45,10 @@ const DashboardSubaccountsConvert = (props: any) => {
     accountname,
     accountnumber,
     bankname,
+    subaccounts,
     BankList,
     bankid,
+    subacctid,
   }: any = state;
   const convertToStandAlone = () => {
     const loggedIn = localStorage.getItem("userDetails");
@@ -156,15 +160,23 @@ const DashboardSubaccountsConvert = (props: any) => {
         axios.get(`${API}/sub-accounts/${subaccountId}`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
+        axios.get(`${API}/sub-accounts`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
       ])
       .then(
-        axios.spread((firstresponse, secondresponse) => {
+        axios.spread((firstresponse, secondresponse, thirdresponse) => {
           console.log(firstresponse);
           console.log(secondresponse);
-          if (firstresponse?.status == 200 || secondresponse?.status == 200) {
+          console.log(thirdresponse);
+          if (
+            firstresponse?.status == 200 ||
+            secondresponse?.status == 200 ||
+            thirdresponse.status == 200
+          ) {
             setFormState({
               ...state,
-              user: secondresponse.data.data,
+              user: secondresponse?.data?.data,
               isloading: false,
               accountnumber:
                 secondresponse?.data.data?.subAccount?.bank_details
@@ -173,10 +185,13 @@ const DashboardSubaccountsConvert = (props: any) => {
                 secondresponse?.data?.data?.subAccount?.bank_details
                   ?.account_name,
               bankname:
-                secondresponse?.data?.data?.subAccount?.bank_details.bank.name,
+                secondresponse?.data?.data?.subAccount?.bank_details?.bank
+                  ?.name,
               bankid:
-                secondresponse?.data?.data?.subAccount?.bank_details.bank.id,
+                secondresponse?.data?.data?.subAccount?.bank_details?.bank?.id,
               BankList: firstresponse.data.data,
+              subaccounts: thirdresponse.data.data,
+              subacctid: subaccountId,
             });
           }
         })
@@ -209,7 +224,10 @@ const DashboardSubaccountsConvert = (props: any) => {
       show: true,
     });
   };
-  console.log(BankList);
+  const moveToNextSubAccount = (id) => {
+    window.location.assign(`${`/subaccount/${id}`}`);
+  };
+  console.log(subacctid);
   return (
     <>
       <NavBar />
@@ -389,17 +407,34 @@ const DashboardSubaccountsConvert = (props: any) => {
                     </Col>
                   )}
                 </div>
-                {/* <div>
+                <div>
                   <div className="prodpurchased prodda">Other Sub-Accounts</div>
-                  <div className="othersubacct">
-                    <img src={useraccount} className="avatr" alt="avatr" />
-                    <div className="dpss">
-                      <div className="msse">meet@email.com</div>
-                      <div className="msse1">Adeshina Adedapo</div>
-                      <div className="msse2">Convert</div>
-                    </div>
+                  <div className="subww">
+                    {subaccounts.map((data, i) =>
+                      data.id !== parseInt(subacctid) ? (
+                        <div className="othersubacct" key={i}>
+                          <img
+                            src={useraccount}
+                            className="avatr"
+                            alt="avatr"
+                          />
+                          <div className="dpss">
+                            <div className="msse">{data.email}</div>
+                            <div className="msse1">
+                              <div
+                                onClick={() => moveToNextSubAccount(data.id)}
+                              >
+                                {data.first_name} {data.last_name}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        ""
+                      )
+                    )}
                   </div>
-                </div> */}
+                </div>
               </Col>
               <Modal show={show} centered={true} onHide={handleClose}>
                 <div className="ssds1w">
