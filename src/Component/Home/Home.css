@@ -636,15 +636,20 @@
     padding-right: 0rem;
   }
 }
-a{
+a {
   cursor: pointer;
 }
-.leftarrow{
+.leftarrow {
   cursor: pointer;
 }
-.iconpaystack,.iconsouth{
+.iconpaystack,
+.iconsouth {
   max-width: 290px;
 }
-.iconmonnify{
+.iconmonnify {
   max-width: 230px;
+}
+.sttw {
+  position: relative;
+  bottom: 1.1rem;
 }

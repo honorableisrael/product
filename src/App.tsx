@@ -28,7 +28,8 @@ import DashboardSubaccountsConvert from "./Component/Dashboard/DashboardSubAccou
 import ProductDescription from "./Component/ProductDescription/productdescription";
 import Statistics from "./Component/Admin/Statistics/Statistics";
 import Statistics1 from "./Component/Admin/Statistics/Statistics1";
-
+import ProductView from "./Component/Products/Productfromrollerview";
+import ProductDescriptionFromPreviousOrders from "./Component/ProductDescription/productdescriptionpage";
 
 const App: React.FC = () => {
   return (
@@ -76,9 +77,16 @@ const App: React.FC = () => {
             />
             <Route
               exact
-              path="/dashboardreservedproducts"
+              path="/dashboardreservedproducts/:id/:orderid"
               component={DashboardReservedProductsDescription}
             />
+            <Route exact path="/products/:orderid" component={ProductView} />
+            <Route
+              exact
+              path="/product/:id/:orderid"
+              component={ProductDescriptionFromPreviousOrders}
+            />
+
             <Route exact path="/profilesettings" component={ProfileSettings} />
             <Route
               exact

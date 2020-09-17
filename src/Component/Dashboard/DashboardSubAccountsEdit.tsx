@@ -31,7 +31,7 @@ const DashboardSubaccountsConvert = (props: any) => {
     show: false,
     isloading: false,
     user: "",
-    products: "",
+    products: [],
     barrelCost: "",
     visible: 6,
     BankList: [],
@@ -190,6 +190,7 @@ const DashboardSubaccountsConvert = (props: any) => {
               bankid:
                 secondresponse?.data?.data?.subAccount?.bank_details?.bank?.id,
               BankList: firstresponse.data.data,
+              products:secondresponse?.data?.data?.orders,
               subaccounts: thirdresponse.data.data,
               subacctid: subaccountId,
             });
@@ -344,11 +345,11 @@ const DashboardSubaccountsConvert = (props: any) => {
                               <div className="finished1product">
                                 <div
                                   className={
-                                    capitalizeFirstLetter(x.productStatus) ===
+                                    capitalizeFirstLetter(x.product.status) ===
                                     "Loaded"
                                       ? "Loadeddashboardproduct"
                                       : capitalizeFirstLetter(
-                                          x.productStatus
+                                          x.product.status
                                         ) === "Finished"
                                       ? "finished11dashboardproduct"
                                       : "Loadeddashboardproduct"
@@ -357,11 +358,11 @@ const DashboardSubaccountsConvert = (props: any) => {
                                   {console.log(x)}{" "}
                                   <span
                                     className={
-                                      capitalizeFirstLetter(x.productStatus) ===
+                                      capitalizeFirstLetter(x.product.status) ===
                                       "Finished"
                                         ? "redcircleproduct nomargin"
                                         : capitalizeFirstLetter(
-                                            x.productStatus
+                                            x.product.status
                                           ) === "Loaded"
                                         ? "greencircleproduct  nomargin"
                                         : "yellowcircleproduct"
@@ -371,7 +372,7 @@ const DashboardSubaccountsConvert = (props: any) => {
                                 </div>
                               </div>
                               <img
-                                src={x.imageUrl}
+                                src={x.product.imageUrl}
                                 alt="slide1"
                                 className="slide1product"
                               />
@@ -387,14 +388,11 @@ const DashboardSubaccountsConvert = (props: any) => {
                                       Sell at
                                     </span>
                                     <span className="amountproduct smalltext">
-                                      &#8358;{FormatAmount(x.returnAmount)}
+                                      
                                     </span>
                                   </div>
                                   <div className="buyatproduct textssproduct"></div>
                                   <div className="slider22product">
-                                    <span className="rightarrw1product">
-                                      View
-                                    </span>
                                     <span className="rightarrwproduct">
                                       &#8594;
                                     </span>

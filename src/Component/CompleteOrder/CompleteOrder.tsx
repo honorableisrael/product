@@ -212,7 +212,7 @@ const CompleteOrder: React.FunctionComponent<IAppProps> = (props: any) => {
                 </div>
                 <div className="payna">
                   <span className="reec">
-                    Enter reference code along with your transfer
+                  <span className="note11">NOTE:</span> Use the 5 digit Code as transfer description
                   </span>
                   <div className="refcode">{product?.orderReference}</div>
                 </div>

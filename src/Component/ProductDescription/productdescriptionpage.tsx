@@ -32,7 +32,7 @@ type State = {
   sponsorEmail: string;
   isloading: boolean;
 };
-const ProductDescription: React.FC = (props: any) => {
+const ProductDescriptionFromPreviousOrders: React.FC = (props: any) => {
   const [state, setNewState] = useState<State>({
     numberofbarrels: 1,
     orderFor: "",
@@ -158,6 +158,7 @@ const ProductDescription: React.FC = (props: any) => {
       });
   };
   const placeOrderForProduct = () => {
+    const orderId = props.match.params.orderid;
     setNewState({
       ...state,
       isloading: true,
@@ -166,6 +167,12 @@ const ProductDescription: React.FC = (props: any) => {
       return notify(
         "Cannot place order below " + "₦" + FormatAmount(amountperbarrel)
       );
+    }
+    if (orderId === "") {
+      return notify("Invalid id Please try.", "A");
+      setTimeout(() => {
+        props.history.push("/dashboardproducts");
+      }, 2000);
     }
     const userInfo: any = localStorage.getItem("userDetails");
     const token = JSON.parse(userInfo);
@@ -178,7 +185,7 @@ const ProductDescription: React.FC = (props: any) => {
       amount: state.numberofbarrels,
     };
     Axios.post(
-      `${API}/products/${productId}/order`,
+      `${API}/orders/${orderId}/products/${productId}/rollover`,
       sub_account_id === 0 ? selfData : data,
       {
         headers: { Authorization: `Bearer ${token.token}` },
@@ -186,15 +193,15 @@ const ProductDescription: React.FC = (props: any) => {
     )
       .then((res) => {
         console.log(res);
-        if (res.status === 201) {
+        if (res.status === 200) {
           localStorage.setItem("orderDetails", JSON.stringify(res.data.data));
           localStorage.setItem(
             "orderDetailsProfile",
             JSON.stringify(res.data.data)
           );
           setTimeout(() => {
-            props.history.push("/completeorder");
-          }, 3000);
+            props.history.push("/dashboardproducts");
+          }, 4000);
           setNewState({
             ...state,
             isloading: false,
@@ -671,4 +678,4 @@ const ProductDescription: React.FC = (props: any) => {
   );
 };
 
-export default ProductDescription;
+export default ProductDescriptionFromPreviousOrders;

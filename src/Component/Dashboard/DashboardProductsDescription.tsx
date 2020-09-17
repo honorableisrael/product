@@ -15,8 +15,73 @@ import RightSideBar from "./rightSideBar";
 import navigategreen from "../../assets/navigategreen.svg";
 import slide2 from "../../assets/slide2.png";
 import MobileSideNav from "./MobileSideNav";
+import Switch from "react-switch";
+import { useState } from "react";
+import Axios from "axios";
+import { API } from "../../config";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
-const DashboardReservedProductsDescription = () => {
+const DashboardReservedProductsDescription = (props: any) => {
+  const [state, setState] = useState<any>({ checked: false, product: "" });
+  const { product, checked } = state;
+  const handleChange = (checked) => {
+    setState({
+      ...state,
+      checked,
+    });
+    if (checked) {
+      setTimeout(() => {
+        // notify("Purchas")
+        props.history.push(`/products/${props.match.params.orderid}`);
+      }, 2000);
+    }
+  };
+  const notify = (message: string, container = "i") => {
+    toast(message, { containerId: container });
+  };
+
+  console.log(checked);
+  React.useEffect(() => {
+    window.scrollTo(-0, -0);
+    console.log(props);
+    const productId = props.match.params.id;
+    const orderId = props.match.params.orderid;
+    localStorage.setItem("alreadyboughtproductid", JSON.stringify(orderId)); //save the product id so we orders can be returned back to this point when cancelled
+    const userInfo: any = localStorage.getItem("userDetails");
+    const token = userInfo
+      ? JSON.parse(userInfo)
+      : props.history.push("/signin");
+    Axios.get(`${API}/products/${productId}`, {
+      headers: { Authorization: `Bearer ${token?.token}` },
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          setState({
+            ...state,
+            product: res.data.data,
+          });
+        }
+        if (res.status == 400) {
+          props.history.push("/products");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  const FormatAmount = (amount) => {
+    if (amount) {
+      return amount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+  };
+  const calculateReturnAmount = (price: number, rate: number): any => {
+    if (price && rate) {
+      const payBack = price + price * (rate / 100);
+      return FormatAmount(payBack);
+    }
+  };
   return (
     <>
       <NavBar />
@@ -25,7 +90,7 @@ const DashboardReservedProductsDescription = () => {
           <SideBar products={true} />
           <Col md={6} className="mainbody11">
             <Row className="rowss">
-            <MobileSideNav/>
+              <MobileSideNav />
               <Col md={12}>
                 <div className="sponsors backtoproducts">
                   <div>
@@ -33,62 +98,67 @@ const DashboardReservedProductsDescription = () => {
                   </div>
                 </div>
                 <Col md={{ span: 12 }} className="userfirstitems-tabs nopad11">
-                  <Col md={12}>
+                  <Col md={11}>
                     <div className="immgcont">
                       <img
-                        src={slide2}
+                        src={product.imageUrl}
                         className="dashproddescription"
                         alt="dashproddescription"
                       />
                     </div>
                   </Col>
-                  <Col md={11} className="dashprod12">
+                  <Col md={10} className="dashprod12">
                     <div className="prodflex">
                       <div className="flmx oill">
-                        <div>AGO-001</div>
+                        <div className="fott">AGO-001</div>
                         <div className="finished1product">
-                          <div className="Loadingproduct rmrelpos">
+                          <div className="Loadedproduct rmrelpos">
                             {" "}
-                            <span className="yellowcircleproduct"></span>{" "}
-                            Loading
+                            <span className="greencircleproduct"></span> Loaded
                           </div>
                         </div>
                       </div>
                       <div className="flmx">
                         <div>
-                          <span className="Buyat">Buy at</span>{" "}
-                          <span className="priceb">N100,000</span>
+                          <span className="Buyat">Bought at</span>{" "}
+                          <span className="priceb">
+                            N{FormatAmount(product.price)}
+                          </span>
                         </div>
                         <div>
-                          <span className="Buyat">Sell at</span>
-                          <span className="prices"> N800,000</span>
+                          <span className="Buyat">Selling at</span>
+                          <span className="prices">
+                            {" "}
+                            N
+                            {calculateReturnAmount(
+                              product.price,
+                              product.return
+                            )}
+                          </span>
                         </div>
                       </div>
-                      <div className="durr1 Buyat">In 8 months</div>
-                      <hr/>
-                      <div className="prod133 pushsw">
-                        <span className="prodname fott">Quantity</span>
-                        <div className="incww">
-                          <span
-                            className="numberdecrease"
-                            // onClick={handleDecrease}
-                          >
-                            -
-                          </span>
-                          <input
-                            type="text"
-                            // value={numberofbarrels}
-                            // onChange={onInputChange}
-                            className="totalSelected capital-input loadinput"
-                          />{" "}
-                          <span
-                            className="numberincrease"
-                            // onClick={handleIncrease}
-                          >
-                            +
-                          </span>
+                      <div className="durr1 Buyat">
+                        In {product.cycle}{" "}
+                        {product.cycle == 1 ? "month" : "months"}{" "}
+                      </div>
+                      <div className="durr1 durr22">
+                        <div className="durr21">
+                          <div className="rolla">Roll Over Next Payment</div>
+                          <Switch
+                            onChange={handleChange}
+                            checked={state.checked}
+                            uncheckedIcon={false}
+                            checkedIcon={false}
+                            height={18}
+                            width={35}
+                            onHandleColor={""}
+                          />
                         </div>
-                        <div className="placeorder  polss23">BUY</div>
+                      </div>
+                      <hr />
+                      <div className="prod133 pushsw">
+                        <div className="prodname fott">Product Description</div>
+                        <div className="descrp">{product.description}</div>
                       </div>
                     </div>
                   </Col>
@@ -98,6 +168,13 @@ const DashboardReservedProductsDescription = () => {
           </Col>
           <RightSideBar bg={"#FAFAFA"} />
         </Row>
+        <ToastContainer
+          enableMultiContainer
+          containerId={"i"}
+          toastClassName="bg-info text-white"
+          hideProgressBar={true}
+          position={toast.POSITION.TOP_CENTER}
+        />
       </Container>
     </>
   );

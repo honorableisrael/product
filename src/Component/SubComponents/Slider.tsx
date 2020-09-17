@@ -127,7 +127,7 @@ const Slider: React.FC = (props) => {
                     <img src={x.imageUrl} alt="slide1" className="slide1" />
                   </Link>
                   <div className="slidetitle">
-                    <div>{x.name}</div>
+                    <div className="prddss1"><Link to="/products">{x.name}</Link></div>
                     <div>
                       <span className="buyat">Buy at</span>
                       <span className="amount">₦{FormatAmount(x.price)}</span>
@@ -141,7 +141,7 @@ const Slider: React.FC = (props) => {
                         <span className="rightarrw1">
                           <Link to="/products">View</Link>
                         </span>
-                        <span className="rightarrw">&#8594;</span>
+                        <span className="rightarrw"><Link to="/products">&#8594;</Link></span>
                       </div>
                     </div>
                   </div>

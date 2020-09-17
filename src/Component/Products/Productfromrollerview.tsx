@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -16,8 +17,7 @@ import Axios from "axios";
 import { API } from "../../config";
 import preloader from "../../assets/preloader.gif";
 
-
-const Products: React.FunctionComponent<any> = (props: any) => {
+const ProductView = (props: any) => {
   const [state, setNewState] = useState({
     products: "",
     filter: "",
@@ -26,6 +26,7 @@ const Products: React.FunctionComponent<any> = (props: any) => {
     sortbyFinished: false,
     errorMessage: "",
     clientIsLoggedIn: "",
+    orderId:'',
     visible: 8,
     sortbyAll: false,
     isloading: false,
@@ -66,6 +67,7 @@ const Products: React.FunctionComponent<any> = (props: any) => {
       ...state,
       isloading: true,
       clientIsLoggedIn: clientdata,
+      orderId:props.match.params.orderid
     });
     window.scrollTo(-0, -0);
     setNewState({
@@ -130,7 +132,7 @@ const Products: React.FunctionComponent<any> = (props: any) => {
     console.log(payBack);
     return FormatAmount(payBack);
   };
-  //change dateformat
+console.log(state.orderId)
   return (
     <>
       <NavBar />
@@ -208,7 +210,7 @@ const Products: React.FunctionComponent<any> = (props: any) => {
                         {capitalizeFirstLetter(x.status)}
                       </div>
                     </div>
-                    <Link to={`/product/${x.id}`}>
+                    <Link to={`/product/${x.id}/${props.match.params.orderid}`}>
                       <img
                         src={x.imageUrl}
                         alt="slide1"
@@ -218,12 +220,12 @@ const Products: React.FunctionComponent<any> = (props: any) => {
                     <div className="slidetitleproduct">
                       <div className="linkaa1">
                         {" "}
-                        <Link to={`/product/${x.id}`}>AGO-111</Link>
+                        <Link to={`/product/${x.id}/${props.match.params.orderid}`}>AGO-111</Link>
                       </div>
                       <div>
                         <span className="buyatproduct">Buy at</span>
                         <span className="amountproduct">
-                          <Link to={`/product/${x.id}`}>
+                          <Link to={`/product/${x.id}/${props.match.params.orderid}`}>
                             ₦{FormatAmount(x.price)}
                           </Link>
                         </span>
@@ -231,16 +233,18 @@ const Products: React.FunctionComponent<any> = (props: any) => {
                           <span className="buyatproduct">Sell at</span>
                           <span className="amountproduct">
                             {" "}
-                            <Link to={`/product/${x.id}`}>₦{calculateReturnAmount(x.price, x.return)}</Link>
+                            <Link to={`/product/${x.id}/${props.match.params.orderid}`}>
+                              ₦{calculateReturnAmount(x.price, x.return)}
+                            </Link>
                           </span>
                         </div>
                         <div className="slider22product">
                           <span className="rightarrw1product">
-                            <Link to={`/product/${x.id}`}>View</Link>
+                            <Link to={`/product/${x.id}/${props.match.params.orderid}`}>View</Link>
                           </span>
                           <span className="rightarrwproduct">
                             {" "}
-                            <Link to={`/product/${x.id}`}>&#8594;</Link>
+                            <Link to={`/product/${x.id}/${props.match.params.orderid}`}>&#8594;</Link>
                           </span>
                         </div>
                       </div>
@@ -272,4 +276,4 @@ const Products: React.FunctionComponent<any> = (props: any) => {
   );
 };
 
-export default Products;
+export default ProductView;

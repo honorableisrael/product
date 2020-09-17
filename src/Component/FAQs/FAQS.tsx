@@ -23,6 +23,46 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
     password: "",
     isloading: false,
   });
+  const [openState, setState]: any = React.useState({
+    firstIsOpen: false,
+    secondIsOpen: false,
+    o3: false,
+    o4: false,
+    o5: false,
+    o6: false,
+    o7: false,
+    o8: false,
+    o9: false,
+    o10: false,
+    o11: false,
+    o12: false,
+    o13: false,
+    o14: false,
+    o15: false,
+    o16: false,
+    o17: false,
+    o18: false,
+  });
+  const {
+    firstIsOpen,
+    secondIsOpen,
+    o3,
+    o4,
+    o5,
+    o6,
+    o7,
+    o8,
+    o9,
+    o10,
+    o11,
+    o12,
+    o13,
+    o14,
+    o15,
+    o16,
+    o17,
+    o18,
+  } = openState;
   const {
     phone,
     email,
@@ -59,11 +99,22 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
               <Col md={8}>
                 <Accordion defaultActiveKey="">
                   <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="0">
+                    <Accordion.Toggle
+                      onClick={() =>
+                        setState({
+                          firstIsOpen: firstIsOpen ? false : true,
+                        })
+                      }
+                      as={Card.Header}
+                      eventKey="0"
+                    >
                       <div className="faq-side-header">
                         {" "}
                         <div>
-                          <span className="sideplus">+</span>Who owns Pramopro?
+                          <span className="sideplus">
+                            {!firstIsOpen ? "+" : "-"}
+                          </span>
+                          Who owns Pramopro?
                         </div>
                         <i
                           className="fa fa-chevron-down"
@@ -84,11 +135,22 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                   </Card>
                   {/* second question */}
                   <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="1">
+                    <Accordion.Toggle
+                      onClick={() =>
+                        setState({
+                          secondIsOpen: secondIsOpen ? false : true,
+                        })
+                      }
+                      as={Card.Header}
+                      eventKey="1"
+                    >
                       <div className="faq-side-header">
                         {" "}
                         <div>
-                          <span className="sideplus">+</span>What is Pramopro?
+                          <span className="sideplus">
+                            {!secondIsOpen ? "+" : "-"}
+                          </span>
+                          What is Pramopro?
                         </div>
                         <i
                           className="fa fa-chevron-down"
@@ -109,12 +171,20 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                   </Card>
                   {/* third question */}
                   <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="3">
+                    <Accordion.Toggle
+                      onClick={() =>
+                        setState({
+                          o3: o3 ? false : true,
+                        })
+                      }
+                      as={Card.Header}
+                      eventKey="3"
+                    >
                       <div className="faq-side-header">
                         {" "}
                         <div>
-                          <span className="sideplus">+</span>How Does Pramopro
-                          Work?
+                          <span className="sideplus"> {!o3 ? "+" : "-"}</span>
+                          How Does Pramopro Work?
                         </div>
                         <i
                           className="fa fa-chevron-down"
@@ -149,12 +219,20 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
 
                   {/* fourth question */}
                   <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="4">
+                    <Accordion.Toggle
+                      onClick={() =>
+                        setState({
+                          o4: o4 ? false : true,
+                        })
+                      }
+                      as={Card.Header}
+                      eventKey="4"
+                    >
                       <div className="faq-side-header">
                         {" "}
                         <div>
-                          <span className="sideplus">+</span>How do I join
-                          Pramopro?
+                          <span className="sideplus">{!o4 ? "+" : "-"}</span>How
+                          do I join Pramopro?
                         </div>
                         <i
                           className="fa fa-chevron-down"
@@ -187,12 +265,20 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                     </Accordion.Collapse>
                   </Card>
                   <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="5">
+                    <Accordion.Toggle
+                      onClick={() =>
+                        setState({
+                          o5: o5 ? false : true,
+                        })
+                      }
+                      as={Card.Header}
+                      eventKey="5"
+                    >
                       <div className="faq-side-header">
                         {" "}
                         <div>
-                          <span className="sideplus">+</span>How Do I Become an
-                          Energy Commodities Trader?
+                          <span className="sideplus">{!o4 ? "+" : "-"}</span>How
+                          Do I Become an Energy Commodities Trader?
                         </div>
                         <i
                           className="fa fa-chevron-down"
@@ -231,11 +317,19 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                     </Accordion.Collapse>
                   </Card>
                   <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="6">
+                    <Accordion.Toggle
+                      onClick={() =>
+                        setState({
+                          o6: o6 ? false : true,
+                        })
+                      }
+                      as={Card.Header}
+                      eventKey="6"
+                    >
                       <div className="faq-side-header">
                         {" "}
                         <div>
-                          <span className="sideplus">+</span>
+                          <span className="sideplus">{!o6 ? "+" : "-"}</span>
                           What does it mean for a product to be "Loading",
                           "Loaded" or "Finished"?
                         </div>
@@ -273,12 +367,20 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
               <Col md={8}>
                 <Accordion defaultActiveKey="">
                   <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="10">
+                    <Accordion.Toggle
+                      onClick={() =>
+                        setState({
+                          o7: o7 ? false : true,
+                        })
+                      }
+                      as={Card.Header}
+                      eventKey="10"
+                    >
                       <div className="faq-side-header">
                         {" "}
                         <div>
-                          <span className="sideplus">+</span>How do I pay for a
-                          product?
+                          <span className="sideplus">{!o7 ? "+" : "-"}</span>How
+                          do I pay for a product?
                         </div>
                         <i
                           className="fa fa-chevron-down"
@@ -311,12 +413,20 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                   </Card>
                   {/* second question */}
                   <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="11">
+                    <Accordion.Toggle
+                      onClick={() =>
+                        setState({
+                          o8: o8 ? false : true,
+                        })
+                      }
+                      as={Card.Header}
+                      eventKey="11"
+                    >
                       <div className="faq-side-header">
                         {" "}
                         <div>
-                          <span className="sideplus">+</span>What happens after
-                          I pay for a product?
+                          <span className="sideplus">{!o8 ? "+" : "-"}</span>
+                          What happens after I pay for a product?
                         </div>
                         <i
                           className="fa fa-chevron-down"
@@ -342,11 +452,19 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                     </Accordion.Collapse>
                   </Card>
                   <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="19">
+                    <Accordion.Toggle
+                      onClick={() =>
+                        setState({
+                          o9: o9 ? false : true,
+                        })
+                      }
+                      as={Card.Header}
+                      eventKey="19"
+                    >
                       <div className="faq-side-header">
                         <div>
-                          <span className="sideplus">+</span>How can you give
-                          such high returns?
+                          <span className="sideplus">{!o9 ? "+" : "-"}</span>How
+                          can you give such high returns?
                         </div>
                         <i
                           className="fa fa-chevron-down"
@@ -367,12 +485,20 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                     </Accordion.Collapse>
                   </Card>
                   <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="13">
+                    <Accordion.Toggle
+                      onClick={() =>
+                        setState({
+                          o10: o10 ? false : true,
+                        })
+                      }
+                      as={Card.Header}
+                      eventKey="13"
+                    >
                       <div className="faq-side-header">
                         {" "}
                         <div>
-                          <span className="sideplus">+</span>How do I get my
-                          returns (Return After Trade)?
+                          <span className="sideplus">{!o10 ? "+" : "-"}</span>
+                          How do I get my returns (Return After Trade)?
                         </div>
                         <i
                           className="fa fa-chevron-down"
@@ -395,12 +521,21 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
 
                   {/* fourth question */}
                   <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="14">
+                    <Accordion.Toggle
+                      onClick={() =>
+                        setState({
+                          o11: o11 ? false : true,
+                        })
+                      }
+                      as={Card.Header}
+                      eventKey="14"
+                    >
                       <div className="faq-side-header">
                         {" "}
                         <div>
-                          <span className="sideplus">+</span>How do I make sure
-                          I do not miss a product that is tagged “Loading”?
+                          <span className="sideplus">{!o11 ? "+" : "-"}</span>
+                          How do I make sure I do not miss a product that is
+                          tagged “Loading”?
                         </div>
                         <i
                           className="fa fa-chevron-down"
@@ -427,12 +562,20 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                     </Accordion.Collapse>
                   </Card>
                   <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="15">
+                    <Accordion.Toggle
+                      as={Card.Header}
+                      onClick={() =>
+                        setState({
+                          o12: o12 ? false : true,
+                        })
+                      }
+                      eventKey="15"
+                    >
                       <div className="faq-side-header">
                         {" "}
                         <div>
-                          <span className="sideplus">+</span>What determines how
-                          many units I can buy?
+                          <span className="sideplus">{!o12 ? "+" : "-"}</span>
+                          What determines how many units I can buy?
                         </div>
                         <i
                           className="fa fa-chevron-down"
@@ -453,12 +596,20 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                     </Accordion.Collapse>
                   </Card>
                   <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="16">
+                    <Accordion.Toggle
+                      onClick={() =>
+                        setState({
+                          o13: o13 ? false : true,
+                        })
+                      }
+                      as={Card.Header}
+                      eventKey="16"
+                    >
                       <div className="faq-side-header">
                         {" "}
                         <div>
-                          <span className="sideplus">+</span> Can I pull out
-                          funds after purchasing a product?
+                          <span className="sideplus">{!o13 ? "+" : "-"}</span>{" "}
+                          Can I pull out funds after purchasing a product?
                         </div>
                         <i
                           className="fa fa-chevron-down"
@@ -477,12 +628,20 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                     </Accordion.Collapse>
                   </Card>
                   <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="17">
+                    <Accordion.Toggle
+                      onClick={() =>
+                        setState({
+                          o14: o14 ? false : true,
+                        })
+                      }
+                      as={Card.Header}
+                      eventKey="17"
+                    >
                       <div className="faq-side-header">
                         {" "}
                         <div>
-                          <span className="sideplus">+</span>Are my funds
-                          insured?
+                          <span className="sideplus">{!o14 ? "+" : "-"}</span>
+                          Are my funds insured?
                         </div>
                         <i
                           className="fa fa-chevron-down"
@@ -505,12 +664,20 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                     </Accordion.Collapse>
                   </Card>
                   <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="18">
+                    <Accordion.Toggle
+                      onClick={() =>
+                        setState({
+                          o15: o15 ? false : true,
+                        })
+                      }
+                      as={Card.Header}
+                      eventKey="18"
+                    >
                       <div className="faq-side-header">
                         {" "}
                         <div>
-                          <span className="sideplus">+</span>Are there other
-                          channels to access Pramopro?
+                          <span className="sideplus">{!o15 ? "+" : "-"}</span>
+                          Are there other channels to access Pramopro?
                         </div>
                         <i
                           className="fa fa-chevron-down"

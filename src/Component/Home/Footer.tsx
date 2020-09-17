@@ -38,10 +38,10 @@ const Footer = () => {
               </div>
             </div>
             <div className="n01">
-              <div className="footerhead">FOLLOW US</div>
+              {/* <div className="footerhead">FOLLOW US</div> */}
               <div className="n02">
                 <span className="ckks">
-                  <img src={linkedin} className="linkedin" alt="linkedin" />
+                  {/* <img src={linkedin} className="linkedin" alt="linkedin" /> */}
                 </span>
               </div>
             </div>

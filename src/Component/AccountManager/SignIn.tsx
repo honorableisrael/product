@@ -105,10 +105,7 @@ const SignIn: React.FunctionComponent = (props: any) => {
           "userEmail",
           JSON.stringify(res.data.data.username)
         );
-        localStorage.setItem(
-          "userInfo",
-          JSON.stringify(res.data.data)
-        );
+        localStorage.setItem("userInfo", JSON.stringify(res.data.data));
         if (res?.data?.data?.verified === false) {
           return props.history.push("/verify-account");
         }
@@ -132,25 +129,25 @@ const SignIn: React.FunctionComponent = (props: any) => {
     // console.log(data)
     Axios.post(`${API}/login/social`, data)
       .then((res) => {
-        console.log(res)
-        if (res.data.responseStatus === 400) {
+        console.log(res);
+        if (res.status === 200) {
+          localStorage.setItem(
+            "userDetails",
+            JSON.stringify({ token: res.data.data })
+          );
+          checkIfUserIsVerified();
           return setFormState({
             ...state,
-            errorMessage: "Failed request please try again later",
+            isloading: false,
           });
         }
-        localStorage.setItem(
-          "userDetails",
-          JSON.stringify({ token: res.data.data })
-        );
-        props.history.push("/dashboard");
       })
       .catch((err) => {
         setFormState({
           ...state,
           errorMessage: "failed to login",
         });
-        console.log(err.response)
+        console.log(err.response);
       });
   };
   return (

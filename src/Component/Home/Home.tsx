@@ -138,7 +138,7 @@ class Home extends React.Component {
                         className="howitworksimage4"
                         alt="howitworksimage"
                       />
-                      <div className="steptext">Pay for desired products</div>
+                      <div className="steptext sttw">Pay for desired products</div>
                     </div>
                   </div>
                   <div className="card2wrapper">

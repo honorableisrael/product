@@ -119,8 +119,9 @@ const ProductPurchased = () => {
                                   capitalizeFirstLetter(x.product.status) ===
                                   "Loaded"
                                     ? "Loadeddashboardproduct"
-                                    : capitalizeFirstLetter(x.product.status) ===
-                                      "Finished"
+                                    : capitalizeFirstLetter(
+                                        x.product.status
+                                      ) === "Finished"
                                     ? "finished11dashboardproduct"
                                     : "Loadeddashboardproduct"
                                 }
@@ -141,11 +142,15 @@ const ProductPurchased = () => {
                                 ></span>
                               </div>
                             </div>
-                            <img
-                              src={slide1}
-                              alt="slide1"
-                              className="slide1product"
-                            />
+                            <Link
+                              to={`/dashboardreservedproducts/${x.product.id}/${x.id}`}
+                            >
+                              <img
+                                src={slide1}
+                                alt="slide1"
+                                className="slide1product"
+                              />
+                            </Link>
                             <div className="slidetitleproduct">
                               <div>AGO-111</div>
                               <div>
@@ -164,7 +169,7 @@ const ProductPurchased = () => {
                                   <span className="rightarrw1product"></span>
                                   <span className="rightarrwproduct">
                                     <a
-                                      href={`${API}/orders/${x.id}/order`}
+                                      href={`${API}/orders/${x.id}/receipt`}
                                       target="blank"
                                     >
                                       <img

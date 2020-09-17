@@ -106,6 +106,8 @@ const NavBar = () => {
             fontSize: 17,
             textAlign: "left",
           }}
+          itemHoverStyle={{ backgroundColor: "rgb(19, 19, 19) !important" }}
+          itemStyle={{ backgroundColor: "rgb(19, 19, 19) !important" }}
           title={[
             <div
               style={{
@@ -123,7 +125,6 @@ const NavBar = () => {
               <i className="fa fa-close" onClick={() => setShowNav(false)}></i>
             </div>,
           ]}
-          itemStyle={{ backgroundColor: "#131313", }}
           items={[
             <div className="nav-section-mobile">
               <div className="nav-item-mobile">
@@ -149,16 +150,16 @@ const NavBar = () => {
               <div className="dasjj">
                 {!user && (
                   <div className="dashm2">
-                    <a className="menu-mobile-link nav-btn1-2 dashboardmobile">
+                    <Link to="/signin" className="menu-mobile-link nav-btn1-2 dashboardmobile">
                       Login
-                    </a>
+                    </Link>
                   </div>
                 )}
               </div>
               {!user && (
                 <div className="dashm2">
                   <Link
-                    to="/dashboard"
+                    to="/signup"
                     className="menu-mobile-link nav-btn1-2 dashboardmobile"
                   >
                     GET STARTED
@@ -168,9 +169,9 @@ const NavBar = () => {
               <div className="dasjj">
                 {user && (
                   <div className="dashm2">
-                    <a className="menu-mobile-link nav-btn1-2 dashboardmobile" onClick={logOutMobile}>
+                    <span className="menu-mobile-link nav-btn1-2 dashboardmobile" onClick={logOutMobile}>
                       LOGOUT
-                    </a>
+                    </span>
                   </div>
                 )}
               </div>

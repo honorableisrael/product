@@ -567,6 +567,8 @@
   border: 2px solid white;
   border-radius: 1rem;
   width: 97%;
+  max-width: 669px;
+  margin: auto;
 }
 .dashprod12 {
   background: #fff;
@@ -608,9 +610,7 @@
 .loadinput {
   background: #ddd;
 }
-.fott {
-  font-size: 15px;
-}
+
 .polss23 {
   font-size: 15px;
   background: #43a0489c 0% 0% no-repeat padding-box;
@@ -932,6 +932,10 @@
   .mainbody11 {
     min-height: 94vh;
   }
+  .immgcont{
+    height: 80%;
+    text-align: center;
+  }
   .sponsors {
     padding-top: 3rem;
   }
@@ -1209,5 +1213,32 @@ ul {
   cursor: pointer;
 }
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
-  border-color:none
+  border-color:none !important;
+}
+.durr21{
+  background: #e5ffe6 0% 0% no-repeat padding-box;
+  width: 250px;
+  display:flex;
+  font-size: 14px;
+  color: #43a047;
+  padding: 1rem ;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 9px;
+}
+.rolla{
+  margin-right: .4rem;
+}
+.durr22{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: .5rem;
+}
+.fott {
+  text-align: left;
+  font: 18px/24px Nunito Sans;
+  letter-spacing: 0px;
+  font-weight: 700;
+  color: #2a2e43;
+  opacity: 1;
 }
