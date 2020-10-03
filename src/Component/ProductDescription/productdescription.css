@@ -25,7 +25,7 @@
   padding-bottom: 1rem;
 }
 .prodname {
-  margin-right: 1.5rem;
+  margin-right: 0.5rem;
   font: 18px/24px Nunito Sans;
   letter-spacing: 0.02px;
   color: #2a2e43;
@@ -137,13 +137,12 @@
   background: #43a047 0% 0% no-repeat padding-box;
   border-radius: 5px;
   opacity: 1;
-  width: 50%;
+  width: 34%;
   margin-right: 0.3rem;
   display: inline-table;
   text-align: center;
-  margin-top: inherit;
-  padding-top: .2rem;
-  padding-bottom: .2rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 .proddesctit {
   text-align: left;
@@ -161,7 +160,7 @@
   letter-spacing: 0px;
   color: #2a2e43;
   opacity: 1;
-  padding-top: .5rem;
+  padding-top: 0.5rem;
 }
 .t9tt {
   text-align: left;
@@ -179,7 +178,7 @@
 .capital-input {
   background: #fff;
   color: #444444;
-  width: 60%;
+  width: 70%;
   min-width: 100px;
   border-radius: 6px;
   border-top: 0px;
@@ -187,6 +186,9 @@
   padding-left: 0.5rem;
   border: 0px solid #ddd;
   margin-bottom: 0.1rem;
+}
+.ssd22 {
+  width: 60%;
 }
 .capital-input:focus {
   outline: 0px solid white;
@@ -210,6 +212,7 @@
   display: flex;
   justify-content: flex-end;
 }
+
 @media (max-width: 500px) {
   .incww {
     padding-bottom: 1rem;
@@ -219,7 +222,7 @@
     justify-content: space-between;
     margin-bottom: 0.4rem;
   }
-  .textrift{
+  .textrift {
     flex-wrap: wrap;
   }
   .capital-input {
@@ -247,7 +250,7 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 1rem;
-  margin-right: 0.5rem;
+  /* margin-right: 0.5rem; */
   cursor: pointer;
 }
 .payfor {
@@ -270,15 +273,17 @@
 }
 .d22 {
   display: flex;
-  width: 98%;
+  width: 100%;
   align-items: center;
   margin-top: 0.5rem;
+  justify-content: space-between;
 }
 .amw2 {
-  font: 10px/24px Nunito Sans;
+  font: 10px/0px Nunito Sans;
   letter-spacing: 0px;
   color: #455065;
   opacity: 1;
+  padding-top: 2rem;
 }
 .amw3 {
   background: #e4e4e4 0% 0% no-repeat padding-box;
@@ -286,18 +291,20 @@
   opacity: 1;
   font-size: 28px;
   font-weight: 700;
-  padding: 0rem 0.3rem;
+  padding: 0rem 0.8rem;
   color: #43a047;
+  font-family: "sans-serif";
 }
 .amv {
   display: flex;
   justify-content: space-between;
+  padding-bottom: 0.5rem;
 }
 .amm0 {
   background: #fafafa 0% 0% no-repeat padding-box;
   border-radius: 5px;
   opacity: 1;
-  width: 40%;
+  width: 100%;
   padding: 1rem;
   margin: auto;
 }
@@ -315,7 +322,7 @@
   font-weight: bold;
 }
 .amm2 {
-  font: Bold 24px/34px Nunito Sans;
+  font: Bold 24px/50px Nunito Sans;
   letter-spacing: 0px;
   color: #43a047;
   opacity: 1;
@@ -324,4 +331,22 @@
   font: Bold 24px/84px Nunito Sans;
   letter-spacing: 0px;
   opacity: 1;
+}
+@media (min-width: 1200px) {
+  .amw3 {
+    font-size: 1.5em;
+  }
+}
+.flxxc1 {
+  display: flex;
+  align-items: center;
+}
+.handleclose {
+  text-align: right;
+}
+.ckosen {
+  position: relative;
+  bottom: 1.6rem;
+  font-size: 9px;
+  cursor: pointer;
 }

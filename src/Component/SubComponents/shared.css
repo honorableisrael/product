@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
 }
 .n2wrapp {
@@ -215,6 +215,7 @@
     /*   hide middle content of navbar */
     display: none;
   }
+
   .n3wrapp {
     display: none;
   }
@@ -233,7 +234,7 @@
   width: 32px;
   max-width: 32px;
   position: relative;
-  top: 42%;
+  top: 40%;
 }
 .center-changed {
   height: 100%;
@@ -309,7 +310,6 @@
 }
 .hamburger {
   border-radius: 50%;
-  background: #b9ecbc;
   padding: 0.7rem;
   margin-right: 3rem;
 }
@@ -335,6 +335,20 @@
 @media (max-width: 501px) {
   .hamburger {
     margin-right: 1rem;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .react-multi-carousel-item {
+    left: 2rem !important;
+    position: relative;
+    bottom: 2rem;
+  }
+  .slide1wrap {
+    margin: auto;
   }
   .refwq1 {
     padding-left: 0rem;
@@ -343,19 +357,30 @@
     padding: 0.1rem !important;
     width: 174px !important;
   }
-  .change11{
-    font-size: .7em;
+  .change11 {
+    font-size: 0.7em;
   }
-  .menu-mobile-link{
+  .menu-mobile-link {
     width: 153px !important;
   }
-
 }
-.prddss1 a{
+.prddss1 a {
   color: inherit;
   text-decoration: none;
 }
-.rightarrw a{
+.rightarrw a {
   color: inherit;
   text-decoration: none;
+}
+@media (max-width: 351px) {
+  .react-multi-carousel-item {
+    left: 1rem !important;
+    position: relative;
+  }
+  .center-changed {
+    height: 57vh;
+  }
+  .hamburger {
+    margin-right: 0px;
+  }
 }

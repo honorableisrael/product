@@ -58,8 +58,9 @@ const BankDetails = (props) => {
       isloading: true,
     });
     const user: any = localStorage.getItem("userDetails");
+    console.log(user)
     const user_id = JSON.parse(user);
-    const id = user_id.user.id;
+    const id = user_id?.user?.id;
     var token = user_id.token;
 
     const data = {

@@ -43,18 +43,18 @@ const ProductPurchased = () => {
     const userdata = loggedIn ? JSON.parse(loggedIn) : "";
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
     //load  product list
-    Axios.get(`${API}/user`, {
+    Axios.get(`${API}/user/orders`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
         setFormState({
           ...state,
           user: res.data.data,
-          products: res.data.data.orders.reverse(),
+          products: res.data.data,
           isloading: false,
           token: token,
         });
-        console.log(products);
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -87,7 +87,7 @@ const ProductPurchased = () => {
   return (
     <>
       <Row className="refdark2">
-        <Col md={10}>
+        <Col md={12}>
           <Form>
             <Row>
               <Col md={12} className="modea nopad11">
@@ -108,7 +108,7 @@ const ProductPurchased = () => {
                 )}
                 {products.length !== 0 && (
                   <Col md={12} className="productlist nopad11">
-                    <div className="slidewrapperproduct redefine1">
+                    <div className="slidewrapperproduct redefine1 redefine122">
                       {products &&
                         products?.length > 0 &&
                         products?.slice(0, visible)?.map((x, index) => (
@@ -146,13 +146,13 @@ const ProductPurchased = () => {
                               to={`/dashboardreservedproducts/${x.product.id}/${x.id}`}
                             >
                               <img
-                                src={slide1}
+                                src={x.product.imageUrl}
                                 alt="slide1"
                                 className="slide1product"
                               />
                             </Link>
                             <div className="slidetitleproduct">
-                              <div>AGO-111</div>
+                                <div>{x.name}</div>
                               <div>
                                 <span className="buyatproduct">Buy at</span>
                                 <span className="amountproduct smalltext">

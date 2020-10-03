@@ -43,7 +43,7 @@ class Statistics1 extends Component {
       .then((res) => {
         console.log(res)
         this.setState({
-          productStats: res.data,
+          productStats: res.data.data,
           isloading: false,
         });
       })
@@ -121,8 +121,8 @@ class Statistics1 extends Component {
                   >
                     &#8358;{" "}
                     {productStats
-                      ? productStats.totalMoney
-                          .toString()
+                      ? productStats?.totalMoney
+                          ?.toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                       : ""}
                   </div>
@@ -134,11 +134,11 @@ class Statistics1 extends Component {
                 <div className="ournumbers">AGO</div>
                 <div className="totalusers">
                   {productStats
-                    ? productStats.agoUnitsLeft
-                        .toString()
+                    ? productStats?.agoUnitsLeft
+                        ?.toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     : ""}{" "}
-                  <span className="totalusers">Units Left</span>
+                  <span className="totalusers">Projects Left</span>
                 </div>
               </div>
               <div className="secondstatsbox">
@@ -146,54 +146,54 @@ class Statistics1 extends Component {
                 <div className="totalusers">
                   {productStats && productStats.cngUnitsLeft
                     ? productStats.cngUnitsLeft
-                        .toString()
+                        ?.toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     : "0"}{" "}
-                  <span className="totalusers">Units Left</span>
+                  <span className="totalusers">Projects Left</span>
                 </div>
               </div>
               <div className="secondstatsbox">
                 <div className="ournumbers ">LPG</div>
                 <div className="totalusers">
-                  {productStats && productStats.lpgUnitsLeft
-                    ? productStats.lpgUnitsLeft
-                        .toString()
+                  {productStats && productStats?.lpgUnitsLeft
+                    ? productStats?.lpgUnitsLeft
+                        ?.toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     : ""}{" "}
-                  <span className="totalusers">Units Left</span>
+                  <span className="totalusers">Projects Left</span>
                 </div>
               </div>
               <div className="secondstatsbox">
                 <div className="ournumbers">DPK</div>
                 <div className="totalusers">
                   {productStats
-                    ? productStats.dpkUnitsLeft
-                        .toString()
+                    ? productStats?.dpkUnitsLeft
+                        ?.toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     : ""}{" "}
-                  <span className="totalusers">Units Left</span>
+                  <span className="totalusers">Projects Left</span>
                 </div>
               </div>
               <div className="secondstatsbox">
                 <div className="ournumbers">HHK</div>
                 <div className="totalusers">
                   {productStats
-                    ? productStats.hhkUnitsLeft
-                        .toString()
+                    ? productStats?.hhkUnitsLeft
+                        ?.toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     : ""}{" "}
-                  <span className="totalusers">Units Left</span>
+                  <span className="totalusers">Projects Left</span>
                 </div>
               </div>
               <div className="secondstatsbox">
                 <div className="ournumbers ">LPFO</div>
                 <div className="totalusers">
                   {productStats
-                    ? productStats.lpfoUnitsLeft
-                        .toString()
+                    ? productStats?.lpfoUnitsLeft
+                        ?.toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     : ""}{" "}
-                  <span className="totalusers">Units Left</span>
+                  <span className="totalusers">Projects Left</span>
                 </div>
               </div>
             </Row>

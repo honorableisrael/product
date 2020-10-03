@@ -83,7 +83,7 @@ const Slider: React.FC = (props) => {
   return (
     <>
       <div className="arrowflex">
-        {products.length>0 && (
+        {products.length > 0 && (
           <span className="leftarrowcontainer">
             <img
               src={leftarrow}
@@ -95,8 +95,7 @@ const Slider: React.FC = (props) => {
         )}
         <div className="center-changed" id="content">
           <div className="slidewrapper">
-            {
-              products.length > 0 &&
+            {products.length > 0 &&
               products.map((x, index) => (
                 <div className="slide1wrap" key={index}>
                   <div className="finished1">
@@ -127,7 +126,9 @@ const Slider: React.FC = (props) => {
                     <img src={x.imageUrl} alt="slide1" className="slide1" />
                   </Link>
                   <div className="slidetitle">
-                    <div className="prddss1"><Link to="/products">{x.name}</Link></div>
+                    <div className="prddss1">
+                      <Link to="/products">{x.name}</Link>
+                    </div>
                     <div>
                       <span className="buyat">Buy at</span>
                       <span className="amount">₦{FormatAmount(x.price)}</span>
@@ -136,20 +137,26 @@ const Slider: React.FC = (props) => {
                         <span className="amount">
                           ₦{calculateReturnAmount(x.price, x.return)}
                         </span>
+                        <div className="amm1 littf">
+                          After {x.cycle}{" "}
+                          {x.cycle == 1 ? "month" : "months"}{" "}
+                        </div>
                       </div>
                       <div className="slider22">
                         <span className="rightarrw1">
                           <Link to="/products">View</Link>
                         </span>
-                        <span className="rightarrw"><Link to="/products">&#8594;</Link></span>
+                        <span className="rightarrw">
+                          <Link to="/products">&#8594;</Link>
+                        </span>
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
-            </div>
+          </div>
         </div>
-        {products.length>0 && (
+        {products.length > 0 && (
           <span className="leftarrowcontainer">
             <img
               src={rightarrow}

@@ -1,11 +1,5 @@
 import * as React from "react";
 import "./Dashboard.css";
-import dashcenter from "../../assets/dashcenter.svg";
-import daterange1 from "../../assets/dategreen.svg";
-import avatar from "../../assets/avatar.png";
-import money1 from "../../assets/money1.png";
-import moneyorange from "../../assets/moneyorange.png";
-import dateorange from "../../assets/dateorange.png";
 import crmillustration from "../../assets/crmillustration.png";
 import standingman from "../../assets/standingman.svg";
 import prodcash from "../../assets/prodcash.png";
@@ -20,7 +14,7 @@ import Axios from "axios";
 import moment from "moment";
 import { API } from "../../config";
 
-const RightSideBar = withRouter((props: any) => {
+const RightSideBarCRM = withRouter((props: any) => {
   const [state, setFormState] = useState({
     show: false,
     subject: "",
@@ -197,66 +191,8 @@ const RightSideBar = withRouter((props: any) => {
   console.log(user);
   return (
     <>
-      <Col md={4} style={{ background: props.bg }} className="revcol2 hideatsmall">
-        <div className="fkex">
-          <div className="dassd">
-            <div>
-              <span className="free">Welcome,</span>{" "}
-              <span className="urname">
-                {user?.firstname} {user?.lastname}{" "}
-                {user.firstname === null && user.lastname === null
-                  ? user.fullname
-                  : ""}{" "}
-              </span>
-            </div>
-            <div className="email11">{user?.username}</div>
-          </div>
-          <div>
-            <img
-              src={user && user.profileImage ? user.profileImage : avatar}
-              className="avatarq"
-              alt="avatar"
-            />
-          </div>
-        </div>
-        <div className="email11 text-center">
-          {" "}
-          <img src={daterange1} className="dategreen" alt="daterange" /> Trading
-          Since {user?.dateRegistered}
-        </div>
-        <div className="minicard">
-          <div className="money12">
-            <img src={money1} className="money1" alt="money1" />
-            <div className="wxp">
-              <span className="expectedret"> My Expected Return</span>
-              <div className="expectedret2">
-                {expectedReturn
-                  ? FormatAmount(expectedReturn)
-                  : "No activities"}
-              </div>
-            </div>
-          </div>
-          <div className="money12">
-            <img src={dateorange} className="money1" alt="money1" />
-            <div className="wxp">
-              <span className="expectedret"> End-of-cycle day</span>
-              <div className="expectedret2">
-                {" "}
-                {endOfCycle?.trim() ? EndOfCycle(endOfCycle) : "No activities"}
-              </div>
-            </div>
-          </div>
-          <div className="money12">
-            <img src={moneyorange} className="money1" alt="money1" />
-            <div className="wxp">
-              <span className="expectedret">Collected Return</span>
-              <div className="expectedret2">
-                {collectedReturn
-                  ? FormatAmount(collectedReturn)
-                  : "No activities"}
-              </div>
-            </div>
-          </div>
+      <Col md={4} style={{ background: props.bg }} className="revcol2">
+        <div className="fkex pddo">
           <div className="picss">
             <img
               src={crmillustration}
@@ -333,4 +269,4 @@ const RightSideBar = withRouter((props: any) => {
     </>
   );
 });
-export default RightSideBar;
+export default RightSideBarCRM;

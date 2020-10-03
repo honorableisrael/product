@@ -110,7 +110,7 @@ const CompleteOrder: React.FunctionComponent<IAppProps> = (props: any) => {
               payment. Please confirm your order
             </div>
             <div className="fleq1">
-              <div className="flee head22">AGO-0013</div>
+              <div className="flee head22">{product.name}</div>
               {/* <div className="fke2">
                 <div className="fke3 head22">Quantity</div>
                 <div className="fke3">{product?.unitsBought}</div>
@@ -212,7 +212,8 @@ const CompleteOrder: React.FunctionComponent<IAppProps> = (props: any) => {
                 </div>
                 <div className="payna">
                   <span className="reec">
-                  <span className="note11">NOTE:</span> Use the 5 digit Code as transfer description
+                    <span className="note11">NOTE:</span> Use the 5 digit Code
+                    as transfer description
                   </span>
                   <div className="refcode">{product?.orderReference}</div>
                 </div>

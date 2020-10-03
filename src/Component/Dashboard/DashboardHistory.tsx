@@ -11,6 +11,9 @@ import MobileSideNav from "./MobileSideNav";
 import Axios from "axios";
 import { API } from "../../config";
 import { useState } from "react";
+import Spinner from "react-bootstrap/Spinner";
+import RightSideBarCRM from "./rightSideBarCRM";
+import RightSideBarNameAndImage from "./RightSideBarNameandImage";
 const moment = require("moment");
 
 const DashboardHistory = (props: any) => {
@@ -23,9 +26,14 @@ const DashboardHistory = (props: any) => {
     prevLink: "",
     user: [],
     isloading: false,
+    isloading2: false,
   });
-  const { user, nextLink, prevLink }: any = state;
+  const { user, nextLink, prevLink, isloading2 }: any = state;
   React.useEffect(() => {
+    setFormState({
+      ...state,
+      isloading2: true,
+    });
     const loggedIn = localStorage.getItem("userDetails");
     const userdata = loggedIn ? JSON.parse(loggedIn) : "";
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
@@ -39,16 +47,25 @@ const DashboardHistory = (props: any) => {
           user: res.data.data.data,
           nextLink: res.data.data.links.next,
           prevLink: res.data.data.links.prev,
+          isloading2: false,
         });
       })
       .catch((err) => {
         if (err?.status === 401) {
           props.history.push("/signin");
         }
+        setFormState({
+          ...state,
+          isloading2: false,
+        });
         console.log(err);
       });
   }, []);
   const LoadNewData = () => {
+    setFormState({
+      ...state,
+      isloading2: true,
+    });
     const loggedIn = localStorage.getItem("userDetails");
     const userdata = loggedIn ? JSON.parse(loggedIn) : "";
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
@@ -60,6 +77,7 @@ const DashboardHistory = (props: any) => {
         setFormState({
           ...state,
           user: res.data.data.data,
+          isloading2: false,
           nextLink: res.data.data.links.next,
           prevLink: res.data.data.links.prev,
         });
@@ -68,10 +86,18 @@ const DashboardHistory = (props: any) => {
         if (err?.status === 401) {
           props.history.push("/signin");
         }
+        setFormState({
+          ...state,
+          isloading2: false,
+        });
         console.log(err);
       });
   };
   const LoadOldData = () => {
+    setFormState({
+      ...state,
+      isloading2: true,
+    });
     const loggedIn = localStorage.getItem("userDetails");
     const userdata = loggedIn ? JSON.parse(loggedIn) : "";
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
@@ -85,12 +111,17 @@ const DashboardHistory = (props: any) => {
           user: res.data.data.data,
           nextLink: res.data.data.links.next,
           prevLink: res.data.data.links.prev,
+          isloading2: false,
         });
       })
       .catch((err) => {
         if (err?.status === 401) {
           props.history.push("/signin");
         }
+        setFormState({
+          ...state,
+          isloading2: false,
+        });
         console.log(err);
       });
   };
@@ -121,7 +152,10 @@ const DashboardHistory = (props: any) => {
           <Col md={10} className="mainbody11">
             <Row className="rowss">
               <MobileSideNav />
-              <Col md={8} className="prodcu">
+              <Col md={7} className="prodcu histttm">
+                <div className="mobileitle ddw2">
+                  <RightSideBarNameAndImage />
+                </div>
                 <div className="historywrap">
                   <div>History</div>
                   <div className="midwrap">
@@ -148,6 +182,11 @@ const DashboardHistory = (props: any) => {
                     </span>
                   </div>
                 </div>
+                {isloading2 && (
+                  <div className="preloadercent">
+                    <Spinner variant={"success"} animation={"grow"}></Spinner>
+                  </div>
+                )}
                 {user?.map((data, i) => (
                   <div className="historywrap1" key={i}>
                     <div className="datedata">
@@ -158,7 +197,7 @@ const DashboardHistory = (props: any) => {
                         {formatDay(data.created_at)}{" "}
                       </div>
                     </div>
-                    <div>
+                    <div className="srtte">
                       <div className="accountaction">{data.caption}</div>
                       <div className="accountaction2">{data.summary}</div>
                     </div>
@@ -168,6 +207,9 @@ const DashboardHistory = (props: any) => {
                   </div>
                 ))}
               </Col>
+              <div className="tmobileonly">
+                <RightSideBarCRM />
+              </div>
               <RightSideBar />
             </Row>
           </Col>

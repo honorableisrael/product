@@ -174,7 +174,7 @@
   opacity: 1;
   text-align: left;
   padding-bottom: 2rem;
-  font: Bold 18px/34px Nunito Sans;
+  font: Bold 20px/34px Nunito Sans;
 }
 .thirdrow4 {
   margin-bottom: 4rem;
@@ -295,7 +295,7 @@
 }
 .sideImage3wrap {
   position: relative;
-  right: 18.3rem;
+  right: 22.3rem;
   top: 0.2rem;
 }
 .exp {
@@ -305,8 +305,7 @@
   margin-right: 5rem;
   position: absolute;
   top: -3rem;
-  width: 278px;
-  box-shadow: -10px 6px 25px -2px #aaaaaa;
+  width: 351px;
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
 }
@@ -357,7 +356,7 @@
 }
 .footertitle {
   font-weight: 700;
-  font-size: 12px;
+  font-size: 14px;
   margin-right: 2rem;
 }
 .n11 {
@@ -497,7 +496,7 @@
   .home3,
   .home5,
   .centerp {
-    font-size: 20px;
+    font-size: 18px;
   }
   .icontray {
     padding-top: 0rem;
@@ -536,7 +535,7 @@
     width: 100%;
   }
   .hom1 {
-    font-size: 3em;
+    font-size: 2.6em;
   }
   .pramopronavlogo {
     padding-bottom: 2rem;
@@ -559,6 +558,9 @@
   .jusk {
     left: 0rem;
   }
+  .hom1 {
+    width: 100px;
+  }
   .greenground {
     width: 232px;
   }
@@ -576,12 +578,13 @@
     display: none;
   }
   .slide1wrap {
-    width: 192px;
+    width: 246px;
     height: 287px;
     max-width: 335px;
     max-height: 390px;
     margin-right: 2rem;
     margin-left: 0rem;
+    margin-bottom: 2rem;
   }
   .howitworksimage,
   .howitworksimage1 {
@@ -592,8 +595,42 @@
     width: 72px;
     height: 112px;
   }
+  .slidewrapper {
+    position: relative;
+    left: 2rem;
+  }
+  .react-multiple-carousel__arrow {
+    outline: none !important;
+    background: #43a047 !important;
+  }
+  .home6a,
+  .home4,
+  .home2 {
+    font-size: 14px;
+  }
+  .center-changed {
+    height: 59vh;
+  }
+  .jdjd {
+    padding-bottom: 0px;
+  }
+  .getstarted{
+    margin-top: .5rem;
+  }
+  .customers {
+    margin-top: 3rem;
+  }
 }
+@media (max-width: 350px) {
+  .slidewrapper {
+    position: relative;
+    left: 1rem;
+  }
 
+  .dliver {
+    font-size: 18px;
+  }
+}
 .n2 > a {
   color: initial;
 }
@@ -652,4 +689,17 @@ a {
 .sttw {
   position: relative;
   bottom: 1.1rem;
+}
+.littf {
+  text-align: right !important;
+  font-size: 13px !important;
+  padding-right: 1rem ;
+  width: 86%;
+}
+
+.tdata > td {
+    padding: 1rem .1rem;
+}
+.table thead th{
+  padding: 1rem 0rem;
 }

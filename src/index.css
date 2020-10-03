@@ -20,7 +20,9 @@ body {
 html{
   scroll-behavior: smooth;
 }
-
+a{
+  text-decoration: none !important;
+}
 .Toastify__toast--default {
   background: #fff;
   color: #aaa;

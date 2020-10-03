@@ -20,6 +20,9 @@ import { API } from "../../config";
 import MobileSideNav from "./MobileSideNav";
 import standingman from "../../assets/standingman.svg";
 import prodcash from "../../assets/prodcash.png";
+import { BrowserView, MobileView } from "react-device-detect";
+import RightSideBarInfoArea from "./RightSideBarInfoArea";
+import RightSideBarCRM from "./rightSideBarCRM";
 
 const Dashboard = (props: any) => {
   const [state, setNewState] = React.useState({
@@ -59,7 +62,7 @@ const Dashboard = (props: any) => {
       isloading: true,
     });
     const loggedIn = localStorage.getItem("userDetails");
-    const userID:any  = localStorage.getItem("userInfo")
+    const userID: any = localStorage.getItem("userInfo");
     const passedID = JSON.parse(userID);
     const userdata = loggedIn
       ? JSON.parse(loggedIn)
@@ -105,14 +108,19 @@ const Dashboard = (props: any) => {
           <Col md={10} className="mainbody11">
             <Row className="rowss">
               <MobileSideNav />
+                <div className="mobileitle">
+                  <RightSideBarInfoArea />
+                </div>
               <Col
-                md={8}
+                md={7}
                 className={
-                  user.numberPurchased > 0 ? "prodcu" : "modea revcol1"
+                  user.numberPurchased > 0 ? "prodcu" : "modea modea11 revcol1"
                 }
+                xs={12}
+                sm={12}
               >
                 {user?.numberPurchased == 0 && (
-                  <div className="midcontent">
+                  <div className="midcontent marfa">
                     <img
                       src={dashcenter}
                       className="dashcenter"
@@ -163,11 +171,16 @@ const Dashboard = (props: any) => {
                   </>
                 )}
               </Col>
-              <RightSideBar
-                endOfCycle={endOfCycle}
-                expectedReturn={expectedReturn}
-                collectedReturn={collectedReturn}
-              />
+              <div className="tmobileonly">
+                <RightSideBarCRM />
+              </div>
+              <div className="mobilelargeonly">
+                <RightSideBar
+                  endOfCycle={endOfCycle}
+                  expectedReturn={expectedReturn}
+                  collectedReturn={collectedReturn}
+                />
+              </div>
             </Row>
           </Col>
         </Row>

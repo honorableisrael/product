@@ -59,14 +59,26 @@ const NOKDetails = () => {
     });
   };
   const updateNextOfKinInformation = () => {
+    if (
+      firstname?.trim() === "" ||
+      relationship?.trim() === "" ||
+      phone?.trim() === "" ||
+      email?.trim() === "" ||
+      firstname === null ||
+      relationship === null ||
+      phone === null ||
+      email === null
+    ) {
+      return notify("All fields are required");
+    }
     setFormState({
       ...state,
       isloading: true,
     });
     const user: any = localStorage.getItem("userDetails");
     const user_id = JSON.parse(user);
-    const id = user_id.user.id;
-    var token = user_id.token;
+    const id = user_id?.user?.id;
+    var token = user_id?.token;
     const data = {
       name: firstname,
       relationship,
@@ -165,25 +177,6 @@ const NOKDetails = () => {
                     value={phone}
                     className="userfield"
                     id="phone"
-                    onChange={onchange}
-                    placeholder=""
-                  />
-                  <i
-                    className="fa fa-envelope field-right-icon"
-                    aria-hidden="true"
-                  ></i>
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col md={12}>
-                <Form.Group>
-                  <h6 className="userprofile">Address </h6>
-                  <Form.Control
-                    type="text"
-                    value={address}
-                    className="userfield"
-                    id="address"
                     onChange={onchange}
                     placeholder=""
                   />

@@ -111,7 +111,7 @@ const EnterVerificationCode: React.FunctionComponent = (props: any) => {
             isloading: false,
             errorMessage: "Successfully",
           });
-          props.history.push("/dashboard");
+          window.location.assign("/dashboard");
         }
       })
       .catch((error) => {
@@ -261,7 +261,7 @@ const EnterVerificationCode: React.FunctionComponent = (props: any) => {
                 <Form.Group>
                   <Button
                     className="sub-btn"
-                    onClick={(e)=> e.preventDefault()}
+                    onClick={(e) => e.preventDefault()}
                     type="submit"
                     size="lg"
                     variant="secondary"
@@ -278,7 +278,13 @@ const EnterVerificationCode: React.FunctionComponent = (props: any) => {
                   </div>
                   <div className="dontworry">
                     Don’t worry its only a one time passcode, once your email is
-                    verified you won’t need it anymore
+                    verified you won’t need it anymore.
+                    <div className="text-center">
+                      Already have an account
+                    </div>
+                    <div className="forgotpass text-center">
+                      <Link to="/signin">Login</Link>
+                    </div>
                   </div>
                 </Form.Group>
               </Form>

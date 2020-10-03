@@ -17,6 +17,8 @@ import axios from "axios";
 import { API } from "../../config";
 import Modal from "react-bootstrap/Modal";
 import Alert from "react-bootstrap/Alert";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 const DashboardSubaccountsConvert = (props: any) => {
   const [state, setFormState] = useState({
@@ -76,13 +78,14 @@ const DashboardSubaccountsConvert = (props: any) => {
       })
       .catch((err) => {
         console.log(err.response);
-        if (err?.status === 400) {
-          return setFormState({
+        if (err?.response?.status === 400) {
+           setFormState({
             ...state,
             isloading: false,
             errorMessage:
-              err?.data?.message || err?.data?.message || err?.data?.statusText,
+              err?.response?.data?.message || err?.response?.data?.message || err?.response?.data?.statusText,
           });
+          return notify(err?.response?.data?.message)
         }
       });
   };
@@ -97,7 +100,7 @@ const DashboardSubaccountsConvert = (props: any) => {
       account_number: accountnumber,
       bank_id: bankid,
     };
-    Axios.post(`${API}/sub-accounts/${subaccountId}/bank`, data, {
+    Axios.put(`${API}/sub-accounts/${subaccountId}/bank`, data, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
@@ -118,7 +121,7 @@ const DashboardSubaccountsConvert = (props: any) => {
       })
       .catch((err) => {
         console.log(err.response);
-        if (err?.status === 400) {
+        if (err?.response?.status === 400) {
           return setFormState({
             ...state,
             isloading: false,
@@ -126,7 +129,13 @@ const DashboardSubaccountsConvert = (props: any) => {
               err?.data?.message || err?.data?.message || err?.data?.statusText,
           });
         }
+        if (err) {
+          notify("Server error" + " " + err?.response?.statusText);
+        }
       });
+  };
+  const notify = (message: string, container = "i") => {
+    toast(message, { containerId: container });
   };
   const onchange = (e) => {
     setFormState({
@@ -190,7 +199,7 @@ const DashboardSubaccountsConvert = (props: any) => {
               bankid:
                 secondresponse?.data?.data?.subAccount?.bank_details?.bank?.id,
               BankList: firstresponse.data.data,
-              products:secondresponse?.data?.data?.orders,
+              products: secondresponse?.data?.data?.orders,
               subaccounts: thirdresponse.data.data,
               subacctid: subaccountId,
             });
@@ -238,7 +247,7 @@ const DashboardSubaccountsConvert = (props: any) => {
           <Col md={10} className="mainbody11">
             <Row className="rowss">
               <MobileSideNav />
-              <Col md={8} className="">
+              <Col md={7} className="">
                 <div className="sponsorsacc col-md-11">
                   <div className="backks">
                     <Link to="/dashboardsubaccounts" className="backksqq">
@@ -334,7 +343,7 @@ const DashboardSubaccountsConvert = (props: any) => {
                   </div>
                 </div>
                 <div>
-                  <div className="prodpurchased">Products Purchased</div>
+                {products.length !== 0 && ( <div className="prodpurchased">Products Purchased</div>)}
                   {products.length !== 0 && (
                     <Col md={12} className="productlist nopad11">
                       <div className="slidewrapperproduct redefine1">
@@ -358,8 +367,9 @@ const DashboardSubaccountsConvert = (props: any) => {
                                   {console.log(x)}{" "}
                                   <span
                                     className={
-                                      capitalizeFirstLetter(x.product.status) ===
-                                      "Finished"
+                                      capitalizeFirstLetter(
+                                        x.product.status
+                                      ) === "Finished"
                                         ? "redcircleproduct nomargin"
                                         : capitalizeFirstLetter(
                                             x.product.status
@@ -377,7 +387,7 @@ const DashboardSubaccountsConvert = (props: any) => {
                                 className="slide1product"
                               />
                               <div className="slidetitleproduct">
-                                <div>AGO-111</div>
+                                <div>{x.name}</div>
                                 <div>
                                   <span className="buyatproduct">Buy at</span>
                                   <span className="amountproduct smalltext">
@@ -388,7 +398,7 @@ const DashboardSubaccountsConvert = (props: any) => {
                                       Sell at
                                     </span>
                                     <span className="amountproduct smalltext">
-                                      
+                                    &#8358;{FormatAmount(x.returnAmount)}
                                     </span>
                                   </div>
                                   <div className="buyatproduct textssproduct"></div>
@@ -406,7 +416,7 @@ const DashboardSubaccountsConvert = (props: any) => {
                   )}
                 </div>
                 <div>
-                  <div className="prodpurchased prodda">Other Sub-Accounts</div>
+              {  subaccounts.length !== 0 && <div className="prodpurchased prodda">Other Sub-Accounts</div> }
                   <div className="subww">
                     {subaccounts.map((data, i) =>
                       data.id !== parseInt(subacctid) ? (
@@ -466,6 +476,13 @@ const DashboardSubaccountsConvert = (props: any) => {
           </Col>
         </Row>
       </Container>
+      <ToastContainer
+        enableMultiContainer
+        containerId={"i"}
+        toastClassName="bg-danger text-white"
+        hideProgressBar={true}
+        position={toast.POSITION.TOP_CENTER}
+      />
     </>
   );
 };

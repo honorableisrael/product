@@ -54,8 +54,8 @@ const Password = () => {
     });
     const user: any = localStorage.getItem("userDetails");
     const user_id = JSON.parse(user);
-    const id = user_id.user.id;
-    var token = user_id.token;
+    const id = user_id?.user?.id;
+    var token = user_id?.token;
 
     const data = {
       password,

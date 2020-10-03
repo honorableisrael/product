@@ -196,22 +196,40 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                       <Card.Body>
                         <p className="faq-answers">
                           {" "}
-                          For you to view available products with exact returns,
-                          you will have to create a personalised account on our
-                          platform by registering on our service. This will
-                          guide you in making wholesome, informed choices on
-                          which product and cycle will suit you best.{" "}
+                          Once you have created your personalised account on our
+                          platform by registering on our service, you can view
+                          full details of available Products. Once you have
+                          chosen the product you want to purchase, you can use
+                          the profit simulator to know exactly how much you will
+                          make when you eventually complete the trade for the
+                          specified period of time.{" "}
                         </p>
                         <p className="faq-answers">
                           {" "}
-                          Once the registration process is complete, you may
-                          choose and pay for the number of products you desire.{" "}
+                          You can decide to make the purchase order for yourself
+                          or someone else. In the event that you choose
+                          “Others”, then you will need to provide details of the
+                          person you want to purchase the products for. In the
+                          event that the purchase if for you, just choose
+                          “Self”, then click “Order”. Once you finally place
+                          your order, you would need to make payment for the
+                          order via your bank’s online/mobile platform to the
+                          account details provided. While making payment, please
+                          specify the 5 digit code provided, so we can easily
+                          identify the transaction.{" "}
                         </p>
                         <p className="faq-answers">
                           {" "}
-                          Once the trading cycle is complete, you will receive a
-                          percentage of the profit made as well as your initial
-                          capital used in purchasing the products.
+                          Once payment has been confirmed, your purchase will be
+                          manually allocated and you will receive a purchase
+                          allocation in your email box. Once the trading cycle
+                          is complete, you will receive your purchase amount and
+                          your profit.
+                        </p>
+
+                        <p className="faq-answers">
+                          If you wish to roll over your trade, you can do so via
+                          your personalised dashboard on our platform.
                         </p>
                       </Card.Body>
                     </Accordion.Collapse>
@@ -277,8 +295,8 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                       <div className="faq-side-header">
                         {" "}
                         <div>
-                          <span className="sideplus">{!o4 ? "+" : "-"}</span>How
-                          Do I Become an Energy Commodities Trader?
+                          <span className="sideplus">{!o4 ? "+" : "-"}</span>{" "}
+                          How do I become an Energy Commodities Trader?
                         </div>
                         <i
                           className="fa fa-chevron-down"
@@ -290,28 +308,42 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                       <Card.Body>
                         <p className="faq-answers">
                           {" "}
-                          Once you have registered and logged into your
-                          dashboard:
+                          Once you have created your personalised account on our
+                          platform by registering on our service, you can view
+                          full details of available Products. Once you have
+                          chosen the product you want to purchase, you can use
+                          the profit simulator to know exactly how much you will
+                          make when you eventually complete the trade for the
+                          specified period of time.
                         </p>
                         <p className="faq-answers">
                           {" "}
-                          Update your user profile with necessary information to
-                          ensure your profile is complete.
+                          You can decide to make the purchase order for yourself
+                          or someone else. In the event that you choose
+                          “Others”, then you will need to provide details of the
+                          person you want to purchase the products for.
                         </p>
                         <p className="faq-answers">
                           {" "}
-                          From the products page, you can choose the number of
-                          units of loaded products you want to purchase. Based
-                          on the number of units of a product you have selected,
-                          your purchase, returns and total payback will also be
-                          shown. You may then choose to buy or purchase further
-                          products.
+                          In the event that the purchase if for you, just choose
+                          “Self”, then click “Order”. Once you finally place
+                          your order, you would need to make payment for the
+                          order via your bank’s online/mobile platform to the
+                          account details provided. While making payment, please
+                          specify the 5 digit code provided, so we can easily
+                          identify the transaction.
                         </p>
                         <p className="faq-answers">
                           {" "}
-                          After the trading cycle, you will receive a percentage
-                          of the Profit After Trade and also your Initial
-                          capital used to make the purchase.
+                          Once payment has been confirmed, your purchase will be
+                          manually allocated and you will receive a purchase
+                          allocation in your email box. Once the trading cycle
+                          is complete, you will receive your purchase amount and
+                          your profit.
+                        </p>
+                        <p className="faq-answers">
+                          If you wish to roll over your trade, you can do so via
+                          your personalised dashboard on our platform.
                         </p>
                       </Card.Body>
                     </Accordion.Collapse>
@@ -396,17 +428,23 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                         </p>
                         <p className="faq-answers">
                           {" "}
-                          Choose how many units you want (You will see a brief
-                          simulation of what your total payment and the returns
-                          will be like)
+                          Specify how much you want to spend (you will see a
+                          brief simulation of what your total payment and the
+                          Profit will be like) Click “Order”
                         </p>
                         <p className="faq-answers"> Click "Buy"</p>
                         <p className="faq-answers">
-                          You will be required to "Complete Purchase" by making
-                          payment with one of the two payment gateways we have
-                          partnered with, Monnify or Paystack. You can pay using
-                          your Debit Card or Bank Transfer on both payment
-                          gateways.
+                          Once you finally place your order, you would need to
+                          make payment for the order via your bank’s
+                          online/mobile platform to the account details
+                          provided. While making payment, please specify the 5
+                          digit code provided, so we can easily identify the
+                          transaction.
+                        </p>
+                        <p className="faq-answers">
+                          Once payment has been confirmed, your purchase will be
+                          manually allocated and you will receive a purchase
+                          allocation in your email box.
                         </p>
                       </Card.Body>
                     </Accordion.Collapse>
@@ -439,9 +477,9 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                         <p className="faq-answers">
                           Once you have paid for a product, you will receive an
                           email showing exactly what you have purchased, the
-                          trading cycle and how much returns you will be paid
+                          trading cycle and how much profit you will be paid
                           once trading is done and also when payment will be
-                          made
+                          made back to you
                         </p>
                         <p className="faq-answers">
                           You will also see this information on your dashboard,
@@ -518,49 +556,6 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                       </Card.Body>
                     </Accordion.Collapse>
                   </Card>
-
-                  {/* fourth question */}
-                  <Card>
-                    <Accordion.Toggle
-                      onClick={() =>
-                        setState({
-                          o11: o11 ? false : true,
-                        })
-                      }
-                      as={Card.Header}
-                      eventKey="14"
-                    >
-                      <div className="faq-side-header">
-                        {" "}
-                        <div>
-                          <span className="sideplus">{!o11 ? "+" : "-"}</span>
-                          How do I make sure I do not miss a product that is
-                          tagged “Loading”?
-                        </div>
-                        <i
-                          className="fa fa-chevron-down"
-                          style={{ fontSize: 10 }}
-                        ></i>
-                      </div>
-                    </Accordion.Toggle>
-                    <Accordion.Collapse eventKey="14">
-                      <Card.Body>
-                        <p className="faq-answers">
-                          Once a product is tagged “Loading”, you can reserve
-                          any amount of its available units without paying for
-                          it.
-                        </p>
-                        <p className="faq-answers">
-                          24hours to the time the product will “Load” and be
-                          available for everyone to purchase, you have the
-                          privilege to purchase what you have reserved. This
-                          will reduce the rush for the product and gives you a
-                          VIP feel of exclusively purchasing a product that has
-                          not been made publicly available.
-                        </p>
-                      </Card.Body>
-                    </Accordion.Collapse>
-                  </Card>
                   <Card>
                     <Accordion.Toggle
                       as={Card.Header}
@@ -575,7 +570,7 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                         {" "}
                         <div>
                           <span className="sideplus">{!o12 ? "+" : "-"}</span>
-                          What determines how many units I can buy?
+                          What determines how much products I can buy?
                         </div>
                         <i
                           className="fa fa-chevron-down"
@@ -586,11 +581,10 @@ const FAQs: React.FunctionComponent<IAppProps> = (props: any) => {
                     <Accordion.Collapse eventKey="15">
                       <Card.Body>
                         <p className="faq-answers">
-                          The minimum amount of units you can purchase is 1
-                          Unit, while the maximum amount of units you can buy is
-                          subject to the available units on the platform. You
-                          determine exactly how many units you want to buy as
-                          per what is available.
+                          The minimum amount of a product you can purchase is
+                          determined by the product you are purchasing, while
+                          the maximum amount of a product you can purchase is
+                          subject to how much you actually have.
                         </p>
                       </Card.Body>
                     </Accordion.Collapse>

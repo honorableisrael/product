@@ -218,7 +218,7 @@ const SignIn: React.FunctionComponent = (props: any) => {
                   </Button>
                   <div className="or">OR</div>
                   <GoogleLogin
-                    clientId="483910264468-arsekcf8p98ftamg4qjqvcev9n985d5n.apps.googleusercontent.com"
+                    clientId="483910264468-ft3jia0k5205u6n0kl9s7iaauvooii10.apps.googleusercontent.com"
                     render={(renderProps) => (
                       <div className="googleAuth" onClick={renderProps.onClick}>
                         <img

@@ -21,10 +21,16 @@ import Axios from "axios";
 import { API } from "../../config";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const DashboardReservedProductsDescription = (props: any) => {
-  const [state, setState] = useState<any>({ checked: false, product: "" });
-  const { product, checked } = state;
+  const [state, setState] = useState<any>({
+    checked: false,
+    product: "",
+    user: "",
+    canRollover: false,
+  });
+  const { product, checked, canRollover } = state;
   const handleChange = (checked) => {
     setState({
       ...state,
@@ -47,26 +53,41 @@ const DashboardReservedProductsDescription = (props: any) => {
     console.log(props);
     const productId = props.match.params.id;
     const orderId = props.match.params.orderid;
+
     localStorage.setItem("alreadyboughtproductid", JSON.stringify(orderId)); //save the product id so we orders can be returned back to this point when cancelled
     const userInfo: any = localStorage.getItem("userDetails");
     const token = userInfo
       ? JSON.parse(userInfo)
       : props.history.push("/signin");
-    Axios.get(`${API}/products/${productId}`, {
-      headers: { Authorization: `Bearer ${token?.token}` },
-    })
-      .then((res) => {
-        console.log(res);
-        if (res.status === 200) {
-          setState({
-            ...state,
-            product: res.data.data,
-          });
-        }
-        if (res.status == 400) {
-          props.history.push("/products");
-        }
-      })
+    Axios.all([
+      Axios.get(`${API}/products/${productId}`, {
+        headers: { Authorization: `Bearer ${token?.token}` },
+      }),
+      Axios.get(`${API}/user/orders`, {
+        headers: { Authorization: `Bearer ${token?.token}` },
+      }),
+    ])
+      .then(
+        Axios.spread((res, res1) => {
+          console.log(res1.data);
+          if (res1.status === 200 || res.status === 200) {
+            res1?.data?.data?.forEach((element) => {
+              console.log(element.id);
+              if (props.match.params.orderid == element.id) {
+                setState({
+                  ...state,
+                  canRollover: element.canRollover,
+                  product: res.data.data,
+                  user: res1.data,
+                });
+              }
+            });
+          }
+          if (res.status == 400) {
+            props.history.push("/products");
+          }
+        })
+      )
       .catch((err) => {
         console.log(err);
       });
@@ -82,6 +103,7 @@ const DashboardReservedProductsDescription = (props: any) => {
       return FormatAmount(payBack);
     }
   };
+  console.log(state.canRollover);
   return (
     <>
       <NavBar />
@@ -93,8 +115,11 @@ const DashboardReservedProductsDescription = (props: any) => {
               <MobileSideNav />
               <Col md={12}>
                 <div className="sponsors backtoproducts">
-                  <div>
-                    <img src={navigategreen} alt="navigate" /> BACK TO PRODUCTS
+                  <div className="PRODUCTS12">
+                    <Link to={"/dashboardproducts"}>
+                      <img src={navigategreen} alt="navigate" /> BACK TO
+                      PRODUCTS
+                    </Link>
                   </div>
                 </div>
                 <Col md={{ span: 12 }} className="userfirstitems-tabs nopad11">
@@ -138,21 +163,46 @@ const DashboardReservedProductsDescription = (props: any) => {
                         </div>
                       </div>
                       <div className="durr1 Buyat">
-                        In {product.cycle}{" "}
+                        After {product.cycle}{" "}
                         {product.cycle == 1 ? "month" : "months"}{" "}
                       </div>
                       <div className="durr1 durr22">
                         <div className="durr21">
                           <div className="rolla">Roll Over Next Payment</div>
-                          <Switch
-                            onChange={handleChange}
-                            checked={state.checked}
-                            uncheckedIcon={false}
-                            checkedIcon={false}
-                            height={18}
-                            width={35}
-                            onHandleColor={""}
-                          />
+                          {canRollover && (
+                            <Switch
+                              onChange={handleChange}
+                              checked={state.checked}
+                              uncheckedIcon={false}
+                              checkedIcon={false}
+                              disabled={canRollover ? false : true}
+                              height={18}
+                              width={35}
+                              onHandleColor={""}
+                            />
+                          )}
+                          {!canRollover && (
+                            <span
+                              title={"You cannot not rollover payment now"}
+                              onClick={() =>
+                                notify(
+                                  "Trade can only be rolled over 14 days to cycle end date.",
+                                  "i"
+                                )
+                              }
+                            >
+                              <Switch
+                                onChange={handleChange}
+                                checked={state.checked}
+                                uncheckedIcon={false}
+                                checkedIcon={false}
+                                disabled={canRollover ? false : true}
+                                height={18}
+                                width={35}
+                                onHandleColor={""}
+                              />
+                            </span>
+                          )}
                         </div>
                       </div>
                       <hr />

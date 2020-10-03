@@ -34,7 +34,7 @@ class PurchaseSummary extends Component {
     products: "",
     errorMessage: "",
     isloading: false,
-    visible: 5,
+    visible: 10,
   };
 
   //capitalize first letter
@@ -46,22 +46,22 @@ class PurchaseSummary extends Component {
       isloading: true,
     });
     //fetch user info
-    const loggedIn = sessionStorage.getItem("adminDetails");
+    const loggedIn = localStorage.getItem("userDetails");
     const userdata = loggedIn ? JSON.parse(loggedIn) : "";
     const token = loggedIn ? JSON.parse(loggedIn).token : "";
     axios
-      .get(`${API}/user`, {
+      .get(`${API}/transactions`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        console.log(res.data.user.reservations);
+        console.log(res);
         this.setState({
-          products: res.data.user,
+          products: res.data.data,
           isloading: false,
         });
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
         this.setState({
           errorMessage: "Failed to load",
           isloading: false,
@@ -145,13 +145,13 @@ class PurchaseSummary extends Component {
         });
       });
   }
-  
-  handlePageChange=(pageNumber)=> {
+
+  handlePageChange = (pageNumber) => {
     console.log(`active page is ${pageNumber}`);
-    this.setState({activePage: pageNumber});
-  }
+    this.setState({ activePage: pageNumber });
+  };
   render() {
-    const { user, products, isloading, errorMessage }: any = this.state;
+    const { user, products, isloading, errorMessage,visible }: any = this.state;
     const loading = "#FFBF00";
     const finished = "#9B0000";
     const loaded = "rgb(67,160,71)";
@@ -191,14 +191,14 @@ class PurchaseSummary extends Component {
                 <th className="tablehead">Payment Date</th>
                 <th className="tablehead">End Of Cycle Day</th>
                 <th className="tablehead">Purchase Cost</th>
-                <th className="tablehead">Return</th>
+                <th className="tablehead">Status</th>
                 <th className="tablehead">Total PayBack</th>
               </tr>
             </thead>
             <tbody>
-              {user &&
-                user.orders.length > 0 &&
-                user.orders
+              {products &&
+                products.length > 0 &&
+                products
                   .reverse()
                   .slice(0, this.state.visible)
                   .map((x, index) => (
@@ -213,7 +213,13 @@ class PurchaseSummary extends Component {
                           .toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                       </td>
-                      <td>{x.return}%</td>
+                      {this.capitalizeFirstLetter(x.orderStatus) ==
+                      "Completed" ? (
+                        <td className="completed1">Confirmed</td>
+                      ) : (
+                        <td className="pending1">Pending</td>
+                      )}
+
                       <td>
                         &#8358;
                         {x.returnAmount
@@ -225,6 +231,14 @@ class PurchaseSummary extends Component {
             </tbody>
           </Table>
         )}
+        {visible < products?.length &&
+          !isloading &&
+          !errorMessage &&
+          products?.length !== 0 && (
+            <div className="loadmore" onClick={this.loadMore}>
+              Load more
+            </div>
+          )}
         {/* <div>
           <Pagination
             activePage={this.state.activePage}

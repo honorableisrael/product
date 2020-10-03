@@ -47,7 +47,7 @@ class Statistics extends Component {
       .then((res) => {
         console.log(res)
         this.setState({
-          productStats: res.data ? res.data : null,
+          productStats: res.data.data,
           isloading: false,
         });
       })
@@ -115,52 +115,52 @@ class Statistics extends Component {
               <div className="ourtext">TOTAL TRADERS</div>
               <div className="ournumbers">
                 {productStats
-                  ? productStats.totalTraders
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ? productStats?.totalTraders
+                      ?.toString()
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}
               </div>
               <div className="totalusersnumber">
                 {productStats
-                  ? productStats.totalUsers
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ? productStats?.totalUsers
+                      ?.toString()
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}{" "}
                 <span className="totalusers"> Total Users</span>
               </div>
             </div>
             <div className="secondstatsbox">
-              <div className="ourtext">TOTAL UNITS PURCHASED</div>
+              <div className="ourtext">TOTAL PROJECTS PURCHASED</div>
               <div className="ournumbers">
                 {productStats
-                  ? productStats.totalUnitsPurchased
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ? productStats?.totalUnitsPurchased
+                      ?.toString()
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}
               </div>
               <div className="totalusersnumber">
                 {productStats
-                  ? productStats.totalProjects
-                      .toString()
+                  ? productStats?.totalProjects
+                      ?.toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}{" "}
                 <span className="totalusers"> Total Projects</span>
               </div>
             </div>
             <div className="secondstatsbox">
-              <div className="ourtext">TOTAL UNITS REMAINING</div>
+              <div className="ourtext">TOTAL PROJECTS REMAINING</div>
               <div className="ournumbers">
                 {productStats
-                  ? productStats.totalUnitsRemaining
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ? productStats?.totalUnitsRemaining
+                      ?.toString()
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}
               </div>
               <div className="totalusersnumber">
                 {productStats
-                  ? productStats.totalProjects
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ? productStats?.totalProjects
+                      ?.toString()
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}{" "}
                 <span className="totalusers"> Total Projects</span>
               </div>
@@ -168,136 +168,136 @@ class Statistics extends Component {
             <div className="secondstatsbox">
               <div className="ourtextname">
                 {productStats
-                  ? productStats.valuePerProduct[0].name
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ? productStats?.valuePerProduct[0]?.name
+                      ?.toString()
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}
               </div>
               <div className="ournumbers">
                 {productStats
-                  ? productStats.valuePerProduct[0].totalValue
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ? productStats?.valuePerProduct[0]?.totalValue
+                      ?.toString()
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}{" "}
                 <span className="totalusers">Litres</span>
               </div>
 
               <div className="totalusersnumber borderlineclass">
                 {productStats
-                  ? productStats.unitsPurchasedPerProduct[0].units
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ? productStats?.unitsPurchasedPerProduct[0]?.units
+                      ?.toString()
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}{" "}
-                <span className="totalusers"> Units</span>
+                <span className="totalusers"> Projects left</span>
               </div>
             </div>
             <div className="secondstatsbox2">
               <div className="ourtextname">
                 {productStats
-                  ? productStats.valuePerProduct[5].name
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ? productStats?.valuePerProduct[5]?.name
+                      ?.toString()
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}
               </div>
               <div className="ournumbers">
                 {productStats
-                  ? productStats.valuePerProduct[5].totalValue
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ? productStats?.valuePerProduct[5]?.totalValue
+                      ?.toString()
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}{" "}
                 <span className="totalusers">Litres</span>
               </div>
               <div className="totalusersnumber borderlineclass">
-                {productStats && productStats.unitsPurchasedPerProduct[5]
-                  ? productStats.unitsPurchasedPerProduct[5].units
-                      .toString()
+                {productStats && productStats?.unitsPurchasedPerProduct[5]
+                  ? productStats?.unitsPurchasedPerProduct[5]?.units
+                      ?.toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : "0"}{" "}
-                <span className="totalusers"> Units</span>
+                <span className="totalusers"> Projects left</span>
               </div>
             </div>
             <div className="secondstatsbox">
               <div className="ourtextname ">
                 {productStats
-                  ? productStats.valuePerProduct[1].name
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ? productStats?.valuePerProduct[1]?.name
+                      ?.toString()
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}
               </div>
               <div className="ournumbers">
                 {productStats
-                  ? productStats.valuePerProduct[1].totalValue
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ? productStats?.valuePerProduct[1]?.totalValue
+                      ?.toString()
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}{" "}
                 <span className="totalusers">Metric Tonnes</span>
               </div>
               <div className="totalusersnumber borderlineclass">
-                {number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
-                <span className="totalusers">Units</span>
+                {number?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
+                <span className="totalusers">Projects Left</span>
               </div>
             </div>
             <div className="secondstatsbox">
               <div className="ourtextname">
                 {productStats
-                  ? productStats.valuePerProduct[2].name
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ? productStats?.valuePerProduct[2]?.name
+                      ?.toString()
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}
               </div>
               <div className="ournumbers">
                 {productStats
-                  ? productStats.valuePerProduct[2].totalValue
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ? productStats?.valuePerProduct[2]?.totalValue
+                      ?.toString()
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}{" "}
                 <span className="totalusers">Litres</span>
               </div>
               <div className="totalusersnumber borderlineclass">
-                {number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
+                {number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
                 <span className="totalusers"> Units</span>
               </div>
             </div>
             <div className="secondstatsbox">
               <div className="ourtextname">
                 {productStats
-                  ? productStats.valuePerProduct[3].name
-                      .toString()
+                  ? productStats?.valuePerProduct[3]?.name
+                      ?.toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}
               </div>
               <div className="ournumbers">
                 {productStats
-                  ? productStats.valuePerProduct[3].totalValue
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ? productStats?.valuePerProduct[3]?.totalValue
+                      ?.toString()
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}{" "}
                 <span className="totalusers">Litres</span>
               </div>
               <div className="totalusersnumber borderlineclass">
-                {number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
-                <span className="totalusers"> Units</span>
+                {number?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
+                <span className="totalusers"> Projects Left</span>
               </div>
             </div>
             <div className="secondstatsbox">
               <div className="ourtextname">
                 {productStats
-                  ? productStats.valuePerProduct[4].name
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ? productStats?.valuePerProduct[4]?.name
+                      ?.toString()
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}
               </div>
               <div className="ournumbers">
                 {productStats
-                  ? productStats.valuePerProduct[4].totalValue
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ? productStats?.valuePerProduct[4]?.totalValue
+                      ?.toString()
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : ""}{" "}
                 <span className="totalusers">Litres</span>
               </div>
               <div className="totalusersnumber borderlineclass">
-                {number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
-                <span className="totalusers"> Units</span>
+                {number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
+                <span className="totalusers"> Projects left</span>
               </div>
             </div>
           </Row>

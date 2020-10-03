@@ -13,8 +13,8 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
 const PersonalDetails = () => {
-  const [state, setFormState] = React.useState({
-    errorMessage: "",
+  const [state, setFormState] = React.useState<any>({
+    errorMessage: [],
     user: "",
     firstname: "",
     lastname: "",
@@ -40,7 +40,7 @@ const PersonalDetails = () => {
     stateOfResidence,
     email,
     isloading,
-  } = state;
+  }: any = state;
   const onchange = (e: any) => {
     setFormState({
       ...state,
@@ -52,7 +52,7 @@ const PersonalDetails = () => {
     toast(message, { containerId: container });
     setTimeout(() => {
       window.location.reload();
-    }, 2000);
+    }, 5000);
   };
   const handleChange = (e) => {
     setFormState({
@@ -68,7 +68,7 @@ const PersonalDetails = () => {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
-        console.log(res)
+        console.log(res);
         setFormState({
           ...state,
           user: res.data.data,
@@ -80,6 +80,7 @@ const PersonalDetails = () => {
           country: res.data.data ? res.data.data.country : "Nigeria",
           stateOfResidence: res.data.data ? res.data.data.state : "",
           dob: res.data.data ? res.data.data.dob : "",
+          nationality:res?.data?.data?.nationality,
           gender: res.data.data ? res.data.data.sex : "",
         });
       })
@@ -89,24 +90,37 @@ const PersonalDetails = () => {
   }, []);
 
   const updatePersonalDetails = () => {
+    if (
+      gender == "" ||
+      dob == "" ||
+      address == "" ||
+      email == "" ||
+      state == "" ||
+      nationality === "" ||
+      phone == ""
+    ) {
+      return notify("All fields are required");
+    }
     setFormState({
       ...state,
       isloading: true,
     });
     const userinfo: any = localStorage.getItem("userDetails");
     const user_id = JSON.parse(userinfo);
-    const id = user_id.user.id;
-    var token = user_id.token;
-
+    const id = user_id?.user?.id;
+    var token = user_id?.token;
     const data = {
-      gender,
+      firstname,
+      lastname,
+      sex:gender,
       dob,
       address,
+      email,
       state: stateOfResidence,
       nationality,
-      country: nationality,
       phone,
     };
+    console.log(data);
     Axios.put(`${API}/user/update`, data, {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -120,15 +134,23 @@ const PersonalDetails = () => {
         notify("Update Successfull");
       })
       .catch((err) => {
-        //    console.log(err)
+        console.log(err.response);
+        if (err?.response?.status == 422) {
+          setFormState({
+            ...state,
+            isloading: false,
+          });
+          return notify(err?.response?.data?.error?.dob?.[0]);
+        }
         setFormState({
           ...state,
           isloading: false,
           errorMessage: "Failed to update",
         });
-        notify("Update Failed", "B");
+        return notify("Failed to update please try again later");
       });
   };
+  console.log(errorMessage);
   return (
     <>
       <Row className="refwq1">
@@ -240,13 +262,14 @@ const PersonalDetails = () => {
                   /> */}
                   <PhoneInput
                     country={"ng"}
+                    disableCountryCode={true}
                     inputProps={{
                       name: "phone",
                       required: true,
                       autoFocus: true,
                     }}
                     value={phone}
-                    onChange={(e:any) => {
+                    onChange={(e: any) => {
                       setFormState({
                         ...state,
                         phone: e?.target?.value,

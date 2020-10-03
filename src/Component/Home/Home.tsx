@@ -14,19 +14,18 @@ import how2 from "../../assets/how2.png";
 import how3 from "../../assets/how3.png";
 import how4 from "../../assets/how4.png";
 import Testimonial from "./testimonial";
-import Monnify from "../../assets/monnify.png";
-import Paystack from "../../assets/paystack.svg";
-import southquay from "../../assets/South_Quay.png";
-import appStore1 from "../../assets/appstore1.svg";
-import appStore2 from "../../assets/appstore2.svg";
-import googleplaystore from "../../assets/app-store2.svg";
-import linkedin from "../../assets/linkedin.png";
-import pramopro4 from "../../assets/pramopronavlogo.svg";
 import Footer from "./Footer";
 import GetMobileApp from "./GetMobileApp";
 import { Link } from "react-router-dom";
 import { useEffect, lazy } from "react";
 import Spinner from "react-bootstrap/Spinner";
+import {
+  BrowserView,
+  MobileView,
+  isBrowser,
+  isMobile,
+} from "react-device-detect";
+import SliderMobile from "../SubComponents/SliderMobile";
 let Slider = lazy(() => import("../SubComponents/Slider"));
 
 interface IAppProps {}
@@ -81,7 +80,7 @@ class Home extends React.Component {
                 <div className="home5">Products</div>
                 <div className="greenground1"></div>
               </div>
-              <div className="home6a">Explore our opportunities</div>
+              <div className="home6a jdjd">Explore our opportunities</div>
               <div>
                 <React.Suspense
                   fallback={
@@ -96,7 +95,12 @@ class Home extends React.Component {
                     </Col>
                   }
                 >
-                  <Slider />
+                  <BrowserView>
+                    <Slider />
+                  </BrowserView>
+                  <MobileView>
+                    <SliderMobile />
+                  </MobileView>
                 </React.Suspense>
               </div>
             </Col>
@@ -138,7 +142,9 @@ class Home extends React.Component {
                         className="howitworksimage4"
                         alt="howitworksimage"
                       />
-                      <div className="steptext sttw">Pay for desired products</div>
+                      <div className="steptext sttw">
+                        Pay for desired products
+                      </div>
                     </div>
                   </div>
                   <div className="card2wrapper">
@@ -157,8 +163,7 @@ class Home extends React.Component {
             </Col>
           </Row>
           <Testimonial />
-          <Row className="thirdrow1 shiftbottom1">
-          </Row>
+          <Row className="thirdrow1 shiftbottom1"></Row>
           <GetMobileApp />
           <Footer />
         </Container>

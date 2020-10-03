@@ -11,6 +11,9 @@ import "./Home.css";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  let date: any = new Date();
+  const [state, updateState] = React.useState<any>({ date });
+  console.log(state.date);
   return (
     <>
       <Row>
@@ -75,7 +78,7 @@ const Footer = () => {
         <Col md={12} className="footlast12 bgf2">
           <div className="oilde">
             <div className="footertitle">
-              Copyright 2020 Pramopro.All rights reserved.
+              Copyright {state.date.getFullYear()} Pramopro.All rights reserved.
             </div>
           </div>
         </Col>

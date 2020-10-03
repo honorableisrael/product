@@ -16,7 +16,6 @@ import Axios from "axios";
 import { API } from "../../config";
 import preloader from "../../assets/preloader.gif";
 
-
 const Products: React.FunctionComponent<any> = (props: any) => {
   const [state, setNewState] = useState({
     products: "",
@@ -218,7 +217,7 @@ const Products: React.FunctionComponent<any> = (props: any) => {
                     <div className="slidetitleproduct">
                       <div className="linkaa1">
                         {" "}
-                        <Link to={`/product/${x.id}`}>AGO-111</Link>
+                        <Link to={`/product/${x.id}`}>{x.name}</Link>
                       </div>
                       <div>
                         <span className="buyatproduct">Buy at</span>
@@ -231,8 +230,13 @@ const Products: React.FunctionComponent<any> = (props: any) => {
                           <span className="buyatproduct">Sell at</span>
                           <span className="amountproduct">
                             {" "}
-                            <Link to={`/product/${x.id}`}>₦{calculateReturnAmount(x.price, x.return)}</Link>
+                            <Link to={`/product/${x.id}`}>
+                              ₦{calculateReturnAmount(x.price, x.return)}
+                            </Link>
                           </span>
+                          <div className="amm1 littf">
+                            After {x.cycle} {x.cycle == 1 ? "month" : "months"}{" "}
+                          </div>
                         </div>
                         <div className="slider22product">
                           <span className="rightarrw1product">

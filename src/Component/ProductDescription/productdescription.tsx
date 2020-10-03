@@ -121,6 +121,7 @@ const ProductDescription: React.FC = (props: any) => {
     setNewState({
       ...state,
       [e.target.id]: e.target.value,
+      errorMessage:""
     });
   };
   const CreateSubAccount = () => {
@@ -128,6 +129,12 @@ const ProductDescription: React.FC = (props: any) => {
       ...state,
       isloading: true,
     });
+    if(sponsorFirstname=="" || sponsorLastName=="" ||sponsorEmail==""){
+      return setNewState({
+        ...state,
+        errorMessage:"All fields are required"
+      })
+    }
     const data = {
       first_name: sponsorFirstname,
       last_name: sponsorLastName,
@@ -158,15 +165,15 @@ const ProductDescription: React.FC = (props: any) => {
       });
   };
   const placeOrderForProduct = () => {
-    setNewState({
-      ...state,
-      isloading: true,
-    });
     if (numberofbarrels < amountperbarrel) {
       return notify(
         "Cannot place order below " + "₦" + FormatAmount(amountperbarrel)
       );
     }
+    setNewState({
+      ...state,
+      isloading: true,
+    });
     const userInfo: any = localStorage.getItem("userDetails");
     const token = JSON.parse(userInfo);
     const productId = props.match.params.id;
@@ -194,7 +201,7 @@ const ProductDescription: React.FC = (props: any) => {
           );
           setTimeout(() => {
             props.history.push("/completeorder");
-          }, 3000);
+          }, 5000);
           setNewState({
             ...state,
             isloading: false,
@@ -419,6 +426,9 @@ const ProductDescription: React.FC = (props: any) => {
       show: false,
     });
   };
+   const handleCancelled=()=>{
+    window.location.reload()
+  }
   const notify = (message: string, container = "A") => {
     toast(message, { containerId: container });
   };
@@ -526,57 +536,59 @@ const ProductDescription: React.FC = (props: any) => {
                       </div>
                     </div>
                   </div>
-                  <div className="amm0">
-                    <div className="amm1">To be sold at</div>
-                    <div className="amm2">
-                      ₦
-                      {calculateSecondReturnAmount(
-                        numberofbarrels,
-                        product.return
-                      )}
+                  <div className="ssd22">
+                    <div className="amm0">
+                      <div className="amm1">To be sold at</div>
+                      <div className="amm2">
+                        ₦
+                        {calculateSecondReturnAmount(
+                          numberofbarrels,
+                          product.return
+                        )}
+                      </div>
+                      <div className="amm1">
+                        After {product.cycle}{" "}
+                        {product.cycle == 1 ? "month" : "months"}{" "}
+                      </div>
                     </div>
                   </div>
                 </div>
                 <div className="textrift">
                   <div className="d22">
-                    <span className="prodname">Order for</span>
-                    <div>
-                      <Form.Control
-                        as="select"
-                        className="selecss loks jss"
-                        onChange={handleSelectChange}
-                      >
-                        <option className="payfor" value="self">
-                          Self
-                        </option>
-                        <option className="payfor" value="others">
-                          Others
-                        </option>
-                        {subaccounts.map((data: any, ind) => (
-                          <option key={ind} value={data.id}>
-                            {data.first_name} {data.last_name}
+                    <div className="flxxc1">
+                      <span className="prodname">Order for</span>
+                      <div>
+                        <Form.Control
+                          as="select"
+                          className="selecss loks jss"
+                          onChange={handleSelectChange}
+                        >
+                          <option className="payfor" value="self">
+                            Self
                           </option>
-                        ))}
-                      </Form.Control>
+                          <option className="payfor" value="others">
+                            Others
+                          </option>
+                          {subaccounts.map((data: any, ind) => (
+                            <option key={ind} value={data.id}>
+                              {data.first_name} {data.last_name}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      </div>
                     </div>
+                    {capitalizeFirstLetter(product?.status) === "Loaded" ? (
+                      <div
+                        className="placeorder"
+                        onClick={placeOrderForProduct}
+                      >
+                        {!isloading ? "ORDER" : "processing"}
+                      </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
-                  {capitalizeFirstLetter(product?.status) === "Loaded" ? (
-                    <div className="placeorder" onClick={placeOrderForProduct}>
-                      {!isloading ? "ORDER" : "processing"}
-                    </div>
-                  ) : (
-                    ""
-                  )}
                 </div>
-                {/* <div className="textrift">
-                  {capitalizeFirstLetter(product?.status) === "Loading" ? (
-                    <div className="placeorder" onClick={ReserveForProduct}>
-                      Reserve
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                </div> */}
               </Col>
             </Row>
           </Col>
@@ -586,14 +598,15 @@ const ProductDescription: React.FC = (props: any) => {
             <div className="popular">{product.description}</div>
           </Col>
         </Row>
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} backdrop={"static"} onHide={handleClose}>
           <div className="ssds1w">
-            <Modal.Header closeButton>
+            <Modal.Header>
               <Modal.Title className="mks1">
                 {" "}
                 <div>
                   <span className="mks2">Others Details</span>{" "}
                 </div>
+                <div className="handleclose"><span className="ckosen" onClick={handleCancelled}>x</span></div>
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>

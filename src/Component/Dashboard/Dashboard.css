@@ -1,6 +1,7 @@
 .dashrow {
   margin-top: 3.8rem;
   padding-left: 0px;
+  background: rgb(250, 250, 250);
 }
 .sidebar {
   padding-left: 0px;
@@ -123,6 +124,7 @@
   height: 80px;
   margin-left: 0.6rem;
   border: 1px solid white;
+  object-fit: cover;
 }
 .free {
   color: #43a047;
@@ -155,9 +157,11 @@
 }
 .wxp {
   padding-top: 0.6rem;
+  min-width: 82px;
 }
 .money1 {
   margin-right: 0.5rem;
+  object-fit: contain;
 }
 .quesmes {
   text-align: center;
@@ -221,6 +225,9 @@
     position: relative;
     bottom: 6.5rem;
   }
+  .picss {
+    margin-top: 1rem;
+  }
   .revcol2 {
     padding-left: 3rem;
   }
@@ -238,7 +245,15 @@
   .sponsorsacc {
     padding-top: 3rem !important;
   }
+  .fkex{
+    margin-top: 2rem;
+  }
+  .prodcu {
+    margin-top: 4rem;
+  }
 }
+
+
 .settings {
   text-align: left;
   font: Bold 18px/36px Nunito Sans;
@@ -328,7 +343,9 @@
   justify-content: flex-end;
   margin-top: 4rem;
 }
-
+.contactofficer {
+  cursor: pointer;
+}
 .fmc {
   border: 0px solid #ced4da;
   border-bottom: 1px solid #ced4da;
@@ -397,7 +414,7 @@
   text-align: right;
 }
 .prodcu {
-  margin-top: 3rem;
+  margin-top: 0.1rem;
   padding-left: 4rem;
 }
 
@@ -498,8 +515,8 @@
 }
 
 .slide1wrapdashboardproduct {
-  width: 156px;
-  height: 192px;
+  width: 30%;
+  height: 220px;
   max-width: 232px;
   max-height: 270px;
   margin-bottom: 5rem;
@@ -555,6 +572,7 @@
   font-weight: 600;
   text-transform: uppercase;
   margin-top: 1rem;
+  margin-bottom: 4rem;
 }
 .smalltext {
   font-size: 0.6em !important;
@@ -787,6 +805,9 @@
   .days {
     min-width: 70px;
   }
+  .redefine122 {
+    justify-content: space-around !important;
+  }
 }
 @media (max-width: 700px) {
   .minicard {
@@ -872,77 +893,53 @@
   height: 60px;
   max-height: 60px;
   margin-right: 0.5rem;
-  border-radius: 50%;
+  border-radius: 50%;.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+    border-color:none !important;
+  }
   cursor: pointer;
+  object-fit: cover;
 }
 @media (max-width: 501px) {
-  .prodcu {
-    padding-left: 0rem;
-    padding-top: 2rem;
+  .suss1 {
+    width: 100%;
   }
-  .productcash {
-    width: 60px;
+  .picss {
+    margin-top: 1rem;
   }
-  .mancashimg {
-    width: 50px;
-    bottom: 1rem;
+  .srtte {
+    position: relative;
+    top: 0.1rem;
   }
-  .historywrap {
-    min-width: 288px;
+  .minicard {
+    flex-wrap: wrap;
   }
-  .suss131 {
-    margin-left: 0px !important;
+  .exploreprod{
+    margin-bottom: 4rem;
   }
-  .historywrap1 {
-    font-size: 12px;
-    min-width: 300px;
-  }
-  .productsdash2 {
-    font-size: 1.5em;
-  }
-  .refwq1 {
-    padding-left: 0rem !important;
-    margin-left: 0px !important;
-  }
-  .editprofilephoto {
-    width: 40px;
-  }
-  .userfirstitems-tabs {
-    padding-top: 2rem;
-  }
-  .settings {
-    padding-top: 3rem;
-  }
-  .prodcu {
-    padding-left: 1rem;
-    padding-bottom: 3rem;
-  }
-  .actiontime {
-    text-align: right;
-    margin-right: 1rem;
-  }
-  .accountaction,
-  .accountaction2 {
-    text-align: center;
-    font-size: 13px;
-    min-width: 190ox;
-  }
+ 
 }
 @media (max-width: 801px) {
   .mainbody11 {
     min-height: 94vh;
   }
-  .immgcont{
+  .mainbody11 {
+    max-width: 100% !important;
+    width: 100%;
+    flex: 0 0 100%;
+  }
+  .immgcont {
     height: 80%;
     text-align: center;
   }
   .sponsors {
     padding-top: 3rem;
   }
+  .modea11 {
+    margin: auto;
+    min-height: 57vh;
 }
-.redefine1 {
-  justify-content: flex-start;
 }
+
 .err11 {
   display: flex;
   width: 41%;
@@ -977,10 +974,8 @@
 }
 
 @media (max-width: 1200px) {
-  .mainbody11 {
-    max-width: 100% !important;
-    width: 100%;
-    flex: 0 0 100%;
+  .sponsors {
+    padding-top: 3rem;
   }
   .revcol2 {
     padding: 0rem;
@@ -993,6 +988,11 @@
   }
   .settings {
     padding-top: 3rem;
+  }
+  .mainbody11{
+    width: 80%;
+    flex: 2 0 50%;
+    max-width: 100%;
   }
 }
 .sidebartoggle {
@@ -1041,6 +1041,9 @@ ul {
     flex-wrap: wrap;
     padding-right: 16rem;
     margin-left: 0px;
+  }
+  .redefine122 {
+    justify-content: center;
   }
 }
 .othersubacct {
@@ -1175,6 +1178,21 @@ ul {
     font-size: 16px;
     padding: 1rem;
   }
+  .othersubacct {
+    margin-left: 0px;
+  }
+  .emil1,
+  .conveta {
+    font-size: 12px;
+  }
+  .historywrap {
+    min-width: 267px;
+  }
+  .historywrap1 {
+    min-width: 270px;
+    flex-wrap: wrap;
+    margin: 1rem 2px;
+  }
 }
 .react-tel-input .form-control {
   border-top: 0px !important;
@@ -1203,36 +1221,37 @@ ul {
 .savee:focus {
   outline: none;
 }
-.subww{
+.subww {
   display: flex;
   flex-wrap: wrap;
 }
-.msse1{
+.msse1 {
   color: inherit;
   text-decoration: none;
   cursor: pointer;
 }
-.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
-  border-color:none !important;
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+  border-color: none !important;
 }
-.durr21{
+.durr21 {
   background: #e5ffe6 0% 0% no-repeat padding-box;
   width: 250px;
-  display:flex;
+  display: flex;
   font-size: 14px;
   color: #43a047;
-  padding: 1rem ;
+  padding: 1rem;
   justify-content: space-between;
   align-items: center;
   border-radius: 9px;
 }
-.rolla{
-  margin-right: .4rem;
+.rolla {
+  margin-right: 0.4rem;
 }
-.durr22{
+.durr22 {
   display: flex;
   justify-content: flex-end;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 .fott {
   text-align: left;
@@ -1241,4 +1260,254 @@ ul {
   font-weight: 700;
   color: #2a2e43;
   opacity: 1;
+}
+.modea11 {
+  margin: initial;
+}
+.marfa {
+  margin: auto;
+}
+.loadmore {
+  background: #43a047;
+  color: #fff;
+  padding: 0.3rem 0.9rem;
+  border-radius: 6px;
+  font-size: 14px;
+  margin: auto;
+  cursor: pointer;
+}
+@media (min-width: 1200px) {
+  .revcol2 {
+    position: relative;
+    right: -1rem;
+  }
+  .refwq1 {
+    width: 99%;
+  }
+}
+@media (min-width: 600px) {
+  .prodcu {
+    margin-top: 3rem;
+  }
+}
+.completed1 {
+  color: #43a047 !important;
+  font-weight: 500;
+}
+
+.pending1 {
+  color: #1e8bf7;
+}
+.table thead th {
+  padding: 0.3rem 0.6rem;
+  line-height: normal;
+}
+.tdata > td {
+  padding: 0.1rem 0.6rem;
+}
+.PRODUCTS12 a {
+  color: inherit;
+}
+.redefine122 {
+  justify-content: space-between;
+}
+.mobileitle {
+  background: white;
+  padding: 1rem 0.1rem;
+  margin-top: 3rem;
+  padding-top: 0px;
+  padding-bottom: 3rem;
+  border-radius: 1rem;
+}
+@media (min-width: 800px) {
+  .tmobileonly {
+    display: none;
+  }
+  .mobilelargeonly {
+    display: block;
+  }
+  .mobileitle {
+    display: none;
+  }
+  .hideatsmall {
+    display: block;
+  }
+}
+.numberday{
+  width: 80px;
+}
+@media (max-width: 800px) {
+  .hideatsmall {
+    display: none;
+  }
+  .sponsors {
+    margin-top: 1rem;
+  }
+  .mobilelargeonly {
+    display: none;
+  }
+  .tmobileonly {
+    display: block;
+  }
+  .picss {
+    margin-top: 0px;
+  }
+  .prodcu {
+    padding-bottom: 0px;
+    width: 100%;
+    max-width: 100%;
+    margin: auto;
+    flex: 0 0 80.333333%;
+    padding-left: 0px;
+  }
+  .ddw2{
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+  }
+  .mobileitle,
+  .wr111 {
+    width: 100%;
+  }
+  .tmobileonly {
+    display: none;
+  }
+  .minicard {
+    margin-top: 2rem;
+    width: 100%;
+    display: flex;
+  }
+  .fkex {
+    justify-content: space-evenly;
+  }
+}
+.pddo {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0px;
+  padding-top: 0px;
+}
+.nosubaccounts {
+  width: 300px;
+}
+@media (max-width: 501px) {
+  .nosubaccounts {
+    width: 190px;
+  }
+  .nosubaccounts1 {
+    margin-left: 0px;
+  }
+  .prodcu {
+    padding-left: 0rem;
+    padding-top: 2rem;
+    margin-top: 3rem;
+  }
+  .histttm {
+    background: white;
+    margin-top: 4rem;
+  }
+  .slide1wrapdashboardproduct {
+    width: 60%;
+    min-width: 180px;
+  }
+  .wr111 {
+    margin-top: 0px;
+  }
+  .sidebartoggle {
+    margin-top: 1rem;
+  }
+  .productcash {
+    width: 60px;
+  }
+  .mancashimg {
+    width: 50px;
+    bottom: 1rem;
+  }
+  .historywrap {
+    min-width: 288px;
+  }
+  .suss131 {
+    margin-left: 0px !important;
+  }
+  .historywrap1 {
+    font-size: 12px;
+    min-width: 250px;
+  }
+  .productsdash2 {
+    font-size: 1.5em;
+  }
+  .refwq1 {
+    padding-left: 0rem !important;
+    margin-left: 0px !important;
+  }
+  .editprofilephoto {
+    width: 40px;
+  }
+  .userfirstitems-tabs {
+    padding-top: 2rem;
+  }
+  .settings {
+    padding-top: 5rem;
+    padding-left: 1rem;
+  }
+  .userfirstitems-tabs {
+    padding-left: 0px;
+  }
+  .prodcu {
+    padding-left: 1rem;
+  }
+  .tmobileonly {
+    display: flex;
+    width: 100%;
+  }
+  .actiontime {
+    text-align: right;
+    margin-right: 1rem;
+  }
+  .accountaction,
+  .accountaction2 {
+    text-align: center;
+    font-size: 13px;
+    min-width: 190ox;
+  }
+  .mobileitle {
+    margin-top: 5rem;
+  }
+  .productsdash {
+    width: 90px;
+  }
+  .ddw2 {
+    margin-top: -3rem;
+  }
+  .nosubaccounts1 {
+    margin-left: 0px !important;
+    margin-top: 1rem;
+  }
+  .accountaction2 {
+    width: 190px;
+  }
+  .editprofilephoto {
+    object-fit: cover;
+  }
+  .fkex{
+    padding-bottom: .5rem;
+  }
+  .ddssd12{
+    margin-bottom: 1.5rem;
+  }
+}
+.preloadercent {
+  text-align: center;
+  width: 100%;
+  margin: auto;
+  position: absolute;
+}
+.nosubaccounts1 {
+  text-align: center;
+  background: white;
+  padding-bottom: 2rem;
+  border-radius: 15px;
+  margin-left: 1rem;
+}
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+  border-color:none !important;
 }

@@ -7,7 +7,7 @@
 }
 .firstheader {
   text-align: center;
-  font: Bold 54px/84px Nunito Sans;
+  font: Bold 64px/84px Nunito Sans;
   letter-spacing: 0px;
   color: #2a2e43;
   opacity: 1;
@@ -20,15 +20,17 @@
 }
 .headertext1 {
   text-align: center;
-  font: SemiBold 24px/34px Nunito Sans;
+  font-size: 24px;
+  line-height: 34px;
   letter-spacing: 0px;
   color: #2a2e43;
-  font-weight: 600;
+  font-weight: "Semi-Bold";
   opacity: 1;
   font-size: 19px;
 }
 .note11{
   font-weight: bolder;
+  padding-right: .2rem;
 }
 .flowerpattern1 {
   position: absolute;
@@ -66,6 +68,7 @@
   color: #2a2e43;
   opacity: 1;
 }
+
 .numbwrapper {
   display: flex;
   justify-content: space-between;
@@ -215,8 +218,10 @@
   opacity: 1;
 }
 .mesbody {
-  font: 22px/42px Nunito Sans;
+  font: 22px;
+  font-family: Nunito Sans;
   letter-spacing: 0px;
+  line-height: 42px;
   color: #2a2e43;
   opacity: 1;
   font-size: 1.2em;
@@ -550,6 +555,7 @@
   .hproduct {
     padding: 3rem 1rem;
     font-size: 1.7em;
+    padding-top: 4rem;
   }
   .capital-input {
     font-size: 20px;
@@ -672,7 +678,7 @@
   padding-bottom: 1rem;
 }
 .amw1 {
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 600;
 }
 
@@ -728,6 +734,7 @@
   border-radius: 5px;
   padding: 0.5rem;
   width: 100%;
+  cursor: pointer;
 }
 @media (max-width: 600px) {
   .ssds1w {
@@ -746,6 +753,8 @@
   opacity: 1;
   font-size: 1.1em;
   font-weight: 600;
+  width: 300px;
+  margin: auto;
 }
 .wrapw223 {
   background: none;
@@ -759,7 +768,7 @@
   text-align: center;
   color: white;
   padding: 0.5rem;
-  width: 200px;
+  width: 270px;
   margin: auto;
   border-radius: 6px;
   margin-top: 1.4rem;
@@ -815,6 +824,18 @@
   text-decoration: none;
 }
 .reec {
-  text-align: justify;
+  text-align: inherit;
   padding-right: .4rem;
+}
+@media(min-width:1600px){
+  .slide1wrapproduct {
+    max-width: 265px;
+    width: 265px;
+  }
+}
+@media(min-width:1764px){
+  .slide1wrapproduct {
+    max-width: 305px;
+    width: 305px;
+  }
 }

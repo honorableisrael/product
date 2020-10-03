@@ -95,7 +95,6 @@ const OrderSuccess: React.FunctionComponent<IAppProps> = (props: any) => {
             </div>
           </Col>
         </Row>
-        <GetMobileApp />
         <Footer />
       </Container>
     </>

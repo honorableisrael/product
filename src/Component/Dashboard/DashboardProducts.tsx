@@ -17,6 +17,7 @@ import RightSideBar from "./rightSideBar";
 import ProductReservedTab from "./ProductReservedTab";
 import PurchaseSummary from "./PurchaseSummary";
 import MobileSideNav from "./MobileSideNav";
+import RightSideBarNameAndImage from './RightSideBarNameandImage';
 
 const DashboardProducts = () => {
   return (
@@ -27,10 +28,13 @@ const DashboardProducts = () => {
           <SideBar products={true} />
           <Col md={6} className="mainbody11">
             <Row className="rowss">
-            <MobileSideNav/>
+              <MobileSideNav />
               <Col md={12}>
                 <div className="sponsors col-md-11">
                   <div>Sponsorship</div>
+                </div>
+                <div className="mobileitle ddw2 ddssd12">
+                  <RightSideBarNameAndImage />
                 </div>
                 <Col md={{ span: 12 }} className="userfirstitems-tabs nopad11">
                   <Tabs

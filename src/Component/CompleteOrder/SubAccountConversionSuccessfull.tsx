@@ -87,8 +87,7 @@ const SubAccountConversionSuccess: React.FunctionComponent<IAppProps> = (
               <Link to="/dashboardsubaccounts">Continue</Link>
             </div>
           </Col>
-        </Row>
-        <GetMobileApp />
+        </Row>]
         <Footer />
       </Container>
     </>

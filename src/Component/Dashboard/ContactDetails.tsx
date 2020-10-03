@@ -84,8 +84,8 @@ const ContactDetails = () => {
     console.log("running")
     const userinfo: any = localStorage.getItem("userDetails");
     const user_id = JSON.parse(userinfo);
-    const id = user_id.user.id;
-    var token = user_id.token;
+    const id = user_id?.user?.id;
+    var token = user_id?.token;
     const data = {
       country:Country,
       address,
@@ -179,7 +179,7 @@ const ContactDetails = () => {
                 </Form.Group>
               </Col>
             </Row>
-            <Row>
+            {/* <Row>
               <Col md={6}>
                 <Form.Group>
                   <h6 className="userprofile">City</h6>
@@ -197,7 +197,7 @@ const ContactDetails = () => {
                   ></i>
                 </Form.Group>
               </Col>
-            </Row>
+            </Row> */}
           </Form>
           <Row className="sds">
             <div>
