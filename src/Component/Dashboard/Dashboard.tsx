@@ -23,6 +23,11 @@ import prodcash from "../../assets/prodcash.png";
 import { BrowserView, MobileView } from "react-device-detect";
 import RightSideBarInfoArea from "./RightSideBarInfoArea";
 import RightSideBarCRM from "./rightSideBarCRM";
+import { Button } from "react-bootstrap";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import statement from "../../assets/statement.svg";
+
 
 const Dashboard = (props: any) => {
   const [state, setNewState] = React.useState({
@@ -45,6 +50,7 @@ const Dashboard = (props: any) => {
     subject: "",
     iscomplete: true,
     isloading: false,
+    isLoading:false,
     collectedReturn: "",
   });
   const {
@@ -52,6 +58,7 @@ const Dashboard = (props: any) => {
     products,
     endOfCycle,
     isverified,
+    isLoading,
     isloading,
     expectedReturn,
     collectedReturn,
@@ -99,6 +106,39 @@ const Dashboard = (props: any) => {
   const FormatAmount = (amount) => {
     return amount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
+  const downloadRecpt = () => {
+    setNewState({
+      ...state,
+      isLoading:true
+    })
+    const loggedIn = localStorage.getItem("userDetails");
+    const userdata = loggedIn
+      ? JSON.parse(loggedIn)
+      : props?.history?.push("/signin");
+    const token = loggedIn ? JSON.parse(loggedIn).token : "";
+    Axios.get(`${API}/account-statement`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(res => {
+        console.log(res.data)
+        notify("Your statement of account has been sent to your email")
+        setNewState({
+          ...state,
+          isLoading:false
+        })
+      })
+      .catch((err)=>{
+        console.log(err)
+        setNewState({
+          ...state,
+          isLoading:false
+        })
+        notify("Failed to send please try again later")
+      })
+  }
+  const notify = (message: string, container = "i") => {
+    toast(message, { containerId: container });
+  };
   return (
     <>
       <NavBar />
@@ -108,9 +148,9 @@ const Dashboard = (props: any) => {
           <Col md={10} className="mainbody11">
             <Row className="rowss">
               <MobileSideNav />
-                <div className="mobileitle">
-                  <RightSideBarInfoArea />
-                </div>
+              <div className="mobileitle">
+                <RightSideBarInfoArea />
+              </div>
               <Col
                 md={7}
                 className={
@@ -170,6 +210,26 @@ const Dashboard = (props: any) => {
                     </div>
                   </>
                 )}
+                {user?.numberPurchased !== 0 && !isloading && (
+                  <>
+                    <div className="wr111 grren">
+                      <div className="productcash">
+                        <img
+                          src={statement}
+                          className="mancashimgds"
+                          alt="productcash"
+                        />
+                      </div>
+                      <div>
+                        <div className="productsdash">Statement of </div>
+                        <div className="productsdash1"><b>Account</b></div>
+                      </div>
+                      <div className="productsdash2">
+                        <Button className="downloadrcp btn-success" onClick={downloadRecpt}>{!isLoading?"Download":"Downloading"}</Button>
+                      </div>
+                    </div>
+                  </>
+                )}
               </Col>
               <div className="tmobileonly">
                 <RightSideBarCRM />
@@ -185,6 +245,13 @@ const Dashboard = (props: any) => {
           </Col>
         </Row>
       </Container>
+      <ToastContainer
+        enableMultiContainer
+        containerId={"i"}
+        toastClassName="bg-info text-white"
+        hideProgressBar={true}
+        position={toast.POSITION.TOP_CENTER}
+      />
     </>
   );
 };

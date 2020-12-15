@@ -818,7 +818,8 @@
     width: 100%;
     min-width: 180px;
     padding: 1.4rem 0.1rem;
-    padding-right: 3rem;
+    padding-right: 2rem;
+    margin-bottom: 1rem;
   }
   .suss131 {
     width: 100%;
@@ -893,11 +894,22 @@
   height: 60px;
   max-height: 60px;
   margin-right: 0.5rem;
-  border-radius: 50%;.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
-    border-color:none !important;
-  }
+  border-radius: 50%;
   cursor: pointer;
   object-fit: cover;
+}
+  .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+    border-color:none !important;
+  }
+.mancashimgds{
+  width: 48px;
+  margin-right: 1.3rem;
+}
+.downloadrcp{
+  padding: .5rem 1.5rem;
+}
+.grren{
+  background: #E5FFE6 0% 0% no-repeat padding-box;
 }
 @media (max-width: 501px) {
   .suss1 {
