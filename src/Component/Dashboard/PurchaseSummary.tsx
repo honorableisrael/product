@@ -205,7 +205,7 @@ class PurchaseSummary extends Component {
                     <tr key={x.id} className="tdata">
                       <td>{++index}</td>
                       <td>{x.name}</td>
-                      <td>{this.startDate(x.date ? x.date : x.date)}</td>
+                      <td>{this.startDate(x.cycleStartDate ? x.cycleStartDate : x.cycleStartDate)}</td>
                       <td>{this.endOfCycle(x.cycleEndDate)}</td>
                       <td>
                         &#8358;

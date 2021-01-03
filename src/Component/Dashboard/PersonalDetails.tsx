@@ -222,7 +222,6 @@ const PersonalDetails = () => {
                     <option>{gender ? gender : ""}</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
-                    ))}
                   </Form.Control>
                   <i
                     className="fa fa-envelope field-right-icon"
@@ -268,6 +267,7 @@ const PersonalDetails = () => {
                       required: true,
                       autoFocus: true,
                     }}
+                    placeholder="Enter phone number"
                     value={phone}
                     onChange={(e: any) => {
                       setFormState({

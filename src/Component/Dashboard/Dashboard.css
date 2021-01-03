@@ -1311,11 +1311,11 @@ ul {
   color: #1e8bf7;
 }
 .table thead th {
-  padding: 0.3rem 0.6rem;
+  padding: 1rem 0.6rem;
   line-height: normal;
 }
 .tdata > td {
-  padding: 0.1rem 0.6rem;
+  padding: 1rem 0.6rem;
 }
 .PRODUCTS12 a {
   color: inherit;
@@ -1330,6 +1330,12 @@ ul {
   padding-top: 0px;
   padding-bottom: 3rem;
   border-radius: 1rem;
+}
+.table thead th{
+  border: none;
+}
+.tablehead{
+  background: #f5f5f5 !important;
 }
 @media (min-width: 800px) {
   .tmobileonly {

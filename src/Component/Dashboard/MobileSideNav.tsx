@@ -61,7 +61,7 @@ const MobileSideNav = (props: any) => {
         openFromRight={true}
         style={{ background: showNav ? "rgba(0, 0, 0, 0.7)" : "none" }}
         navStyle={{ width: "80%", background: "#fff" }}
-        onHideNav={() => setShowNav(true)}
+        onHideNav={() => setShowNav(false)}
         titleStyle={{
           backgroundColor: "#fff",
           color: "#444444",
