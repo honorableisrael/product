@@ -151,7 +151,13 @@ class PurchaseSummary extends Component {
     this.setState({ activePage: pageNumber });
   };
   render() {
-    const { user, products, isloading, errorMessage,visible }: any = this.state;
+    const {
+      user,
+      products,
+      isloading,
+      errorMessage,
+      visible,
+    }: any = this.state;
     const loading = "#FFBF00";
     const finished = "#9B0000";
     const loaded = "rgb(67,160,71)";
@@ -205,7 +211,11 @@ class PurchaseSummary extends Component {
                     <tr key={x.id} className="tdata">
                       <td>{++index}</td>
                       <td>{x.name}</td>
-                      <td>{this.startDate(x.cycleStartDate ? x.cycleStartDate : x.cycleStartDate)}</td>
+                      <td>
+                        {this.startDate(
+                          x.cycleStartDate ? x.cycleStartDate : x.cycleStartDate
+                        )}
+                      </td>
                       <td>{this.endOfCycle(x.cycleEndDate)}</td>
                       <td>
                         &#8358;
@@ -215,6 +225,9 @@ class PurchaseSummary extends Component {
                       </td>
                       {this.capitalizeFirstLetter(x.orderStatus) ==
                       "Completed" ? (
+                        <td className="completed1">Confirmed</td>
+                      ) : this.capitalizeFirstLetter(x.orderStatus) ==
+                        "ongoing" ? (
                         <td className="completed1">Confirmed</td>
                       ) : (
                         <td className="pending1">Pending</td>

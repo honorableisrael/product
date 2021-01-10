@@ -27,10 +27,11 @@ const DashboardReservedProductsDescription = (props: any) => {
   const [state, setState] = useState<any>({
     checked: false,
     product: "",
-    user: "",
+    user: [],
+    order:[],
     canRollover: false,
   });
-  const { product, checked, canRollover } = state;
+  const { product, checked, canRollover,order } = state;
   const handleChange = (checked) => {
     setState({
       ...state,
@@ -79,6 +80,7 @@ const DashboardReservedProductsDescription = (props: any) => {
                   canRollover: element.canRollover,
                   product: res.data.data,
                   user: res1.data,
+                  order:[...res1.data.data]
                 });
               }
             });
@@ -103,7 +105,15 @@ const DashboardReservedProductsDescription = (props: any) => {
       return FormatAmount(payBack);
     }
   };
-  console.log(state.canRollover);
+  const checkforOrderStatus=()=>{
+    order.forEach((data)=>{
+      console.log(data.id)
+      if(props.match.params.orderid==data.id){
+        console.log(data)
+      }
+    })
+  }
+  console.log(checkforOrderStatus());
   return (
     <>
       <NavBar />
@@ -137,10 +147,18 @@ const DashboardReservedProductsDescription = (props: any) => {
                       <div className="flmx oill">
                         <div className="fott">AGO-001</div>
                         <div className="finished1product">
-                          <div className="Loadedproduct rmrelpos">
-                            {" "}
-                            <span className="greencircleproduct"></span> Loaded
-                          </div>
+                          {product.status == "Loaded" ? (
+                            <div className="Loadedproduct rmrelpos">
+                              {" "}
+                              <span className="greencircleproduct"></span>{" "}
+                              Ongoing
+                            </div>
+                          ) : (
+                            <div className="Loadedproduct rmrelpos paid22">
+                              {" "}
+                              <span className="greencircleproduct paid221"></span> Paid
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className="flmx">

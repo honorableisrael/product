@@ -1297,6 +1297,7 @@ ul {
     width: 99%;
   }
 }
+
 @media (min-width: 600px) {
   .prodcu {
     margin-top: 3rem;
@@ -1528,4 +1529,11 @@ ul {
 }
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
   border-color:none !important;
+}
+.paid22{
+  color: #9b0000;
+  border-color: #9b0000 !important;
+}
+.paid221{
+  background: #9b0000;
 }
