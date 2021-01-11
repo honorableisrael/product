@@ -205,7 +205,6 @@ class PurchaseSummary extends Component {
               {products &&
                 products.length > 0 &&
                 products
-                  .reverse()
                   .slice(0, this.state.visible)
                   .map((x, index) => (
                     <tr key={x.id} className="tdata">
@@ -228,7 +227,7 @@ class PurchaseSummary extends Component {
                         <td className="completed1">Confirmed</td>
                       ) : this.capitalizeFirstLetter(x.orderStatus) ==
                         "Paid" ? (
-                        <td className="completed1">Paid</td>
+                        <td className="completed1 redpaid22">Paid</td>
                       ) : this.capitalizeFirstLetter(x.orderStatus) ==
                         "Initiated" ? (
                         <td className="pending1">Pending</td>

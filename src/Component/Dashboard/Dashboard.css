@@ -24,6 +24,7 @@
   margin: 1rem 0.6rem;
   color: #43a047;
 }
+
 .inactiveside {
   background: #fff 0% 0% no-repeat padding-box;
   border-radius: 5px;
@@ -1287,6 +1288,7 @@ ul {
   font-size: 14px;
   margin: auto;
   cursor: pointer;
+  display: inline;
 }
 @media (min-width: 1200px) {
   .revcol2 {
@@ -1536,4 +1538,10 @@ ul {
 }
 .paid221{
   background: #9b0000;
+}
+.paidgrn{
+  background: #43a047 !important;
+}
+.redpaid22{
+  color: #9b0000 !important;
 }

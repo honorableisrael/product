@@ -81,7 +81,7 @@ const DashboardReservedProductsDescription = (props: any) => {
                   ...state,
                   canRollover: element.canRollover,
                   product: res.data.data,
-                  user: res1.data,
+                  user: element,
                   order: element.orderStatus,
                 });
               }
@@ -109,7 +109,7 @@ const DashboardReservedProductsDescription = (props: any) => {
   };
 
   console.log();
-  console.log(product);
+  console.log(state.user);
   return (
     <>
       <NavBar />
@@ -170,7 +170,7 @@ const DashboardReservedProductsDescription = (props: any) => {
                         <div>
                           <span className="Buyat">Bought at</span>{" "}
                           <span className="priceb">
-                            N{FormatAmount(product.price)}
+                            N{FormatAmount(state?.user?.totalPurchase)}
                           </span>
                         </div>
                         <div>
@@ -178,9 +178,8 @@ const DashboardReservedProductsDescription = (props: any) => {
                           <span className="prices">
                             {" "}
                             N
-                            {calculateReturnAmount(
-                              product.price,
-                              product.return
+                            {FormatAmount(
+                              state?.user?.returnAmount
                             )}
                           </span>
                         </div>

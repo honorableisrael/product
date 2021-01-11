@@ -116,12 +116,12 @@ const ProductPurchased = () => {
                             <div className="finished1product">
                               <div
                                 className={
-                                  capitalizeFirstLetter(x.product.status) ===
-                                  "Loaded"
+                                  x.orderStatus ===
+                                  "on going"
                                     ? "Loadeddashboardproduct"
-                                    : capitalizeFirstLetter(
-                                        x.product.status
-                                      ) === "Finished"
+                                    : (
+                                        x.orderStatus
+                                      ) === "paid"
                                     ? "finished11dashboardproduct"
                                     : "Loadeddashboardproduct"
                                 }
@@ -129,16 +129,16 @@ const ProductPurchased = () => {
                                 {console.log(x)}{" "}
                                 <span
                                   className={
-                                    capitalizeFirstLetter(x.product.status) ===
-                                    "Finished"
-                                      ? "redcircleproduct nomargin"
-                                      : capitalizeFirstLetter(
-                                          x.product.status
-                                        ) === "Loaded"
-                                      ? "greencircleproduct  nomargin"
-                                      : "yellowcircleproduct"
+                                    x.orderStatus ===
+                                    "paid"
+                                      ? "redcircleproduct nomargin paid22"
+                                      : (
+                                          x.orderStatus
+                                        ) === "on going"
+                                      ? "greencircleproduct  nomargin paidgrn"
+                                      : "yellowcircleproduct paid221"
                                   }
-                                  title="finished"
+                                  title="Paid"
                                 ></span>
                               </div>
                             </div>
@@ -152,7 +152,7 @@ const ProductPurchased = () => {
                               />
                             </Link>
                             <div className="slidetitleproduct">
-                                <div>{x.name}</div>
+                              <div>{x.name}</div>
                               <div>
                                 <span className="buyatproduct">Buy at</span>
                                 <span className="amountproduct smalltext">
@@ -187,9 +187,21 @@ const ProductPurchased = () => {
                           </div>
                         ))}
                     </div>
-                    <div className="text-center ksk">
-                      <Link to="/products">Explore Products</Link>
-                    </div>
+                    {visible < products?.length &&
+                      !isloading &&
+                      !errorMessage &&
+                      products?.length !== 0 && (
+                        <div className="text-center">
+                          <div className="loadmore" onClick={loadMore}>
+                            Load more
+                          </div>
+                        </div>
+                      )}
+                    {products.length === 0 && (
+                      <div className="text-center ksk">
+                        <Link to="/products">Explore Products</Link>
+                      </div>
+                    )}
                   </Col>
                 )}
               </Col>
