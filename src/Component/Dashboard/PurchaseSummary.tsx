@@ -224,13 +224,16 @@ class PurchaseSummary extends Component {
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                       </td>
                       {this.capitalizeFirstLetter(x.orderStatus) ==
-                      "Completed" ? (
+                      "On going" ? (
                         <td className="completed1">Confirmed</td>
                       ) : this.capitalizeFirstLetter(x.orderStatus) ==
-                        "ongoing" ? (
-                        <td className="completed1">Confirmed</td>
-                      ) : (
+                        "Paid" ? (
+                        <td className="completed1">Paid</td>
+                      ) : this.capitalizeFirstLetter(x.orderStatus) ==
+                        "Initiated" ? (
                         <td className="pending1">Pending</td>
+                      ) : (
+                        <td className="pending1">n/a</td>
                       )}
 
                       <td>

@@ -28,10 +28,11 @@ const DashboardReservedProductsDescription = (props: any) => {
     checked: false,
     product: "",
     user: [],
-    order:[],
+    order: [],
     canRollover: false,
+    orderstatus: "",
   });
-  const { product, checked, canRollover,order } = state;
+  const { product, checked, canRollover, order, orderstatus } = state;
   const handleChange = (checked) => {
     setState({
       ...state,
@@ -70,17 +71,18 @@ const DashboardReservedProductsDescription = (props: any) => {
     ])
       .then(
         Axios.spread((res, res1) => {
-          console.log(res1.data);
+          console.log(res1.data.data);
+          console.log(res.data);
           if (res1.status === 200 || res.status === 200) {
             res1?.data?.data?.forEach((element) => {
-              console.log(element.id);
+              console.log(element);
               if (props.match.params.orderid == element.id) {
                 setState({
                   ...state,
                   canRollover: element.canRollover,
                   product: res.data.data,
                   user: res1.data,
-                  order:[...res1.data.data]
+                  order: element.orderStatus,
                 });
               }
             });
@@ -105,15 +107,9 @@ const DashboardReservedProductsDescription = (props: any) => {
       return FormatAmount(payBack);
     }
   };
-  const checkforOrderStatus=()=>{
-    order.forEach((data)=>{
-      console.log(data.id)
-      if(props.match.params.orderid==data.id){
-        console.log(data)
-      }
-    })
-  }
-  console.log(checkforOrderStatus());
+
+  console.log();
+  console.log(product);
   return (
     <>
       <NavBar />
@@ -136,7 +132,7 @@ const DashboardReservedProductsDescription = (props: any) => {
                   <Col md={11}>
                     <div className="immgcont">
                       <img
-                        src={product.imageUrl}
+                        src={product?.imageUrl}
                         className="dashproddescription"
                         alt="dashproddescription"
                       />
@@ -145,19 +141,28 @@ const DashboardReservedProductsDescription = (props: any) => {
                   <Col md={10} className="dashprod12">
                     <div className="prodflex">
                       <div className="flmx oill">
-                        <div className="fott">AGO-001</div>
+                        <div className="fott">{product.name}</div>
                         <div className="finished1product">
-                          {product.status == "Loaded" ? (
+                          {order == "initiated" ? (
+                            <div className="Loadedproduct rmrelpos">
+                              {" "}
+                              <span className="greencircleproduct"></span>{" "}
+                              Initiated
+                            </div>
+                          ) : order == "on going" ? (
                             <div className="Loadedproduct rmrelpos">
                               {" "}
                               <span className="greencircleproduct"></span>{" "}
                               Ongoing
                             </div>
-                          ) : (
+                          ) : order == "paid" ? (
                             <div className="Loadedproduct rmrelpos paid22">
                               {" "}
-                              <span className="greencircleproduct paid221"></span> Paid
+                              <span className="greencircleproduct paid221"></span>{" "}
+                              Paid
                             </div>
+                          ) : (
+                            ""
                           )}
                         </div>
                       </div>
