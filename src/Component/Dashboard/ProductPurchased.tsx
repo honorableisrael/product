@@ -20,7 +20,7 @@ const ProductPurchased = () => {
     products: "",
     barrelCost: "",
     errorMessage: "",
-    visible: 6,
+    visible: 12,
     token: "",
     isloading: false,
   });
@@ -79,7 +79,7 @@ const ProductPurchased = () => {
     setFormState((prev) => {
       return {
         ...prev,
-        visible: prev.visible + 4,
+        visible: prev.visible + 6,
       };
     });
   };

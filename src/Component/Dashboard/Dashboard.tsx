@@ -83,7 +83,7 @@ const Dashboard = (props: any) => {
       sessionStorage.removeItem("ChangeLocation");
       props.history.push("/realtime");
     }
-    const userId = passedID.id;
+    const userId = passedID?.id;
     Axios.get(`${API}/user/trade-summary`, {
       headers: { Authorization: `Bearer ${token}` },
     })
