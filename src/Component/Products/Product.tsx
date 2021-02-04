@@ -2,23 +2,25 @@ import * as React from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import NavBar from "../SubComponents/Navbar";
 import "./Product.css";
-import Footer from "../Home/Footer";
-import GetMobileApp from "../Home/GetMobileApp";
 import { useState } from "react";
 import filter from "../../assets/filter.svg";
 import Form from "react-bootstrap/Form";
-import slide1 from "../../assets/slide1.png";
+import shoe from "../../assets/shoe1.jpg";
 import "./animatedbutton.css";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import { API } from "../../config";
 import preloader from "../../assets/preloader.gif";
+import brownshoe from "../../assets/brownshoe.jpg";
+import nextImg from "../../assets/rightarrow.png";
+import prevpage from "../../assets/leftarrow1.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Products: React.FunctionComponent<any> = (props: any) => {
   const [state, setNewState] = useState({
-    products: "",
+    products: [{ name: "Shoes", id: 1 }],
     filter: "",
     sortbyLoading: false,
     sortbyLoaded: false,
@@ -87,6 +89,8 @@ const Products: React.FunctionComponent<any> = (props: any) => {
         });
       });
   }, []);
+
+  const notify = (message: string) => toast(message, { containerId: "B" });
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
@@ -124,19 +128,13 @@ const Products: React.FunctionComponent<any> = (props: any) => {
       .catch((err) => {});
   };
 
-  const calculateReturnAmount = (price: number, rate: number): any => {
-    const payBack = price + price * (rate / 100);
-    console.log(payBack);
-    return FormatAmount(payBack);
-  };
   //change dateformat
   return (
     <>
-      <NavBar />
       <Container fluid={true} className="push">
         <Row className="titleArea">
           <Col md={12}>
-            <div className="hproduct">Products</div>
+            <div className="hproduct">Shoes</div>
           </Col>
         </Row>
         {isloading && (
@@ -158,9 +156,9 @@ const Products: React.FunctionComponent<any> = (props: any) => {
                   onChange={handleSelectChange}
                 >
                   <option value="">Status</option>
-                  <option value="1">Loading</option>
-                  <option value="2">Loaded</option>
-                  <option value="3">Finished</option>
+                  <option value="1">Brown</option>
+                  <option value="2">Black</option>
+                  <option value="3">Navy blue</option>
                 </Form.Control>
               </div>
               <div className="select2">
@@ -169,109 +167,192 @@ const Products: React.FunctionComponent<any> = (props: any) => {
                   className="selecss loks"
                   onChange={handleSelectChange2}
                 >
-                  <option value="">Type</option>
-                  <option value="1">AGO</option>
-                  <option value="2">CNG</option>
+                  <option value="">Sort by</option>
+                  <option value="1">New</option>
+                  <option value="2">Old</option>
                 </Form.Control>
               </div>
             </div>
           </Col>
         </Row>
         <Row className="jcenter productwrapper1">
-          <Col md={10} className="productlist">
+          <Col md={12} className="productlist">
             <div className="slidewrapperproduct redefine1">
-              {products &&
-                !isloading &&
-                products.length > 0 &&
-                products.slice(0, visible).map((x, index) => (
-                  <div className="slide1wrapproduct llml">
-                    <div className="finished1product">
-                      <div
-                        className={
-                          capitalizeFirstLetter(x.status) === "Finished"
-                            ? "finished11product"
-                            : capitalizeFirstLetter(x.status) === "Loaded"
-                            ? "Loadedproduct"
-                            : "Loadingproduct"
-                        }
-                      >
-                        <span
-                          className={
-                            capitalizeFirstLetter(x.status) === "Finished"
-                              ? "redcircleproduct"
-                              : capitalizeFirstLetter(x.status) === "Loaded"
-                              ? "greencircleproduct"
-                              : "yellowcircleproduct"
-                          }
-                        ></span>{" "}
-                        {capitalizeFirstLetter(x.status)}
-                      </div>
-                    </div>
-                    <Link to={`/product/${x.id}`}>
-                      <img
-                        src={x.imageUrl}
-                        alt="slide1"
-                        className="slide1product"
-                      />
-                    </Link>
-                    <div className="slidetitleproduct">
-                      <div className="linkaa1">
-                        {" "}
-                        <Link to={`/product/${x.id}`}>{x.name}</Link>
-                      </div>
-                      <div>
-                        <span className="buyatproduct">Buy at</span>
-                        <span className="amountproduct">
-                          <Link to={`/product/${x.id}`}>
-                            ₦{FormatAmount(x.price)}
-                          </Link>
-                        </span>
-                        <div>
-                          <span className="buyatproduct">Sell at</span>
-                          <span className="amountproduct">
-                            {" "}
-                            <Link to={`/product/${x.id}`}>
-                              ₦{calculateReturnAmount(x.price, x.return)}
-                            </Link>
-                          </span>
-                          <div className="amm1 littf">
-                            After {x.cycle} {x.cycle == 1 ? "month" : "months"}{" "}
-                          </div>
-                        </div>
-                        <div className="slider22product">
-                          <span className="rightarrw1product">
-                            <Link to={`/product/${x.id}`}>View</Link>
-                          </span>
-                          <span className="rightarrwproduct">
-                            {" "}
-                            <Link to={`/product/${x.id}`}>&#8594;</Link>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+              <div className="productwrapper">
+                <div className="prodimage">
+                  <img src={shoe} className="prod1" />
+                </div>
+                <div className="product-item">
+                  <div className="jmaes2">
+                    J.M Weston Touble Tassel Semi Patterned Men's Shoes
                   </div>
-                ))}
+                  <div className="price">₦{FormatAmount(35999)}</div>
+                  <div className="text-right">
+                    <span
+                      className="bitt"
+                      onClick={() => notify("Added successfully")}
+                    >
+                      ADD TO CART
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="productwrapper">
+                <div className="prodimage">
+                  <img src={shoe} className="prod1" />
+                </div>
+                <div className="product-item">
+                  <div className="jmaes2">J.M Weston Double Leather</div>
+                  <div className="price">₦{FormatAmount(35999)}</div>
+                  <div className="text-right">
+                    <span
+                      className="bitt"
+                      onClick={() => notify("Added successfully")}
+                    >
+                      ADD TO CART
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="productwrapper">
+                <div className="prodimage">
+                  <img src={brownshoe} className="prod1" />
+                </div>
+                <div className="product-item">
+                  <div className="jmaes2">
+                    J.M Weston Touble Tassel Semi Shoes
+                  </div>
+                  <div className="price">₦{FormatAmount(35999)}</div>
+                  <div className="text-right">
+                    <span
+                      className="bitt"
+                      onClick={() => notify("Added successfully")}
+                    >
+                      ADD TO CART
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="productwrapper">
+                <div className="prodimage">
+                  <img src={brownshoe} className="prod1" />
+                </div>
+                <div className="product-item">
+                  <div className="jmaes2">
+                    J.M Weston Touble Tassel Semi Shoes
+                  </div>
+                  <div className="price">₦{FormatAmount(35999)}</div>
+                  <div className="text-right">
+                    <span
+                      className="bitt"
+                      onClick={() => notify("Added successfully")}
+                    >
+                      ADD TO CART
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="productwrapper">
+                <div className="prodimage">
+                  <img src={shoe} className="prod1" />
+                </div>
+                <div className="product-item">
+                  <div className="jmaes2">
+                    J.M Weston Touble Tassel Semi Patterned Men's Shoes
+                  </div>
+                  <div
+                    className="price"
+                    onClick={() => notify("Added successfully")}
+                  >
+                    ₦{FormatAmount(35999)}
+                  </div>
+                  <div className="text-right">
+                    <span className="bitt">ADD TO CART</span>
+                  </div>
+                </div>
+              </div>
+              <div className="productwrapper">
+                <div className="prodimage">
+                  <img src={shoe} className="prod1" />
+                </div>
+                <div className="product-item">
+                  <div className="jmaes2">J.M Weston Double Leather</div>
+                  <div
+                    className="price"
+                    onClick={() => notify("Added successfully")}
+                  >
+                    ₦{FormatAmount(35999)}
+                  </div>
+                  <div className="text-right">
+                    <span className="bitt">ADD TO CART</span>
+                  </div>
+                </div>
+              </div>
+              <div className="productwrapper">
+                <div className="prodimage">
+                  <img src={brownshoe} className="prod1" />
+                </div>
+                <div className="product-item">
+                  <div className="jmaes2">
+                    J.M Weston Touble Tassel Semi Shoes
+                  </div>
+                  <div className="price">₦{FormatAmount(35999)}</div>
+                  <div className="text-right">
+                    <span className="bitt">ADD TO CART</span>
+                  </div>
+                </div>
+              </div>
+              <div className="productwrapper">
+                <div className="prodimage">
+                  <img src={brownshoe} className="prod1" />
+                </div>
+                <div className="product-item">
+                  <div className="jmaes2">
+                    J.M Weston Touble Tassel Semi Shoes
+                  </div>
+                  <div
+                    className="price"
+                    onClick={() => notify("Added successfully")}
+                  >
+                    ₦{FormatAmount(35999)}
+                  </div>
+                  <div className="text-right">
+                    <span className="bitt">ADD TO CART</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </Col>
           <Col md={10}>
-            {visible < products.length &&
-              !isloading &&
-              !errorMessage &&
-              products.length !== 0 && (
-                <div className="btnwrapperload">
-                  <a
-                    className="loadmoreproducts animated-button thar-four"
-                    onClick={loadMore}
-                  >
-                    Load more
-                  </a>
-                </div>
-              )}
+            <div className="next_page">
+              <div>
+                Displaying <span className="page_num">1</span> out of{" "}
+                <span className="page_num">1</span>
+              </div>
+              <div>
+                {true && (
+                  <img
+                    className="page_change"
+                    src={prevpage}
+                    alt="previous page"
+                  />
+                )}
+
+                {true && (
+                  <img className="page_change" src={nextImg} alt="next page" />
+                )}
+              </div>
+            </div>
           </Col>
         </Row>
-        <GetMobileApp />
-        <Footer />
       </Container>
+      <ToastContainer
+        enableMultiContainer
+        containerId={"B"}
+        toastClassName="bg-info text-white"
+        hideProgressBar={true}
+        position={toast.POSITION.TOP_CENTER}
+      />
     </>
   );
 };

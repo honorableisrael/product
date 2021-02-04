@@ -350,3 +350,9 @@
   font-size: 9px;
   cursor: pointer;
 }
+.next_page {
+  padding: 0.5rem 1rem 1rem 0.8rem;
+}
+.page_change{
+  width: 50px;
+}

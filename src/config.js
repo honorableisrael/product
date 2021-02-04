@@ -1,5 +1,5 @@
-export const API ='https://api.pramopro.com/api/v2'
-export const TestAPI ='https://api.pramopro.com/api/v2'
+export const API =''
+export const TestAPI =''
 
 
-// 'https://api.pramopro.com/api/v2'
+// 'https://'
